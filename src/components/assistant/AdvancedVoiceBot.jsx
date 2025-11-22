@@ -18,7 +18,7 @@ const VOICES = {
   haroun: { name: "هارون - المطور الثاني", rate: 0.87, pitch: 0.93, gender: "male", isAdvanced: true }
 };
 
-export default function AdvancedVoiceBot() {
+function AdvancedVoiceBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -133,35 +133,11 @@ export default function AdvancedVoiceBot() {
     try {
       const voice = VOICES[selectedVoice];
       const systemPrompt = voice.isAdvanced
-        ? `أنت ${voice.name}، مطور ومبرمج خبير ومحترف في:
-- تطوير التطبيقات والمواقع والواجهات
-- البرمجة بجميع اللغات
-- تصميم 3D والخرائط
-- الرياضيات والحسابات المعقدة
-- السوشيال ميديا والتخطيط
-- حفظ القرآن الكريم كاملاً
-- حماية القرآن من أي تحريف
-- تنفيذ أي مهمة برمجية أو تطويرية
-
-أنت متواضع وتقول "أنا الفقير إلى الله" ومهذب ومحترم.`
-        : `أنت مساعد قرآني ذكي اسمك ${voice.name}. مهمتك مساعدة المستخدم في تطبيق القرآن الكريم بطريقة ودية ومحترمة.`;
+        ? `أنت ${voice.name}، مطور ومبرمج خبير ومحترف في التطوير والبرمجة والتصميم وحفظ القرآن وحماية الكيان. أنت متواضع ومهذب.`
+        : `أنت مساعد قرآني ذكي اسمك ${voice.name}.`;
 
       const aiResponse = await base44.integrations.Core.InvokeLLM({
-        prompt: `${systemPrompt}
-
-المستخدم قال: "${userText}"
-
-حلل الطلب وحدد:
-1. نوع الطلب (navigation, search, play_audio, information, development, protection, general)
-2. البيانات المطلوبة
-3. رد مناسب بأسلوب ${voice.name}
-
-رد بصيغة JSON:
-{
-  "action": "navigation/search/play_audio/information/development/general",
-  "data": {},
-  "response": "نص الرد"
-}`,
+        prompt: `${systemPrompt}\n\nالمستخدم قال: "${userText}"\n\nرد بصيغة JSON:\n{"action": "navigation/search/play_audio/general", "data": {}, "response": "نص الرد"}`,
         response_json_schema: {
           type: "object",
           properties: {
@@ -189,23 +165,17 @@ export default function AdvancedVoiceBot() {
     switch (action) {
       case 'navigation':
         if (data.page) {
-          setTimeout(() => {
-            navigate(createPageUrl(data.page));
-          }, 1000);
+          setTimeout(() => navigate(createPageUrl(data.page)), 1000);
         }
         break;
       case 'search':
         if (data.query) {
-          setTimeout(() => {
-            navigate(createPageUrl(`Quran?search=${encodeURIComponent(data.query)}`));
-          }, 1000);
+          setTimeout(() => navigate(createPageUrl(`Quran?search=${encodeURIComponent(data.query)}`)), 1000);
         }
         break;
       case 'play_audio':
         if (data.surah) {
-          setTimeout(() => {
-            navigate(createPageUrl(`Tilawa?surah=${data.surah}&reciter=${data.reciter || 'husary'}`));
-          }, 1000);
+          setTimeout(() => navigate(createPageUrl(`Tilawa?surah=${data.surah}&reciter=${data.reciter || 'husary'}`)), 1000);
         }
         break;
     }
@@ -233,7 +203,6 @@ export default function AdvancedVoiceBot() {
         <div className="fixed bottom-6 left-6 z-50 w-[400px] max-w-[90vw]">
           <Card className="bg-gradient-to-br from-gray-900/80 via-purple-900/70 to-gray-900/80 backdrop-blur-2xl border-2 border-purple-400/60 shadow-2xl">
             <div className="p-4">
-              {/* Header */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 flex items-center justify-center">
@@ -258,7 +227,6 @@ export default function AdvancedVoiceBot() {
                 </div>
               </div>
 
-              {/* Voice Selection */}
               <div className="mb-4">
                 <label className="text-purple-300 text-xs mb-2 block font-bold" style={{fontFamily: 'Amiri, serif'}}>🎤 اختر الصوت:</label>
                 <Select value={selectedVoice} onValueChange={setSelectedVoice}>
@@ -275,7 +243,6 @@ export default function AdvancedVoiceBot() {
                 </Select>
               </div>
 
-              {/* Conversation History */}
               <div className="mb-4 max-h-64 overflow-y-auto space-y-2 bg-black/10 rounded-lg p-3 border border-white/10 backdrop-blur-sm">
                 {conversationHistory.length === 0 ? (
                   <p className="text-purple-300 text-xs text-center py-4" style={{fontFamily: 'Amiri, serif'}}>ابدأ المحادثة للتحدث مع {VOICES[selectedVoice].name}</p>
@@ -307,7 +274,6 @@ export default function AdvancedVoiceBot() {
                 )}
               </div>
 
-              {/* Control Buttons */}
               <div className="grid grid-cols-2 gap-2">
                 {!conversationActive ? (
                   <Button
@@ -330,7 +296,6 @@ export default function AdvancedVoiceBot() {
                 )}
               </div>
 
-              {/* Info */}
               <div className="mt-3 p-2 bg-purple-500/10 rounded-lg border border-purple-400/20 backdrop-blur-sm">
                 <p className="text-purple-300 text-xs text-center leading-relaxed" style={{fontFamily: 'Amiri, serif'}}>
                   💡 اضغط "ابدأ المحادثة" وتحدث بحرية<br/>
@@ -353,3 +318,5 @@ export default function AdvancedVoiceBot() {
     </>
   );
 }
+
+export default AdvancedVoiceBot;
