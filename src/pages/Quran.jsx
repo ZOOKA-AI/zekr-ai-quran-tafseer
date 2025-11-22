@@ -8,6 +8,8 @@ import { Search, MessageSquare, Share2, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import SurahCard from '../components/quran/SurahCard';
 import VoiceAssistant from '../components/assistant/VoiceAssistant';
+import QiblaCompass from '../components/home/QiblaCompass';
+import WorldClock from '../components/home/WorldClock';
 
 const SURAHS = [
   { number: 1, name: 'الفاتحة', arabic_name: 'ٱلْفَاتِحَة', transliteration: 'Al-Fatihah', verses_count: 7, revelation_place: 'Makkah', juz_start: 1 },
@@ -156,6 +158,12 @@ export default function QuranPage() {
               </div>
             </div>
           </Card>
+        </div>
+
+        {/* Qibla & Clock */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <QiblaCompass />
+          <WorldClock />
         </div>
 
         {/* Voice Assistant */}
