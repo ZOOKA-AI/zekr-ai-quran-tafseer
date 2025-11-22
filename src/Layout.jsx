@@ -8,15 +8,12 @@ import SmartVoiceBot from '@/components/assistant/SmartVoiceBot';
 export default function Layout({ children, currentPageName }) {
   const navItems = [
     { name: 'الرئيسية', path: 'Quran', icon: Home },
-    { name: 'لوحة التحكم', path: 'Dashboard', icon: Clock },
+    { name: 'الراديو', path: 'Radio', icon: Volume2 },
     { name: 'التلاوة', path: 'Tilawa', icon: Volume2 },
-    { name: 'الخطوط', path: 'Calligraphy', icon: Sparkles },
     { name: 'المقرئين', path: 'Reciters', icon: Mic },
-    { name: 'المساعد الذكي', path: 'Assistant', icon: MessageSquare },
-    { name: 'مواقيت الصلاة', path: 'PrayerTimes', icon: Clock },
-    { name: 'التذكيرات', path: 'Notifications', icon: Bell },
-    { name: 'المحفوظات', path: 'Bookmarks', icon: BookMarked },
-    { name: 'الملف الشخصي', path: 'Profile', icon: User },
+    { name: 'الخطوط', path: 'Calligraphy', icon: Sparkles },
+    { name: 'المساعد', path: 'Assistant', icon: MessageSquare },
+    { name: 'الأدمن', path: 'AdminPanel', icon: User },
   ];
 
   return (

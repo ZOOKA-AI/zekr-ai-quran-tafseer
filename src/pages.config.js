@@ -11,6 +11,8 @@ import NotificationDocs from './pages/NotificationDocs';
 import NotificationSettings from './pages/NotificationSettings';
 import Tilawa from './pages/Tilawa';
 import Dashboard from './pages/Dashboard';
+import AdminPanel from './pages/AdminPanel';
+import Radio from './pages/Radio';
 import __Layout from './Layout.jsx';
 
 
@@ -28,6 +30,8 @@ export const PAGES = {
     "NotificationSettings": NotificationSettings,
     "Tilawa": Tilawa,
     "Dashboard": Dashboard,
+    "AdminPanel": AdminPanel,
+    "Radio": Radio,
 }
 
 export const pagesConfig = {
