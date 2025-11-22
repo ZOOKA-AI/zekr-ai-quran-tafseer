@@ -183,7 +183,7 @@ export default function TilawaPage() {
                   <SelectTrigger className="h-14 text-xl bg-white/10 border-2 border-amber-400/50 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-black border-amber-400">
+                  <SelectContent className="bg-gray-900 border-amber-400">
                     {Object.entries(RECITERS).map(([id, reciter]) => (
                       <SelectItem key={id} value={id} className="text-white text-lg hover:bg-amber-600">
                         {reciter.name}
@@ -202,7 +202,7 @@ export default function TilawaPage() {
                   <SelectTrigger className="h-14 text-xl bg-white/10 border-2 border-amber-400/50 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-black border-amber-400">
+                  <SelectContent className="bg-gray-900 border-amber-400">
                     {SURAHS.map(surah => (
                       <SelectItem key={surah.number} value={surah.number.toString()} className="text-white text-lg hover:bg-amber-600">
                         {surah.name} - {surah.verses} آية
