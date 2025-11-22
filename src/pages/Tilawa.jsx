@@ -127,10 +127,10 @@ export default function TilawaPage() {
           backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920cdfd512838f4a35374d8/ad390f8ea_21da07e84f2006654e384d2924c664b1.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          filter: 'brightness(1.3) contrast(1.15) saturate(1.1)'
+          filter: 'brightness(1.5) contrast(1.25) saturate(1.15) sharpen(1.1)'
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/5" />
+      <div className="absolute inset-0 bg-transparent" />
       
       <style jsx>{`
         @keyframes glow {
