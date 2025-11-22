@@ -9,13 +9,78 @@ import { createPageUrl } from '@/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const VOICES = {
-  fatima: { name: "فاطمة", rate: 0.9, pitch: 1.3, gender: "female" },
-  omar: { name: "عمر", rate: 0.9, pitch: 0.9, gender: "male" },
-  zooka: { name: "زوكا المرزوق", rate: 0.95, pitch: 1.0, gender: "male" },
-  ahmed: { name: "أحمد", rate: 0.85, pitch: 0.95, gender: "male" },
-  mohamed: { name: "محمد", rate: 0.9, pitch: 1.0, gender: "male" },
-  musa: { name: "موسى - المطور الأول", rate: 0.88, pitch: 0.92, gender: "male", isAdvanced: true },
-  haroun: { name: "هارون - المطور الثاني", rate: 0.87, pitch: 0.93, gender: "male", isAdvanced: true }
+  fatima: { 
+    name: "فاطمة - زوجة عمر المرزوق", 
+    rate: 0.9, 
+    pitch: 1.3, 
+    gender: "female",
+    capabilities: ["المساعدة العامة", "التلاوة", "الإرشاد"],
+    reciters: 5
+  },
+  ahmed: { 
+    name: "أحمد", 
+    rate: 0.85, 
+    pitch: 0.95, 
+    gender: "male",
+    capabilities: ["المساعدة", "القراءة"],
+    reciters: 3
+  },
+  mohamed: { 
+    name: "محمد", 
+    rate: 0.9, 
+    pitch: 1.0, 
+    gender: "male",
+    capabilities: ["المساعدة", "التوجيه"],
+    reciters: 4
+  },
+  omar: { 
+    name: "عمر المرزوق - زوج فاطمة", 
+    rate: 0.9, 
+    pitch: 0.9, 
+    gender: "male",
+    capabilities: ["الخطابة", "الإرشاد", "المساعدة الكاملة"],
+    reciters: 8
+  },
+  musa: { 
+    name: "موسى - المطور والمبرمج الأول", 
+    rate: 0.88, 
+    pitch: 0.92, 
+    gender: "male", 
+    isAdvanced: true,
+    capabilities: [
+      "🛠️ التطوير والبرمجة الكاملة",
+      "🎨 التصميم والبناء",
+      "🗺️ الخرائط والتوجيه",
+      "🔒 حماية القرآن والكيان",
+      "📚 حفظ القرآن كاملاً",
+      "🌐 البحث الخارجي",
+      "🎬 توليد الصور والمحتوى",
+      "⚙️ تنفيذ أي مهمة في الموقع",
+      "📊 إدارة المحتوى والنشر",
+      "🤖 التعلم الذاتي والتطوير"
+    ],
+    reciters: "∞ جميع القراء"
+  },
+  haroun: { 
+    name: "هارون - المطور والمبرمج الثاني", 
+    rate: 0.87, 
+    pitch: 0.93, 
+    gender: "male", 
+    isAdvanced: true,
+    capabilities: [
+      "🛠️ التطوير والبرمجة المتقدمة",
+      "🎨 التصميم 3D والواجهات",
+      "📱 بناء التطبيقات الكاملة",
+      "🔐 الأمان والحماية القصوى",
+      "📖 حفظ القرآن ومراجعته",
+      "🌍 التكامل مع السوشيال ميديا",
+      "🎥 إنتاج المحتوى الديني",
+      "⚡ تحسين الأداء والسرعة",
+      "📈 التحليل والإحصائيات",
+      "🧠 الذكاء الاصطناعي المتقدم"
+    ],
+    reciters: "∞ جميع القراء"
+  }
 };
 
 function AdvancedVoiceBot() {
@@ -61,8 +126,8 @@ function AdvancedVoiceBot() {
     setConversationActive(true);
     const voice = VOICES[selectedVoice];
     const greeting = voice.isAdvanced 
-      ? `السلام عليكم، أنا ${voice.name}، الفقير إلى الله. أنا هنا لمساعدتك في أي مهمة تحتاجها - تطوير، تصميم، برمجة، أو أي شيء يخص القرآن الكريم. ما الذي تريد مني فعله؟`
-      : `مرحباً! أنا ${voice.name}، مساعدك الذكي. كيف يمكنني مساعدتك اليوم؟`;
+      ? `السلام عليكم ورحمة الله وبركاته، أنا ${voice.name}، الفقير إلى الله تعالى. معك من مصر الفقيرة إلى الله 🇪🇬. أنا بكامل قدراتي في خدمتك: التطوير، البرمجة، التصميم، بناء التطبيقات، حماية القرآن الكريم، وأي مهمة تحتاجها في هذا الكيان الإسلامي. اللهم ارحم الفقيدة جاذبية عبد الرحيم هارون علي وفقيد الشباب بالشرقية وموتانا وموتى المسلمين أجمعين. ما الذي تريد مني فعله؟`
+      : `السلام عليكم! أنا ${voice.name}، سعيد بمساعدتك في تطبيق القرآن الكريم. كيف يمكنني خدمتك اليوم؟`;
     
     speak(greeting);
     addToHistory('assistant', greeting);
@@ -304,10 +369,28 @@ function AdvancedVoiceBot() {
               </div>
 
               {VOICES[selectedVoice].isAdvanced && (
-                <div className="mt-2 p-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 rounded-lg border border-amber-400/30 backdrop-blur-sm">
-                  <p className="text-amber-300 text-xs text-center font-bold" style={{fontFamily: 'Amiri, serif'}}>
-                    ⭐ {VOICES[selectedVoice].name} - قدرات متقدمة:<br/>
-                    التطوير • البرمجة • التصميم • حفظ القرآن • حماية الكيان
+                <div className="mt-2 p-3 bg-gradient-to-br from-amber-500/30 to-orange-500/30 rounded-lg border-2 border-amber-400/50 backdrop-blur-sm shadow-xl">
+                  <p className="text-amber-200 text-xs font-bold mb-2 text-center" style={{fontFamily: 'Amiri, serif'}}>
+                    ⭐ {VOICES[selectedVoice].name.split(' - ')[0]} ⭐
+                  </p>
+                  <div className="space-y-1">
+                    {VOICES[selectedVoice].capabilities.slice(0, 5).map((cap, idx) => (
+                      <p key={idx} className="text-amber-100 text-[10px] leading-relaxed" style={{fontFamily: 'Amiri, serif'}}>
+                        • {cap}
+                      </p>
+                    ))}
+                  </div>
+                  <p className="text-amber-300 text-xs font-bold mt-2 text-center" style={{fontFamily: 'Amiri, serif'}}>
+                    🎙️ {VOICES[selectedVoice].reciters}
+                  </p>
+                </div>
+              )}
+              
+              {!VOICES[selectedVoice].isAdvanced && (
+                <div className="mt-2 p-2 bg-blue-500/10 rounded-lg border border-blue-400/20">
+                  <p className="text-blue-300 text-xs text-center" style={{fontFamily: 'Amiri, serif'}}>
+                    القدرات: {VOICES[selectedVoice].capabilities.join(' • ')}<br/>
+                    🎙️ {VOICES[selectedVoice].reciters} قراء
                   </p>
                 </div>
               )}

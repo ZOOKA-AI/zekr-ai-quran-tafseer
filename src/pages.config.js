@@ -10,6 +10,7 @@ import Notifications from './pages/Notifications';
 import NotificationDocs from './pages/NotificationDocs';
 import NotificationSettings from './pages/NotificationSettings';
 import Tilawa from './pages/Tilawa';
+import Dashboard from './pages/Dashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -26,6 +27,7 @@ export const PAGES = {
     "NotificationDocs": NotificationDocs,
     "NotificationSettings": NotificationSettings,
     "Tilawa": Tilawa,
+    "Dashboard": Dashboard,
 }
 
 export const pagesConfig = {
