@@ -93,11 +93,20 @@ export default function Layout({ children, currentPageName }) {
       <main>{children}</main>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-emerald-800 via-emerald-900 to-emerald-800 text-white mt-16">
-        <div className="max-w-7xl mx-auto px-6 py-12">
+      <footer className="relative mt-16 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920cdfd512838f4a35374d8/ad390f8ea_21da07e84f2006654e384d2924c664b1.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        />
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
           <div className="text-center">
-            <p className="text-2xl mb-4 font-arabic">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</p>
-            <p className="text-emerald-200 mb-6">اللهم اجعلنا من أهل القرآن وخاصته</p>
+            <p className="text-2xl mb-4 font-arabic text-white" style={{textShadow: '0 0 20px rgba(251,191,36,0.6)'}}>﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</p>
+            <p className="text-amber-200 mb-6">اللهم اجعلنا من أهل القرآن وخاصته</p>
 
             <div className="bg-gradient-to-r from-purple-600/30 to-blue-600/30 rounded-xl p-4 mb-4 max-w-2xl mx-auto border border-purple-400/30">
               <p className="text-amber-300 text-xl font-bold mb-2">📢 باص إسلامي صدقة جارية</p>
@@ -146,7 +155,7 @@ export default function Layout({ children, currentPageName }) {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center gap-8 text-sm text-emerald-300">
+            <div className="flex justify-center gap-8 text-sm text-amber-300">
               <span>© 2024 القرآن الكريم</span>
               <span>•</span>
               <span>منصة إسلامية متكاملة</span>

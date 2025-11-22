@@ -5,6 +5,7 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { toast } from 'sonner';
+import VoiceController from '../components/tilawa/VoiceController';
 
 const RECITERS = {
   husary: { name: "محمود خليل الحصري", baseUrl: "https://server13.mp3quran.net/husary/" },
@@ -90,6 +91,32 @@ export default function TilawaPage() {
     }
   };
 
+  const handleVoiceCommand = ({ reciter, surah, action }) => {
+    if (reciter) {
+      setSelectedReciter(reciter);
+    }
+    if (surah) {
+      setSelectedSurah(surah);
+    }
+    if (action === 'play') {
+      if (!isPlaying) {
+        setTimeout(() => handlePlayPause(), 300);
+      }
+    } else if (action === 'pause') {
+      if (isPlaying) {
+        handlePlayPause();
+      }
+    } else if (action === 'volumeUp') {
+      const newVolume = Math.min(100, volume[0] + 20);
+      setVolume([newVolume]);
+    } else if (action === 'volumeDown') {
+      const newVolume = Math.max(0, volume[0] - 20);
+      setVolume([newVolume]);
+    } else if (action === 'mute') {
+      toggleMute();
+    }
+  };
+
   return (
     <div className="min-h-screen relative overflow-hidden" dir="rtl">
       {/* Kaaba Background */}
@@ -164,11 +191,16 @@ export default function TilawaPage() {
         
         <div className="max-w-2xl w-full">
           {/* Title */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-2xl font-arabic">
               🎧 استمع للقرآن الكريم
             </h1>
             <p className="text-2xl text-amber-300">اختر القارئ والسورة واستمع بخشوع</p>
+          </div>
+
+          {/* Voice Controller */}
+          <div className="mb-8">
+            <VoiceController onCommand={handleVoiceCommand} />
           </div>
 
           {/* Main Control Card */}
