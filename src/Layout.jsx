@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2 } from 'lucide-react';
 import DailyReminders from '@/components/notifications/DailyReminders';
+import SmartVoiceBot from '@/components/assistant/SmartVoiceBot';
 
 export default function Layout({ children, currentPageName }) {
   const navItems = [
@@ -29,6 +30,7 @@ export default function Layout({ children, currentPageName }) {
       </div>
       <div className="relative z-10">
       <DailyReminders />
+      <SmartVoiceBot />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap');
         
