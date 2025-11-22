@@ -72,7 +72,7 @@ export default function Layout({ children, currentPageName }) {
                 return (
                   <Link key={item.path} to={createPageUrl(item.path)}>
                     <button
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
                         isActive
                           ? 'bg-emerald-600 text-white shadow-md'
                           : 'text-gray-700 hover:bg-emerald-50'

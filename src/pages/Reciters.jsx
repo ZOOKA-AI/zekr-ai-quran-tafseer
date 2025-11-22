@@ -219,7 +219,7 @@ export default function RecitersPage() {
             return (
               <Card 
                 key={reciter.id}
-                className="bg-white/5 border-white/10 hover:bg-white/10 transition-all hover:-translate-y-2 hover:shadow-2xl hover:border-amber-400/30"
+                className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-200 hover:-translate-y-2 hover:shadow-2xl hover:border-amber-400/30"
               >
                 <div className="h-48 bg-gradient-to-br from-emerald-700 to-emerald-900 flex items-center justify-center">
                   <Icon className="w-16 h-16 text-amber-400" />

@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Search, MessageSquare, Share2, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import SurahCard from '../components/quran/SurahCard';
+import VoiceAssistant from '../components/assistant/VoiceAssistant';
 
 const SURAHS = [
   { number: 1, name: 'الفاتحة', arabic_name: 'ٱلْفَاتِحَة', transliteration: 'Al-Fatihah', verses_count: 7, revelation_place: 'Makkah', juz_start: 1 },
@@ -157,10 +158,15 @@ export default function QuranPage() {
           </Card>
         </div>
 
+        {/* Voice Assistant */}
+        <div className="mb-8">
+          <VoiceAssistant />
+        </div>
+
         {/* Smart Assistant Banner */}
         <div className="mb-8">
           <Link to={createPageUrl('Assistant')}>
-            <Card className="bg-gradient-to-br from-purple-500 via-purple-600 to-indigo-600 shadow-2xl hover:shadow-3xl transition-all transform hover:scale-[1.02] cursor-pointer border-4 border-purple-400">
+            <Card className="bg-gradient-to-br from-purple-500 via-purple-600 to-indigo-600 shadow-2xl hover:shadow-3xl transition-all duration-200 transform hover:scale-[1.02] cursor-pointer border-4 border-purple-400">
               <div className="p-8">
                 <div className="flex items-center justify-between gap-6">
                   <div className="flex items-center gap-6">
@@ -168,12 +174,12 @@ export default function QuranPage() {
                       <MessageSquare className="w-12 h-12 text-purple-600" />
                     </div>
                     <div>
-                      <h3 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">🎤 المساعد الصوتي الذكي</h3>
-                      <p className="text-xl text-purple-100 font-semibold">اسأل أي سؤال عن القرآن بالصوت أو الكتابة</p>
+                      <h3 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">💬 المساعد الذكي الكامل</h3>
+                      <p className="text-xl text-purple-100 font-semibold">اسأل أسئلة معقدة واحصل على إجابات تفصيلية</p>
                     </div>
                   </div>
                   <div className="hidden md:block">
-                    <Button className="bg-white text-purple-600 hover:bg-purple-50 font-bold px-8 py-4 text-xl shadow-xl">
+                    <Button className="bg-white text-purple-600 hover:bg-purple-50 font-bold px-8 py-4 text-xl shadow-xl transition-all duration-200">
                       جرب الآن
                     </Button>
                   </div>
@@ -198,19 +204,19 @@ export default function QuranPage() {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <Card className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-emerald-300 text-center hover:scale-105 transition-transform">
+          <Card className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-emerald-300 text-center hover:scale-105 transition-transform duration-200">
             <p className="text-6xl font-bold text-emerald-600 mb-3">114</p>
             <p className="text-gray-800 font-bold text-xl">سورة</p>
           </Card>
-          <Card className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-amber-300 text-center hover:scale-105 transition-transform">
+          <Card className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-amber-300 text-center hover:scale-105 transition-transform duration-200">
             <p className="text-6xl font-bold text-amber-600 mb-3">30</p>
             <p className="text-gray-800 font-bold text-xl">جزء</p>
           </Card>
-          <Card className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-blue-300 text-center hover:scale-105 transition-transform">
+          <Card className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-blue-300 text-center hover:scale-105 transition-transform duration-200">
             <p className="text-6xl font-bold text-blue-600 mb-3">6236</p>
             <p className="text-gray-800 font-bold text-xl">آية</p>
           </Card>
-          <Card className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-purple-300 text-center hover:scale-105 transition-transform">
+          <Card className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-purple-300 text-center hover:scale-105 transition-transform duration-200">
             <p className="text-6xl font-bold text-purple-600 mb-3">8</p>
             <p className="text-gray-800 font-bold text-xl">قراء</p>
           </Card>
