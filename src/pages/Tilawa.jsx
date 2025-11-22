@@ -6,8 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { toast } from 'sonner';
 import VoiceController from '../components/tilawa/VoiceController';
-import QuranVerse from '../components/quran/QuranVerse';
-import CameraReader from '../components/camera/CameraReader';
+import CameraScanner from '../components/tilawa/CameraScanner';
 
 const RECITERS = {
   husary: { name: "محمود خليل الحصري", baseUrl: "https://server13.mp3quran.net/husary/" },
@@ -127,16 +126,15 @@ export default function TilawaPage() {
         style={{
           backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920cdfd512838f4a35374d8/ad390f8ea_21da07e84f2006654e384d2924c664b1.jpg)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'brightness(1.2) contrast(1.1)'
+          backgroundPosition: 'center'
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30" />
+      <div className="absolute inset-0 bg-black/20" />
       
       <style jsx>{`
         @keyframes glow {
-          0%, 100% { box-shadow: 0 0 30px rgba(147, 51, 234, 0.6), 0 0 60px rgba(236, 72, 153, 0.4); }
-          50% { box-shadow: 0 0 50px rgba(147, 51, 234, 0.8), 0 0 90px rgba(236, 72, 153, 0.6); }
+          0%, 100% { box-shadow: 0 0 30px rgba(147, 51, 234, 0.5), 0 0 60px rgba(59, 130, 246, 0.3); }
+          50% { box-shadow: 0 0 40px rgba(147, 51, 234, 0.7), 0 0 80px rgba(59, 130, 246, 0.5); }
         }
         @keyframes pulse-ring {
           0% { transform: scale(0.95); opacity: 1; }
@@ -161,20 +159,20 @@ export default function TilawaPage() {
           height: 120px;
           background: linear-gradient(to right, 
             transparent 0%,
-            rgba(147, 51, 234, 0.15) 10%,
-            rgba(236, 72, 153, 0.2) 20%,
+            rgba(147, 51, 234, 0.1) 10%,
+            rgba(59, 130, 246, 0.2) 20%,
             transparent 25%,
-            rgba(59, 130, 246, 0.15) 30%,
+            rgba(6, 182, 212, 0.15) 30%,
             transparent 35%,
-            rgba(16, 185, 129, 0.2) 40%,
+            rgba(147, 51, 234, 0.25) 40%,
             transparent 45%,
-            rgba(251, 146, 60, 0.15) 50%,
+            rgba(59, 130, 246, 0.1) 50%,
             transparent 55%,
-            rgba(147, 51, 234, 0.2) 60%,
+            rgba(6, 182, 212, 0.2) 60%,
             transparent 65%,
-            rgba(236, 72, 153, 0.15) 70%,
+            rgba(147, 51, 234, 0.15) 70%,
             transparent 75%,
-            rgba(59, 130, 246, 0.2) 80%,
+            rgba(59, 130, 246, 0.1) 80%,
             transparent 90%
           );
           background-size: 200% 100%;
@@ -187,42 +185,43 @@ export default function TilawaPage() {
 
       <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
         {/* Decorative 3D Crystal Orbs */}
-        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-gradient-to-br from-purple-400/25 to-pink-600/25 backdrop-blur-sm border border-white/10 shadow-xl animate-float" style={{transform: 'perspective(1000px) rotateY(20deg)', animationDelay: '0s'}}></div>
-        <div className="absolute top-40 right-20 w-24 h-24 rounded-full bg-gradient-to-br from-cyan-400/30 to-blue-600/30 backdrop-blur-sm border border-white/15 shadow-xl animate-float" style={{transform: 'perspective(1000px) rotateY(-20deg)', animationDelay: '1s'}}></div>
-        <div className="absolute bottom-40 left-1/4 w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400/25 to-teal-600/25 backdrop-blur-sm border border-white/10 shadow-xl animate-float" style={{transform: 'perspective(1000px) rotateX(20deg)', animationDelay: '2s'}}></div>
-        <div className="absolute top-1/3 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-orange-400/25 to-red-600/25 backdrop-blur-sm border border-white/15 shadow-xl animate-float" style={{transform: 'perspective(1000px) rotateY(30deg)', animationDelay: '1.5s'}}></div>
+        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-gradient-to-br from-cyan-400/30 to-blue-600/30 backdrop-blur-sm border-2 border-white/20 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateY(20deg)', animationDelay: '0s'}}></div>
+        <div className="absolute top-40 right-20 w-24 h-24 rounded-full bg-gradient-to-br from-amber-400/40 to-orange-600/40 backdrop-blur-sm border-2 border-white/30 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateY(-20deg)', animationDelay: '1s'}}></div>
+        <div className="absolute bottom-40 left-1/4 w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400/30 to-teal-600/30 backdrop-blur-sm border-2 border-white/20 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateX(20deg)', animationDelay: '2s'}}></div>
+        <div className="absolute top-1/3 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-purple-400/30 to-pink-600/30 backdrop-blur-sm border-2 border-white/25 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateY(30deg)', animationDelay: '1.5s'}}></div>
         
         <div className="max-w-2xl w-full">
-          {/* Quran Verse */}
-          <div className="mb-6">
-            <QuranVerse />
+          {/* Title with Quranic Verses Rotation */}
+          <div className="text-center mb-8">
+            <h1 className="text-6xl font-bold text-white mb-4 font-arabic" style={{textShadow: '0 0 40px rgba(147,51,234,0.6), 0 0 80px rgba(59,130,246,0.4)'}}>
+              ﴿ وَرَتِّلِ ٱلْقُرْءَانَ تَرْتِيلًا ﴾
+            </h1>
+            <p className="text-lg bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent font-semibold">استمع بخشوع • تدبر بقلبك • اقرأ بتمعن</p>
           </div>
 
-          {/* Camera & Voice Controller */}
-          <div className="mb-6 flex gap-4 items-center justify-center flex-wrap">
-            <CameraReader />
-          </div>
-
-          {/* Voice Controller */}
-          <div className="mb-6">
+          {/* Voice Controller & Camera Scanner */}
+          <div className="mb-8 grid grid-cols-1 gap-4">
             <VoiceController onCommand={handleVoiceCommand} />
+            <div className="text-center">
+              <CameraScanner />
+            </div>
           </div>
 
           {/* Main Control Card */}
-          <Card className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-xl">
-            <div className="p-6">
+          <Card className="bg-white/5 backdrop-blur-xl border border-white/20 shadow-2xl">
+            <div className="p-8">
               {/* Reciter Selection */}
-              <div className="mb-4">
-                <label className="block text-white text-base font-semibold mb-2 text-center">
+              <div className="mb-6">
+                <label className="block bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent text-lg font-bold mb-3 text-center">
                   🎤 اختر القارئ
                 </label>
                 <Select value={selectedReciter} onValueChange={setSelectedReciter}>
-                  <SelectTrigger className="h-12 text-lg bg-white/5 border border-white/30 text-white hover:bg-white/10 transition-all">
+                  <SelectTrigger className="h-12 text-lg bg-white/5 border border-white/20 text-white hover:bg-white/10 transition-all">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-900 border-amber-400">
+                  <SelectContent className="bg-gray-900/95 border-white/20">
                     {Object.entries(RECITERS).map(([id, reciter]) => (
-                      <SelectItem key={id} value={id} className="text-white text-lg hover:bg-amber-600">
+                      <SelectItem key={id} value={id} className="text-white text-lg hover:bg-gradient-to-r hover:from-purple-600/50 hover:via-blue-600/50 hover:to-cyan-600/50">
                         {reciter.name}
                       </SelectItem>
                     ))}
@@ -231,17 +230,17 @@ export default function TilawaPage() {
               </div>
 
               {/* Surah Selection */}
-              <div className="mb-6">
-                <label className="block text-white text-base font-semibold mb-2 text-center">
+              <div className="mb-8">
+                <label className="block bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent text-lg font-bold mb-3 text-center">
                   📖 اختر السورة
                 </label>
                 <Select value={selectedSurah.toString()} onValueChange={(v) => setSelectedSurah(Number(v))}>
-                  <SelectTrigger className="h-12 text-lg bg-white/5 border border-white/30 text-white hover:bg-white/10 transition-all">
+                  <SelectTrigger className="h-12 text-lg bg-white/5 border border-white/20 text-white hover:bg-white/10 transition-all">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-900 border-amber-400">
+                  <SelectContent className="bg-gray-900/95 border-white/20">
                     {SURAHS.map(surah => (
-                      <SelectItem key={surah.number} value={surah.number.toString()} className="text-white text-lg hover:bg-amber-600">
+                      <SelectItem key={surah.number} value={surah.number.toString()} className="text-white text-lg hover:bg-gradient-to-r hover:from-purple-600/50 hover:via-blue-600/50 hover:to-cyan-600/50">
                         {surah.name} - {surah.verses} آية
                       </SelectItem>
                     ))}
@@ -250,23 +249,23 @@ export default function TilawaPage() {
               </div>
 
               {/* Big Play Button */}
-              <div className="relative flex justify-center mb-6">
+              <div className="relative flex justify-center mb-8">
                 {isPlaying && (
                   <>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-36 h-36 rounded-full bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-orange-500/20 pulse-ring"></div>
+                      <div className="w-48 h-48 rounded-full bg-gradient-to-r from-purple-500/30 via-blue-500/30 to-cyan-500/30 pulse-ring"></div>
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center" style={{animationDelay: '0.5s'}}>
-                      <div className="w-36 h-36 rounded-full bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-orange-500/20 pulse-ring"></div>
+                      <div className="w-48 h-48 rounded-full bg-gradient-to-r from-purple-500/30 via-blue-500/30 to-cyan-500/30 pulse-ring"></div>
                     </div>
                   </>
                 )}
                 <Button
                   onClick={handlePlayPause}
-                  className={`relative w-32 h-32 rounded-full text-white font-bold text-xl shadow-xl transition-all duration-200 hover:scale-105 ${
+                  className={`relative w-32 h-32 rounded-full text-white font-bold text-xl shadow-2xl transition-all duration-200 hover:scale-105 ${
                     isPlaying 
-                      ? 'bg-gradient-to-br from-red-500 to-red-700 glow-button' 
-                      : 'bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 glow-button'
+                      ? 'bg-gradient-to-br from-red-500 to-pink-600' 
+                      : 'bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500'
                   }`}
                 >
                   {isPlaying ? (
@@ -278,11 +277,11 @@ export default function TilawaPage() {
               </div>
 
               {/* Volume Control */}
-              <div className="bg-white/5 rounded-xl p-4 border border-white/20">
-                <div className="flex items-center gap-3 mb-2">
+              <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+                <div className="flex items-center gap-4 mb-2">
                   <button 
                     onClick={toggleMute}
-                    className="text-white hover:text-gray-300 transition-colors"
+                    className="text-purple-400 hover:text-purple-300 transition-colors"
                   >
                     {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
                   </button>
@@ -295,11 +294,11 @@ export default function TilawaPage() {
                       className="cursor-pointer"
                     />
                   </div>
-                  <span className="text-white font-semibold text-base w-12 text-center">
+                  <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent font-bold text-lg w-12 text-center">
                     {volume[0]}%
                   </span>
                 </div>
-                <p className="text-center text-white/60 text-xs">
+                <p className="text-center bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent text-sm">
                   🔊 مستوى الصوت
                 </p>
               </div>
@@ -308,9 +307,9 @@ export default function TilawaPage() {
 
           {/* Status Display */}
           {isPlaying && (
-            <div className="mt-4 text-center">
-              <div className="inline-block bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-orange-500/20 backdrop-blur-sm border border-white/30 rounded-xl px-6 py-3">
-                <p className="text-white text-lg font-semibold">
+            <div className="mt-6 text-center">
+              <div className="inline-block bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-3">
+                <p className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent text-lg font-bold">
                   🎵 جاري التشغيل...
                 </p>
               </div>

@@ -158,42 +158,42 @@ export default function VoiceController({ onCommand }) {
   };
 
   return (
-    <Card className="bg-gradient-to-br from-purple-900/80 via-indigo-900/80 to-purple-900/80 backdrop-blur-xl border-2 border-amber-400/50 shadow-2xl">
-      <div className="p-6">
-        <div className="text-center mb-4">
+    <Card className="bg-white/5 backdrop-blur-xl border border-white/20 shadow-2xl">
+      <div className="p-4">
+        <div className="text-center mb-3">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Sparkles className="w-6 h-6 text-amber-400" />
-            <h3 className="text-xl font-bold text-white">المساعد الصوتي الذكي</h3>
-            <Sparkles className="w-6 h-6 text-amber-400" />
+            <Sparkles className="w-5 h-5 bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent" />
+            <h3 className="text-lg font-bold bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">المساعد الصوتي الذكي</h3>
+            <Sparkles className="w-5 h-5 bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent" />
           </div>
-          <p className="text-amber-300 text-sm">قل: "شغل الفاتحة بصوت الحصري" أو "ارفع الصوت" أو "وقف"</p>
+          <p className="text-purple-300 text-xs">قل: "شغل الفاتحة بصوت الحصري" أو "ارفع الصوت" أو "وقف"</p>
         </div>
 
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-3">
           <Button
             onClick={isListening ? stopListening : startListening}
-            className={`w-20 h-20 rounded-full transition-all duration-200 ${
+            className={`w-16 h-16 rounded-full transition-all duration-200 ${
               isListening
                 ? 'bg-red-500 hover:bg-red-600 animate-pulse scale-110'
-                : 'bg-gradient-to-br from-amber-500 to-amber-700 hover:from-amber-600 hover:to-amber-800 hover:scale-105'
+                : 'bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 hover:scale-105'
             }`}
           >
             {isListening ? (
-              <MicOff className="w-10 h-10 text-white" />
+              <MicOff className="w-8 h-8 text-white" />
             ) : (
-              <Mic className="w-10 h-10 text-white" />
+              <Mic className="w-8 h-8 text-white" />
             )}
           </Button>
         </div>
 
         {transcript && (
-          <div className="p-3 bg-white/10 rounded-lg border border-amber-400/30">
-            <p className="text-sm text-amber-200 mb-1">سمعت:</p>
-            <p className="text-white font-semibold">{transcript}</p>
+          <div className="p-2 bg-white/10 rounded-lg border border-white/20">
+            <p className="text-xs text-purple-300 mb-1">سمعت:</p>
+            <p className="text-white font-semibold text-sm">{transcript}</p>
           </div>
         )}
 
-        <div className="mt-4 text-center text-xs text-amber-300/70">
+        <div className="mt-3 text-center text-xs text-purple-300/70">
           💡 أمثلة: "شغل يس بصوت المنشاوي" • "ارفع الصوت" • "وقف"
         </div>
       </div>
