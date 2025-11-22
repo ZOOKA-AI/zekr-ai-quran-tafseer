@@ -209,7 +209,7 @@ export default function TilawaPage() {
           </div>
 
           {/* Main Control Card */}
-          <Card className="bg-white/5 backdrop-blur-xl border border-white/20 shadow-2xl">
+          <Card className="bg-gradient-to-br from-gray-900/95 via-purple-900/90 to-gray-900/95 backdrop-blur-xl border-2 border-purple-400/60 shadow-2xl">
             <div className="p-8">
               {/* Reciter Selection */}
               <div className="mb-6">
@@ -278,7 +278,7 @@ export default function TilawaPage() {
               </div>
 
               {/* Volume Control */}
-              <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
                 <div className="flex items-center gap-4 mb-2">
                   <button 
                     onClick={toggleMute}
