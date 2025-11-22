@@ -108,35 +108,41 @@ export default function Layout({ children, currentPageName }) {
               <p className="text-white font-bold">👍 اشتركوا في القناة</p>
             </div>
 
-            <div className="bg-emerald-700/30 rounded-xl p-4 mb-6 max-w-2xl mx-auto">
-              <p className="text-lg font-bold text-white mb-2">🤲 صدقة جارية لوجه الله تعالى</p>
-              <p className="text-emerald-100 text-sm mb-3">تطبيق مجاني بالكامل - من المسلمين إلى المسلمين</p>
+            <div className="bg-gradient-to-br from-gray-900/95 via-slate-900/95 to-gray-900/95 backdrop-blur-xl rounded-xl p-4 mb-6 max-w-2xl mx-auto border-2 border-amber-400/40 shadow-2xl relative overflow-hidden" style={{boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(251,191,36,0.2), inset 0 0 40px rgba(251,191,36,0.05)'}}>
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-amber-600/5"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-amber-600/10 rounded-full blur-3xl"></div>
               
-              <div className="border-t border-emerald-600/50 pt-3 mt-3">
-                <div className="bg-gradient-to-r from-emerald-600/20 to-teal-600/20 rounded-lg p-3 mb-3 border border-emerald-500/30">
-                  <p className="text-white text-base mb-2 font-arabic">✨ من دولة الإمارات العربية المتحدة 🇦🇪</p>
-                  <p className="text-emerald-100 text-sm italic font-arabic">بلد الخير والعطاء • أرض التسامح والمحبة</p>
-                </div>
+              <div className="relative z-10">
+                <p className="text-lg font-bold text-white mb-2" style={{textShadow: '0 0 20px rgba(251,191,36,0.5)'}}>🤲 صدقة جارية لوجه الله تعالى</p>
+                <p className="text-amber-200 text-sm mb-3">تطبيق مجاني بالكامل - من المسلمين إلى المسلمين</p>
                 
-                <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-lg p-3 mb-3 border border-purple-400/30">
-                  <p className="text-amber-300 text-lg font-bold mb-1">🤖 ZOOKA-AI المرزوق</p>
-                  <p className="text-white text-sm mb-1">مساعد التنفيذ الذكي</p>
-                  <p className="text-emerald-100 text-xs italic">أول مشروع دعائي • تقنية الذكاء الاصطناعي في خدمة القرآن</p>
-                </div>
-                <p className="text-emerald-200 text-xs mb-1">المطورون: موسى وهارون بالإمارات 🇦🇪</p>
-                <p className="text-emerald-200 text-xs mb-2">حفظ الملكية وتأمين كتاب الله وسنة رسوله</p>
-                <p className="text-emerald-100 text-xs">من الفقراء لله المصريين 🇪🇬</p>
-                
-                <div className="border-t border-emerald-600/50 pt-3 mt-3">
-                  <p className="text-amber-300 text-xs font-bold mb-1">🔐 المشرف العام الوحيد</p>
-                  <a href="mailto:Zookaalmrzwq@gmail.com" className="text-emerald-100 text-xs hover:text-white transition-colors underline block mb-1">
-                    Zookaalmrzwq@gmail.com
-                  </a>
-                  <a href="https://zaka.ai/" target="_blank" rel="noopener noreferrer" className="text-amber-300 text-xs hover:text-amber-200 transition-colors underline font-bold block mb-2">
-                    🌐 zaka.ai
-                  </a>
-                  <p className="text-emerald-200 text-xs mt-1">مسؤول حماية المنصة والملكية الفكرية</p>
-                  <p className="text-white text-xs font-bold mt-2">⚠️ جميع الحقوق محفوظة • ممنوع النسخ أو التعديل بدون إذن</p>
+                <div className="border-t border-amber-400/30 pt-3 mt-3">
+                  <div className="bg-gradient-to-r from-amber-600/15 to-amber-500/15 rounded-lg p-3 mb-3 border border-amber-500/30">
+                    <p className="text-white text-base mb-2 font-arabic">✨ من دولة الإمارات العربية المتحدة 🇦🇪</p>
+                    <p className="text-amber-200 text-sm italic font-arabic">بلد الخير والعطاء • أرض التسامح والمحبة</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-lg p-3 mb-3 border border-purple-400/30">
+                    <p className="text-amber-300 text-lg font-bold mb-1">🤖 ZOOKA-AI المرزوق</p>
+                    <p className="text-white text-sm mb-1">مساعد التنفيذ الذكي</p>
+                    <p className="text-amber-200 text-xs italic">أول مشروع دعائي • تقنية الذكاء الاصطناعي في خدمة القرآن</p>
+                  </div>
+                  <p className="text-amber-200 text-xs mb-1">المطورون: موسى وهارون بالإمارات 🇦🇪</p>
+                  <p className="text-amber-200 text-xs mb-2">حفظ الملكية وتأمين كتاب الله وسنة رسوله</p>
+                  <p className="text-amber-100 text-xs">من الفقراء لله المصريين 🇪🇬</p>
+                  
+                  <div className="border-t border-amber-400/30 pt-3 mt-3">
+                    <p className="text-amber-300 text-xs font-bold mb-1">🔐 المشرف العام الوحيد</p>
+                    <a href="mailto:Zookaalmrzwq@gmail.com" className="text-amber-100 text-xs hover:text-white transition-colors underline block mb-1">
+                      Zookaalmrzwq@gmail.com
+                    </a>
+                    <a href="https://zaka.ai/" target="_blank" rel="noopener noreferrer" className="text-amber-300 text-xs hover:text-amber-200 transition-colors underline font-bold block mb-2">
+                      🌐 zaka.ai
+                    </a>
+                    <p className="text-amber-200 text-xs mt-1">مسؤول حماية المنصة والملكية الفكرية</p>
+                    <p className="text-white text-xs font-bold mt-2">⚠️ جميع الحقوق محفوظة • ممنوع النسخ أو التعديل بدون إذن</p>
+                  </div>
                 </div>
               </div>
             </div>
