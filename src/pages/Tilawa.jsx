@@ -91,11 +91,22 @@ export default function TilawaPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-emerald-900 to-gray-900 relative overflow-hidden" dir="rtl">
+    <div className="min-h-screen relative overflow-hidden" dir="rtl">
+      {/* Kaaba Background */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920cdfd512838f4a35374d8/ad390f8ea_21da07e84f2006654e384d2924c664b1.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      />
+      <div className="absolute inset-0 bg-black/40" />
+      
       <style jsx>{`
         @keyframes glow {
-          0%, 100% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.6), 0 0 80px rgba(16, 185, 129, 0.4); }
-          50% { box-shadow: 0 0 60px rgba(16, 185, 129, 0.9), 0 0 120px rgba(16, 185, 129, 0.6); }
+          0%, 100% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.8), 0 0 80px rgba(251, 191, 36, 0.5); }
+          50% { box-shadow: 0 0 60px rgba(251, 191, 36, 1), 0 0 120px rgba(251, 191, 36, 0.7); }
         }
         @keyframes pulse-ring {
           0% { transform: scale(0.95); opacity: 1; }
@@ -115,56 +126,29 @@ export default function TilawaPage() {
           height: 120px;
           background: linear-gradient(to right, 
             transparent 0%,
-            rgba(16, 185, 129, 0.1) 10%,
-            rgba(16, 185, 129, 0.3) 20%,
+            rgba(251, 191, 36, 0.1) 10%,
+            rgba(251, 191, 36, 0.3) 20%,
             transparent 25%,
-            rgba(16, 185, 129, 0.2) 30%,
+            rgba(251, 191, 36, 0.2) 30%,
             transparent 35%,
-            rgba(16, 185, 129, 0.4) 40%,
+            rgba(251, 191, 36, 0.4) 40%,
             transparent 45%,
-            rgba(16, 185, 129, 0.1) 50%,
+            rgba(251, 191, 36, 0.1) 50%,
             transparent 55%,
-            rgba(16, 185, 129, 0.3) 60%,
+            rgba(251, 191, 36, 0.3) 60%,
             transparent 65%,
-            rgba(16, 185, 129, 0.2) 70%,
+            rgba(251, 191, 36, 0.2) 70%,
             transparent 75%,
-            rgba(16, 185, 129, 0.1) 80%,
+            rgba(251, 191, 36, 0.1) 80%,
             transparent 90%
           );
           background-size: 200% 100%;
           animation: barcode-slide 3s linear infinite;
-          border-top: 2px solid rgba(16, 185, 129, 0.5);
-        }
-        .spotlight {
-          position: absolute;
-          top: -50%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 600px;
-          height: 600px;
-          background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.3) 0%, transparent 70%);
-          pointer-events: none;
+          border-top: 2px solid rgba(251, 191, 36, 0.6);
         }
       `}</style>
 
-      {/* Spotlight Effect */}
-      <div className="spotlight"></div>
 
-      {/* Floating Particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-emerald-400 rounded-full opacity-30"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`
-            }}
-          />
-        ))}
-      </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
         <div className="max-w-2xl w-full">
@@ -173,24 +157,24 @@ export default function TilawaPage() {
             <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-2xl font-arabic">
               🎧 استمع للقرآن الكريم
             </h1>
-            <p className="text-2xl text-emerald-300">اختر القارئ والسورة واستمع بخشوع</p>
+            <p className="text-2xl text-amber-300">اختر القارئ والسورة واستمع بخشوع</p>
           </div>
 
           {/* Main Control Card */}
-          <Card className="bg-white/5 backdrop-blur-xl border-2 border-emerald-400/50 shadow-2xl">
+          <Card className="bg-black/70 backdrop-blur-xl border-2 border-amber-400/60 shadow-2xl">
             <div className="p-8">
               {/* Reciter Selection */}
               <div className="mb-6">
-                <label className="block text-emerald-300 text-lg font-bold mb-3 text-center">
+                <label className="block text-amber-300 text-lg font-bold mb-3 text-center">
                   🎤 اختر القارئ
                 </label>
                 <Select value={selectedReciter} onValueChange={setSelectedReciter}>
-                  <SelectTrigger className="h-14 text-xl bg-white/10 border-2 border-emerald-400/50 text-white">
+                  <SelectTrigger className="h-14 text-xl bg-black/50 border-2 border-amber-400/60 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-900 border-emerald-400">
+                  <SelectContent className="bg-black border-amber-400">
                     {Object.entries(RECITERS).map(([id, reciter]) => (
-                      <SelectItem key={id} value={id} className="text-white text-lg hover:bg-emerald-600">
+                      <SelectItem key={id} value={id} className="text-white text-lg hover:bg-amber-600">
                         {reciter.name}
                       </SelectItem>
                     ))}
@@ -200,16 +184,16 @@ export default function TilawaPage() {
 
               {/* Surah Selection */}
               <div className="mb-8">
-                <label className="block text-emerald-300 text-lg font-bold mb-3 text-center">
+                <label className="block text-amber-300 text-lg font-bold mb-3 text-center">
                   📖 اختر السورة
                 </label>
                 <Select value={selectedSurah.toString()} onValueChange={(v) => setSelectedSurah(Number(v))}>
-                  <SelectTrigger className="h-14 text-xl bg-white/10 border-2 border-emerald-400/50 text-white">
+                  <SelectTrigger className="h-14 text-xl bg-black/50 border-2 border-amber-400/60 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-900 border-emerald-400">
+                  <SelectContent className="bg-black border-amber-400">
                     {SURAHS.map(surah => (
-                      <SelectItem key={surah.number} value={surah.number.toString()} className="text-white text-lg hover:bg-emerald-600">
+                      <SelectItem key={surah.number} value={surah.number.toString()} className="text-white text-lg hover:bg-amber-600">
                         {surah.name} - {surah.verses} آية
                       </SelectItem>
                     ))}
@@ -222,10 +206,10 @@ export default function TilawaPage() {
                 {isPlaying && (
                   <>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-48 h-48 rounded-full bg-emerald-500/30 pulse-ring"></div>
+                      <div className="w-48 h-48 rounded-full bg-amber-500/30 pulse-ring"></div>
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center" style={{animationDelay: '0.5s'}}>
-                      <div className="w-48 h-48 rounded-full bg-emerald-500/30 pulse-ring"></div>
+                      <div className="w-48 h-48 rounded-full bg-amber-500/30 pulse-ring"></div>
                     </div>
                   </>
                 )}
@@ -234,7 +218,7 @@ export default function TilawaPage() {
                   className={`relative w-40 h-40 rounded-full text-white font-bold text-2xl shadow-2xl transition-all duration-300 hover:scale-110 ${
                     isPlaying 
                       ? 'bg-gradient-to-br from-red-500 to-red-700 glow-button' 
-                      : 'bg-gradient-to-br from-emerald-500 to-emerald-700 glow-button'
+                      : 'bg-gradient-to-br from-amber-500 to-amber-700 glow-button'
                   }`}
                 >
                   {isPlaying ? (
@@ -246,11 +230,11 @@ export default function TilawaPage() {
               </div>
 
               {/* Volume Control */}
-              <div className="bg-white/5 rounded-2xl p-6 border border-emerald-400/30">
+              <div className="bg-black/50 rounded-2xl p-6 border border-amber-400/50">
                 <div className="flex items-center gap-4 mb-3">
                   <button 
                     onClick={toggleMute}
-                    className="text-emerald-400 hover:text-emerald-300 transition-colors"
+                    className="text-amber-400 hover:text-amber-300 transition-colors"
                   >
                     {isMuted ? <VolumeX className="w-8 h-8" /> : <Volume2 className="w-8 h-8" />}
                   </button>
@@ -263,11 +247,11 @@ export default function TilawaPage() {
                       className="cursor-pointer"
                     />
                   </div>
-                  <span className="text-emerald-300 font-bold text-xl w-12 text-center">
+                  <span className="text-amber-300 font-bold text-xl w-12 text-center">
                     {volume[0]}%
                   </span>
                 </div>
-                <p className="text-center text-emerald-300/70 text-sm">
+                <p className="text-center text-amber-300/70 text-sm">
                   🔊 مستوى الصوت
                 </p>
               </div>
@@ -277,8 +261,8 @@ export default function TilawaPage() {
           {/* Status Display */}
           {isPlaying && (
             <div className="mt-6 text-center">
-              <div className="inline-block bg-emerald-500/20 backdrop-blur-sm border-2 border-emerald-400/50 rounded-2xl px-8 py-4">
-                <p className="text-emerald-300 text-xl font-bold">
+              <div className="inline-block bg-black/70 backdrop-blur-sm border-2 border-amber-400/60 rounded-2xl px-8 py-4">
+                <p className="text-amber-300 text-xl font-bold">
                   🎵 جاري التشغيل...
                 </p>
               </div>
