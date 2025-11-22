@@ -116,8 +116,13 @@ export default function TilawaPage() {
           0% { transform: translateX(-100%); }
           100% { transform: translateX(100%); }
         }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotateY(0deg); }
+          50% { transform: translateY(-20px) rotateY(180deg); }
+        }
         .glow-button { animation: glow 2s ease-in-out infinite; }
         .pulse-ring { animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
         .barcode-line {
           position: absolute;
           bottom: 0;
@@ -151,18 +156,32 @@ export default function TilawaPage() {
 
 
       <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
-        <div className="max-w-2xl w-full">
+        {/* Decorative 3D Crystal Orbs */}
+        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-gradient-to-br from-cyan-400/30 to-blue-600/30 backdrop-blur-sm border-2 border-white/20 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateY(20deg)', animationDelay: '0s'}}></div>
+        <div className="absolute top-40 right-20 w-24 h-24 rounded-full bg-gradient-to-br from-amber-400/40 to-orange-600/40 backdrop-blur-sm border-2 border-white/30 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateY(-20deg)', animationDelay: '1s'}}></div>
+        <div className="absolute bottom-40 left-1/4 w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400/30 to-teal-600/30 backdrop-blur-sm border-2 border-white/20 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateX(20deg)', animationDelay: '2s'}}></div>
+        <div className="absolute top-1/3 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-purple-400/30 to-pink-600/30 backdrop-blur-sm border-2 border-white/25 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateY(30deg)', animationDelay: '1.5s'}}></div>
+        
+        <div className="max-w-2xl w-full relative" style={{transform: 'perspective(1500px) rotateX(2deg)'}}>
           {/* Title */}
-          <div className="text-center mb-12">
-            <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-2xl font-arabic">
-              🎧 استمع للقرآن الكريم
-            </h1>
-            <p className="text-2xl text-amber-300">اختر القارئ والسورة واستمع بخشوع</p>
+          <div className="text-center mb-12 bg-black/80 backdrop-blur-xl border-2 border-amber-400/60 rounded-3xl p-8 shadow-2xl relative overflow-hidden" style={{transform: 'translateZ(50px)', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(251, 191, 36, 0.3), inset 0 0 60px rgba(251, 191, 36, 0.1)'}}>
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-amber-600/10"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+            <div className="relative z-10">
+              <h1 className="text-6xl font-bold text-white mb-4 font-arabic" style={{textShadow: '0 0 30px rgba(251, 191, 36, 0.8), 0 4px 20px rgba(0,0,0,0.8)'}}>
+                🎧 استمع للقرآن الكريم
+              </h1>
+              <p className="text-2xl text-amber-300" style={{textShadow: '0 0 20px rgba(251, 191, 36, 0.6)'}}>اختر القارئ والسورة واستمع بخشوع</p>
+            </div>
           </div>
 
           {/* Main Control Card */}
-          <Card className="bg-black/70 backdrop-blur-xl border-2 border-amber-400/60 shadow-2xl">
-            <div className="p-8">
+          <Card className="bg-black/70 backdrop-blur-xl border-2 border-amber-400/60 shadow-2xl relative overflow-hidden" style={{transform: 'translateZ(30px)', boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(251, 191, 36, 0.3), inset 0 0 40px rgba(251, 191, 36, 0.05)'}}>
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-amber-600/5"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-40 h-40 bg-amber-600/10 rounded-full blur-3xl"></div>
+            <div className="p-8 relative z-10">
               {/* Reciter Selection */}
               <div className="mb-6">
                 <label className="block text-amber-300 text-lg font-bold mb-3 text-center">
@@ -261,8 +280,9 @@ export default function TilawaPage() {
           {/* Status Display */}
           {isPlaying && (
             <div className="mt-6 text-center">
-              <div className="inline-block bg-black/70 backdrop-blur-sm border-2 border-amber-400/60 rounded-2xl px-8 py-4">
-                <p className="text-amber-300 text-xl font-bold">
+              <div className="inline-block bg-black/70 backdrop-blur-sm border-2 border-amber-400/60 rounded-2xl px-8 py-4 relative overflow-hidden" style={{transform: 'translateZ(20px)', boxShadow: '0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(251, 191, 36, 0.3), inset 0 0 30px rgba(251, 191, 36, 0.1)'}}>
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-transparent to-amber-600/10"></div>
+                <p className="text-amber-300 text-xl font-bold relative z-10" style={{textShadow: '0 0 20px rgba(251, 191, 36, 0.6)'}}>
                   🎵 جاري التشغيل...
                 </p>
               </div>
