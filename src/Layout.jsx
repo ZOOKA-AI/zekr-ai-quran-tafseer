@@ -6,6 +6,7 @@ import DailyReminders from '@/components/notifications/DailyReminders';
 import SmartVoiceBot from '@/components/assistant/SmartVoiceBot';
 import OfflineIndicator from '@/components/offline/OfflineIndicator';
 import ThemeToggle from '@/components/ui/theme-toggle';
+import SystemStatus from '@/components/system/SystemStatus';
 
 export default function Layout({ children, currentPageName }) {
   const navItems = [
@@ -36,6 +37,7 @@ export default function Layout({ children, currentPageName }) {
       <div className="relative z-10">
       <OfflineIndicator />
       <ThemeToggle />
+      <SystemStatus />
       <DailyReminders />
       <SmartVoiceBot />
       <style>{`

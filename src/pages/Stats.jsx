@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
 import { BookOpen, Award, TrendingUp, Calendar, Clock, CheckCircle, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
+import { offlineStorage } from '@/utils/offlineStorage';
 
 export default function StatsPage() {
   const [stats, setStats] = useState({
@@ -19,43 +20,59 @@ export default function StatsPage() {
   }, []);
 
   const loadStats = async () => {
+    // تحميل من التخزين المحلي أولاً (يعمل بدون نت)
+    const localStats = offlineStorage.loadStats();
+    setStats(localStats);
+
+    // محاولة المزامنة مع السيرفر إذا كان متصل
     try {
       const user = await base44.auth.me();
-      setStats({
+      const serverStats = {
         versesRead: user.verses_read || 0,
         suwarsCompleted: user.suwars_completed || 0,
         totalMinutes: user.reading_minutes || 0,
         streak: user.reading_streak || 0,
         lastRead: user.last_read_date || null
-      });
+      };
+      setStats(serverStats);
+      offlineStorage.saveStats(serverStats);
     } catch (error) {
-      console.error('Error loading stats:', error);
+      // نستخدم البيانات المحلية - النظام يعمل بدون نت
+      toast.info('📱 وضع بدون اتصال - البيانات محلية');
     }
   };
 
   const incrementVerses = async () => {
     const newCount = stats.versesRead + 1;
+    const newStats = { ...stats, versesRead: newCount };
+    
+    // حفظ محلي فوري
+    setStats(newStats);
+    offlineStorage.saveStats(newStats);
+    toast.success('✅ تم تحديث عدد الآيات!');
+    
+    // محاولة المزامنة مع السيرفر
     try {
       await base44.auth.updateMe({ verses_read: newCount });
-      setStats(prev => ({ ...prev, versesRead: newCount }));
-      toast.success('تم تحديث عدد الآيات! 📖');
     } catch (error) {
-      console.error('Error updating stats:', error);
-      // حتى لو فشل الحفظ، نحدث محلياً
-      setStats(prev => ({ ...prev, versesRead: newCount }));
-      toast.success('تم التحديث محلياً! 📖');
+      // لا مشكلة - محفوظ محلياً
     }
   };
 
   const incrementStreak = async () => {
     const newStreak = stats.streak + 1;
+    const newStats = { ...stats, streak: newStreak };
+    
+    // حفظ محلي فوري
+    setStats(newStats);
+    offlineStorage.saveStats(newStats);
+    toast.success('🔥 استمر في التقدم!');
+    
+    // محاولة المزامنة
     try {
       await base44.auth.updateMe({ reading_streak: newStreak });
-      setStats(prev => ({ ...prev, streak: newStreak }));
-      toast.success('استمر في التقدم! 🔥');
     } catch (error) {
-      setStats(prev => ({ ...prev, streak: newStreak }));
-      toast.success('تم التحديث محلياً! 🔥');
+      // محفوظ محلياً
     }
   };
 

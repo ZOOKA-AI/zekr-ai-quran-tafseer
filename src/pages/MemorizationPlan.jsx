@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Calendar, BookOpen, Target, Award, CheckCircle2, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
+import { offlineStorage } from '@/utils/offlineStorage';
 
 const PLANS = {
   beginner: {
@@ -47,13 +48,21 @@ export default function MemorizationPlanPage() {
   }, []);
 
   const loadSchedule = async () => {
+    // تحميل من التخزين المحلي
+    const localPlan = offlineStorage.loadMemorizationPlan();
+    if (localPlan) {
+      setSchedule(localPlan);
+    }
+
+    // محاولة المزامنة
     try {
       const user = await base44.auth.me();
       if (user.memorization_schedule) {
         setSchedule(user.memorization_schedule);
+        offlineStorage.saveMemorizationPlan(user.memorization_schedule);
       }
     } catch (error) {
-      // استخدام البيانات الافتراضية
+      // البيانات المحلية كافية
     }
   };
 
@@ -61,13 +70,17 @@ export default function MemorizationPlanPage() {
     const newSchedule = schedule.map(item => 
       item.day === day ? { ...item, completed: !item.completed } : item
     );
-    setSchedule(newSchedule);
     
+    // حفظ فوري محلياً
+    setSchedule(newSchedule);
+    offlineStorage.saveMemorizationPlan(newSchedule);
+    toast.success('✅ تم حفظ التقدم!');
+    
+    // محاولة المزامنة
     try {
       await base44.auth.updateMe({ memorization_schedule: newSchedule });
-      toast.success('تم حفظ التقدم! 🎉');
     } catch (error) {
-      toast.success('تم التحديث محلياً! 🎉');
+      // محفوظ محلياً
     }
   };
 
@@ -80,13 +93,17 @@ export default function MemorizationPlanPage() {
       completed: false
     };
     const newSchedule = [...schedule, newItem];
-    setSchedule(newSchedule);
     
+    // حفظ فوري محلياً
+    setSchedule(newSchedule);
+    offlineStorage.saveMemorizationPlan(newSchedule);
+    toast.success('✨ تمت إضافة يوم جديد!');
+    
+    // محاولة المزامنة
     try {
       await base44.auth.updateMe({ memorization_schedule: newSchedule });
-      toast.success('تمت إضافة يوم جديد! ✨');
     } catch (error) {
-      toast.success('تمت الإضافة محلياً! ✨');
+      // محفوظ محلياً
     }
   };
 

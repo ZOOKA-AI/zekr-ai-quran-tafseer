@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Trophy, Star, Award, Target, BookOpen, Zap, Crown, Heart } from 'lucide-react';
 import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
+import { offlineStorage } from '@/utils/offlineStorage';
 
 const ACHIEVEMENTS = [
   {
@@ -85,13 +86,21 @@ export default function AchievementsPage() {
   }, []);
 
   const loadAchievements = async () => {
+    // تحميل محلي أولاً
+    const localAchievements = offlineStorage.loadAchievements();
+    if (localAchievements) {
+      setAchievements(localAchievements);
+    }
+
+    // محاولة المزامنة
     try {
       const user = await base44.auth.me();
       if (user.achievements) {
         setAchievements(user.achievements);
+        offlineStorage.saveAchievements(user.achievements);
       }
     } catch (error) {
-      // استخدام البيانات الافتراضية
+      // البيانات المحلية كافية
     }
   };
 
@@ -99,13 +108,17 @@ export default function AchievementsPage() {
     const newAchievements = achievements.map(a => 
       a.id === achievementId ? { ...a, unlocked: true, progress: a.target } : a
     );
-    setAchievements(newAchievements);
     
+    // حفظ فوري محلياً
+    setAchievements(newAchievements);
+    offlineStorage.saveAchievements(newAchievements);
+    toast.success('🎉 إنجاز جديد مفتوح!');
+    
+    // محاولة المزامنة
     try {
       await base44.auth.updateMe({ achievements: newAchievements });
-      toast.success('🎉 إنجاز جديد مفتوح!');
     } catch (error) {
-      toast.success('🎉 إنجاز جديد مفتوح محلياً!');
+      // محفوظ محلياً
     }
   };
 
