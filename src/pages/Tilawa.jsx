@@ -231,19 +231,19 @@ export default function TilawaPage() {
             <div className="p-8">
               {/* Reciter Selection */}
               <div className="mb-6">
-                <label className="block text-gray-900 text-lg font-bold mb-3 text-center">
+                <label className="block text-white text-lg font-bold mb-3 text-center">
                   🎤 اختر القارئ
                 </label>
                 <Select value={selectedReciter} onValueChange={setSelectedReciter}>
-                  <SelectTrigger className="h-12 text-lg bg-white/5 border border-white/20 text-white hover:bg-white/10 transition-all">
+                  <SelectTrigger className="h-12 text-lg bg-white/90 border-2 border-purple-300 text-gray-900 hover:bg-white transition-all">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-900/95 border-white/20">
+                  <SelectContent className="bg-white border-purple-300">
                     {Object.entries(RECITERS).map(([id, reciter]) => (
-                      <SelectItem key={id} value={id} className="text-white text-base hover:bg-gradient-to-r hover:from-purple-600/50 hover:via-blue-600/50 hover:to-cyan-600/50">
+                      <SelectItem key={id} value={id} className="text-gray-900 text-base hover:bg-purple-100">
                         <div>
                           <div className="font-bold">{reciter.name}</div>
-                          <div className="text-xs text-gray-400">{reciter.description}</div>
+                          <div className="text-xs text-gray-600">{reciter.description}</div>
                         </div>
                       </SelectItem>
                     ))}
@@ -253,16 +253,16 @@ export default function TilawaPage() {
 
               {/* Surah Selection */}
               <div className="mb-8">
-                <label className="block text-gray-900 text-lg font-bold mb-3 text-center">
+                <label className="block text-white text-lg font-bold mb-3 text-center">
                   📖 اختر السورة
                 </label>
                 <Select value={selectedSurah.toString()} onValueChange={(v) => setSelectedSurah(Number(v))}>
-                  <SelectTrigger className="h-12 text-lg bg-white/5 border border-white/20 text-white hover:bg-white/10 transition-all">
+                  <SelectTrigger className="h-12 text-lg bg-white/90 border-2 border-purple-300 text-gray-900 hover:bg-white transition-all">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-900/95 border-white/20">
+                  <SelectContent className="bg-white border-purple-300">
                     {SURAHS.map(surah => (
-                      <SelectItem key={surah.number} value={surah.number.toString()} className="text-white text-lg hover:bg-gradient-to-r hover:from-purple-600/50 hover:via-blue-600/50 hover:to-cyan-600/50">
+                      <SelectItem key={surah.number} value={surah.number.toString()} className="text-gray-900 text-lg hover:bg-purple-100">
                         {surah.name} - {surah.verses} آية
                       </SelectItem>
                     ))}
@@ -316,13 +316,13 @@ export default function TilawaPage() {
                       className="cursor-pointer"
                     />
                   </div>
-                  <span className="text-gray-900 font-bold text-lg w-12 text-center">
-                    {volume[0]}%
+                  <span className="text-white font-bold text-lg w-12 text-center">
+                   {volume[0]}%
                   </span>
-                </div>
-                <p className="text-center text-gray-900 font-semibold text-sm">
+                  </div>
+                  <p className="text-center text-white font-semibold text-sm">
                   🔊 مستوى الصوت
-                </p>
+                  </p>
               </div>
             </div>
           </Card>
