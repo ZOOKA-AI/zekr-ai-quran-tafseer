@@ -8,8 +8,6 @@ import { Search, MessageSquare, Share2, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import SurahCard from '../components/quran/SurahCard';
 import VoiceAssistant from '../components/assistant/VoiceAssistant';
-import QiblaCompass from '../components/home/QiblaCompass';
-import WorldClock from '../components/home/WorldClock';
 
 const SURAHS = [
   { number: 1, name: 'الفاتحة', arabic_name: 'ٱلْفَاتِحَة', transliteration: 'Al-Fatihah', verses_count: 7, revelation_place: 'Makkah', juz_start: 1 },
@@ -92,14 +90,14 @@ export default function QuranPage() {
                 </svg>
               </div>
             </div>
-            <h1 className="text-7xl font-bold mb-4 text-white font-arabic drop-shadow-2xl" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.6), 0 0 50px rgba(251,191,36,0.6)' }}>
+            <h1 className="text-7xl font-bold mb-4 text-gray-900 font-arabic drop-shadow-xl">
               القرآن الكريم
             </h1>
             <div className="bg-white rounded-2xl p-6 max-w-3xl mx-auto shadow-2xl border-4 border-amber-400">
-              <p className="text-3xl text-emerald-700 mb-3 font-arabic font-bold leading-loose">
+              <p className="text-3xl text-gray-900 mb-3 font-arabic font-bold leading-loose">
                 ﴿ إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ ﴾
               </p>
-              <p className="text-emerald-600 text-xl font-bold">المصحف الإلكتروني الشامل 🕌</p>
+              <p className="text-gray-800 text-xl font-bold">المصحف الإلكتروني الشامل 🕌</p>
             </div>
           </div>
         </div>
@@ -116,27 +114,27 @@ export default function QuranPage() {
                 هذا التطبيق مجاني بالكامل ولا نطلب أي تبرعات
               </p>
               <div className="bg-white rounded-2xl p-8 max-w-3xl mx-auto shadow-2xl">
-                <p className="text-xl font-bold text-emerald-700 leading-relaxed mb-6 font-arabic">
+                <p className="text-xl font-bold text-gray-900 leading-relaxed mb-6 font-arabic">
                   ﴿ إِنَّ الَّذِينَ يَتْلُونَ كِتَابَ اللَّهِ وَأَقَامُوا الصَّلَاةَ وَأَنفَقُوا مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً يَرْجُونَ تِجَارَةً لَّن تَبُورَ ﴾
                 </p>
-                <p className="text-emerald-700 mb-6 text-lg font-bold">
+                <p className="text-gray-900 mb-6 text-lg font-bold">
                   شارك في الأجر: انشر التطبيق مع أهلك وأصدقائك
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                   <div className="bg-gradient-to-br from-emerald-100 to-green-50 rounded-xl p-6 shadow-lg border-2 border-emerald-300">
                     <div className="text-5xl mb-3">📖</div>
-                    <div className="font-bold text-xl text-emerald-700">قراءة القرآن</div>
-                    <div className="text-emerald-600 font-semibold">كل حرف بحسنة</div>
+                    <div className="font-bold text-xl text-gray-900">قراءة القرآن</div>
+                    <div className="text-gray-800 font-semibold">كل حرف بحسنة</div>
                   </div>
                   <div className="bg-gradient-to-br from-emerald-100 to-green-50 rounded-xl p-6 shadow-lg border-2 border-emerald-300">
                     <div className="text-5xl mb-3">🎤</div>
-                    <div className="font-bold text-xl text-emerald-700">استماع للمقرئين</div>
-                    <div className="text-emerald-600 font-semibold">تدبر وخشوع</div>
+                    <div className="font-bold text-xl text-gray-900">استماع للمقرئين</div>
+                    <div className="text-gray-800 font-semibold">تدبر وخشوع</div>
                   </div>
                   <div className="bg-gradient-to-br from-emerald-100 to-green-50 rounded-xl p-6 shadow-lg border-2 border-emerald-300">
                     <div className="text-5xl mb-3">🤝</div>
-                    <div className="font-bold text-xl text-emerald-700">انشر الخير</div>
-                    <div className="text-emerald-600 font-semibold">صدقة جارية لك</div>
+                    <div className="font-bold text-xl text-gray-900">انشر الخير</div>
+                    <div className="text-gray-800 font-semibold">صدقة جارية لك</div>
                   </div>
                 </div>
                 <div className="mt-8 flex gap-4 justify-center flex-wrap">
@@ -158,12 +156,6 @@ export default function QuranPage() {
               </div>
             </div>
           </Card>
-        </div>
-
-        {/* Qibla & Clock */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <QiblaCompass />
-          <WorldClock />
         </div>
 
         {/* Voice Assistant */}

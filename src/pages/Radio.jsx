@@ -99,11 +99,11 @@ export default function RadioPage() {
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-4">
               <RadioIcon className="w-12 h-12 text-amber-400 animate-pulse" />
-              <h1 className="text-6xl font-bold text-white font-arabic" style={{textShadow: '0 0 30px rgba(251,191,36,0.6)'}}>
+              <h1 className="text-6xl font-bold text-gray-900 font-arabic drop-shadow-xl">
                 الراديو الإسلامي
               </h1>
             </div>
-            <p className="text-purple-200 text-xl font-arabic">استمع للقرآن الكريم والمحاضرات الدينية</p>
+            <p className="text-gray-900 text-xl font-arabic font-bold drop-shadow-lg">استمع للقرآن الكريم والمحاضرات الدينية</p>
           </div>
 
           {/* Current Playing */}
@@ -112,8 +112,8 @@ export default function RadioPage() {
               <div className="p-8">
                 <div className="text-center mb-6">
                   <div className="text-6xl mb-4">{selectedStation.country}</div>
-                  <h2 className="text-3xl font-bold text-white mb-2 font-arabic">{selectedStation.name}</h2>
-                  <p className="text-purple-300 font-arabic">{selectedStation.description}</p>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-2 font-arabic">{selectedStation.name}</h2>
+                  <p className="text-gray-800 font-arabic font-semibold">{selectedStation.description}</p>
                 </div>
 
                 <div className="flex items-center justify-center gap-6 mb-6">
@@ -147,7 +147,7 @@ export default function RadioPage() {
                         className="cursor-pointer"
                       />
                     </div>
-                    <span className="text-white font-bold text-lg w-12 text-center">
+                    <span className="text-gray-900 font-bold text-lg w-12 text-center">
                       {volume[0]}%
                     </span>
                   </div>

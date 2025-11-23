@@ -194,10 +194,10 @@ export default function TilawaPage() {
         <div className="max-w-2xl w-full">
           {/* Title with Quranic Verses Rotation */}
           <div className="text-center mb-8">
-            <h1 className="text-6xl font-bold text-white mb-4 font-arabic" style={{textShadow: '0 0 40px rgba(147,51,234,0.6), 0 0 80px rgba(59,130,246,0.4)'}}>
+            <h1 className="text-6xl font-bold text-gray-900 mb-4 font-arabic drop-shadow-2xl">
               ﴿ وَرَتِّلِ ٱلْقُرْءَانَ تَرْتِيلًا ﴾
             </h1>
-            <p className="text-lg bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent font-semibold">استمع بخشوع • تدبر بقلبك • اقرأ بتمعن</p>
+            <p className="text-lg text-gray-900 font-bold drop-shadow-lg">استمع بخشوع • تدبر بقلبك • اقرأ بتمعن</p>
           </div>
 
           {/* Voice Controller & Camera Scanner */}
@@ -213,7 +213,7 @@ export default function TilawaPage() {
             <div className="p-8">
               {/* Reciter Selection */}
               <div className="mb-6">
-                <label className="block bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent text-lg font-bold mb-3 text-center">
+                <label className="block text-gray-900 text-lg font-bold mb-3 text-center">
                   🎤 اختر القارئ
                 </label>
                 <Select value={selectedReciter} onValueChange={setSelectedReciter}>
@@ -232,7 +232,7 @@ export default function TilawaPage() {
 
               {/* Surah Selection */}
               <div className="mb-8">
-                <label className="block bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent text-lg font-bold mb-3 text-center">
+                <label className="block text-gray-900 text-lg font-bold mb-3 text-center">
                   📖 اختر السورة
                 </label>
                 <Select value={selectedSurah.toString()} onValueChange={(v) => setSelectedSurah(Number(v))}>
@@ -295,11 +295,11 @@ export default function TilawaPage() {
                       className="cursor-pointer"
                     />
                   </div>
-                  <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent font-bold text-lg w-12 text-center">
+                  <span className="text-gray-900 font-bold text-lg w-12 text-center">
                     {volume[0]}%
                   </span>
                 </div>
-                <p className="text-center bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent text-sm">
+                <p className="text-center text-gray-900 font-semibold text-sm">
                   🔊 مستوى الصوت
                 </p>
               </div>
@@ -309,8 +309,8 @@ export default function TilawaPage() {
           {/* Status Display */}
           {isPlaying && (
             <div className="mt-6 text-center">
-              <div className="inline-block bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-3">
-                <p className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent text-lg font-bold">
+              <div className="inline-block bg-white/90 backdrop-blur-sm border border-gray-300 rounded-2xl px-6 py-3">
+                <p className="text-gray-900 text-lg font-bold">
                   🎵 جاري التشغيل...
                 </p>
               </div>
