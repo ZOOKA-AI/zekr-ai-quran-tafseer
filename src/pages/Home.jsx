@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Clock, Award, TrendingUp, Play, Users, Sparkles } from 'lucide-react';
+import { BookOpen, Clock, Award, TrendingUp, Play, Users, Sparkles, Heart } from 'lucide-react';
 import { offlineStorage } from '../components/utils/offlineStorage';
 
 export default function HomePage() {
@@ -217,6 +217,19 @@ export default function HomePage() {
                 <h3 className="text-2xl font-bold mb-2">خطة الحفظ</h3>
                 <p className="text-sm opacity-90">3 برامج حفظ</p>
                 <p className="text-xs mt-2 opacity-75">برنامج حفظ منظم ومتابعة</p>
+              </div>
+            </Card>
+          </Link>
+
+          <Link to={createPageUrl('OrphansService')} className="transform hover:scale-105 transition-all duration-200">
+            <Card className="bg-gradient-to-br from-rose-500 to-pink-500 text-white p-6 shadow-xl hover:shadow-2xl cursor-pointer border-4 border-amber-400 h-full animate-pulse">
+              <div className="text-center">
+                <div className="bg-white/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Heart className="w-10 h-10" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">خدمة الأيتام</h3>
+                <p className="text-sm opacity-90">صدقة جارية 🤲</p>
+                <p className="text-xs mt-2 opacity-75">تسجيل أيتام • تبرعات</p>
               </div>
             </Card>
           </Link>
