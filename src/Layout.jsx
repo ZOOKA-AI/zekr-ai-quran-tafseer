@@ -110,6 +110,9 @@ export default function Layout({ children, currentPageName }) {
 
             <div className="bg-gradient-to-r from-purple-600/30 to-blue-600/30 rounded-xl p-4 mb-4 max-w-2xl mx-auto border border-purple-400/30">
               <p className="text-amber-300 text-xl font-bold mb-2">📢 باص إسلامي صدقة جارية</p>
+              <p className="text-white text-lg font-bold mb-3">صدقة جارية لوجه الله تعالى على روح المرحومة</p>
+              <p className="text-amber-200 text-xl font-bold mb-3 font-arabic">جزبية عبد الرحيم هارون علي</p>
+              <p className="text-emerald-100 text-sm mb-2">اللهم اغفر لها وارحمها وأدخلها الفردوس الأعلى 🤲</p>
               <a href="https://zaka.ai/" target="_blank" rel="noopener noreferrer" className="text-white text-lg hover:text-amber-300 transition-colors underline font-bold block mb-2">
                 🌐 zaka.ai
               </a>

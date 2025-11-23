@@ -110,6 +110,9 @@ export default function QuranPage() {
             <div className="p-8 text-center">
               <div className="text-6xl mb-4">🤲</div>
               <h2 className="text-4xl font-bold mb-3 drop-shadow-lg">صدقة جارية لوجه الله تعالى</h2>
+              <p className="text-2xl mb-2 font-bold text-white">على روح المرحومة</p>
+              <p className="text-3xl mb-4 font-bold text-amber-200 font-arabic">جزبية عبد الرحيم هارون علي</p>
+              <p className="text-xl mb-2 font-bold text-emerald-100">اللهم اغفر لها وارحمها وأدخلها الفردوس الأعلى 🤲</p>
               <p className="text-2xl mb-6 font-bold text-white">
                 هذا التطبيق مجاني بالكامل ولا نطلب أي تبرعات
               </p>
