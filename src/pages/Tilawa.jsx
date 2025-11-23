@@ -51,37 +51,48 @@ export default function TilawaPage() {
     audioRef.current.volume = volume[0] / 100;
   }, [volume]);
 
-  const handlePlayPause = () => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio();
-    }
+  const handlePlayPause = async () => {
+    try {
+      if (!audioRef.current) {
+        audioRef.current = new Audio();
+        audioRef.current.volume = volume[0] / 100;
+      }
 
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-      toast.info('تم إيقاف التلاوة مؤقتاً');
-    } else {
-      const reciter = RECITERS[selectedReciter];
-      const surahStr = selectedSurah.toString().padStart(3, "0");
-      const url = `${reciter.baseUrl}${surahStr}.mp3`;
-      
-      audioRef.current.src = url;
-      audioRef.current.volume = volume[0] / 100;
-      audioRef.current.play()
-        .then(() => {
-          setIsPlaying(true);
-          const surah = SURAHS.find(s => s.number === selectedSurah);
-          toast.success(`🎧 بدأت تلاوة سورة ${surah?.name || selectedSurah}`);
-        })
-        .catch(err => {
-          toast.error('خطأ في تشغيل التلاوة');
-          console.error(err);
-        });
-
-      audioRef.current.onended = () => {
+      if (isPlaying) {
+        audioRef.current.pause();
         setIsPlaying(false);
-        toast.success('انتهت التلاوة');
-      };
+        toast.info('⏸️ تم إيقاف التلاوة مؤقتاً');
+      } else {
+        const reciter = RECITERS[selectedReciter];
+        const surahStr = selectedSurah.toString().padStart(3, "0");
+        const url = `${reciter.baseUrl}${surahStr}.mp3`;
+        
+        console.log('Playing URL:', url);
+        
+        audioRef.current.src = url;
+        audioRef.current.volume = volume[0] / 100;
+        
+        await audioRef.current.play();
+        setIsPlaying(true);
+        
+        const surah = SURAHS.find(s => s.number === selectedSurah);
+        toast.success(`🎧 بدأت تلاوة سورة ${surah?.name || selectedSurah}`);
+
+        audioRef.current.onended = () => {
+          setIsPlaying(false);
+          toast.success('✅ انتهت التلاوة');
+        };
+
+        audioRef.current.onerror = (err) => {
+          console.error('Audio error:', err);
+          setIsPlaying(false);
+          toast.error('❌ خطأ في تشغيل التلاوة - جرب قارئ آخر');
+        };
+      }
+    } catch (err) {
+      console.error('Play error:', err);
+      setIsPlaying(false);
+      toast.error('❌ تعذر تشغيل التلاوة - تحقق من الاتصال');
     }
   };
 
