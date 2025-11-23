@@ -81,23 +81,29 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6" dir="rtl">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
+    <div className="min-h-screen relative overflow-hidden p-6" dir="rtl">
+      {/* City Background */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1920)',
+          filter: 'brightness(0.4) contrast(0.9)'
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 via-transparent to-blue-900/20" />
+
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* Header - Icons Only */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 bg-clip-text text-transparent mb-3 font-arabic">
-            لوحة التحكم
-          </h1>
-          <p className="text-gray-600 text-lg">أدوات مساعدة للعبادة</p>
+          <div className="text-7xl mb-4">⚙️</div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Qibla Compass */}
-          <Card className="bg-white shadow-2xl border-4 border-emerald-200">
+          <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-4 border-emerald-300">
             <div className="p-8">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Compass className="w-8 h-8 text-emerald-600" />
-                <h2 className="text-3xl font-bold text-emerald-700 font-arabic">بوصلة القبلة</h2>
+              <div className="flex items-center justify-center mb-6">
+                <Compass className="w-12 h-12 text-emerald-600" />
               </div>
 
               <div className="relative w-80 h-80 mx-auto">
@@ -139,35 +145,30 @@ export default function Dashboard() {
 
               {qiblaDirection !== null ? (
                 <div className="mt-6 text-center">
-                  <p className="text-emerald-700 font-bold text-2xl mb-2 font-arabic">
+                  <p className="text-emerald-700 font-bold text-3xl mb-2 font-mono">
                     {Math.round(qiblaDirection)}°
                   </p>
-                  <p className="text-gray-600 text-lg font-arabic">اتجاه القبلة</p>
                   {userLocation && (
                     <div className="mt-3 p-3 bg-emerald-50 rounded-lg">
                       <div className="flex items-center justify-center gap-2 text-emerald-600">
-                        <MapPin className="w-5 h-5" />
-                        <span className="font-bold">
-                          {userLocation.latitude.toFixed(2)}°, {userLocation.longitude.toFixed(2)}°
-                        </span>
+                        <MapPin className="w-6 h-6" />
                       </div>
                     </div>
                   )}
                 </div>
               ) : (
                 <div className="mt-6 text-center">
-                  <p className="text-gray-500 font-arabic">جاري تحديد موقعك...</p>
+                  <div className="animate-spin w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full mx-auto"></div>
                 </div>
               )}
             </div>
           </Card>
 
           {/* World Clock */}
-          <Card className="bg-white shadow-2xl border-4 border-blue-200">
+          <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-4 border-blue-300">
             <div className="p-8">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Clock className="w-8 h-8 text-blue-600" />
-                <h2 className="text-3xl font-bold text-blue-700 font-arabic">الساعة العالمية</h2>
+              <div className="flex items-center justify-center mb-6">
+                <Clock className="w-12 h-12 text-blue-600" />
               </div>
 
               {/* Current Time Display */}
@@ -185,21 +186,18 @@ export default function Dashboard() {
               {/* Major Cities Times */}
               <div className="space-y-3">
                 {[
-                  { city: 'مكة المكرمة', timezone: 'Asia/Riyadh', flag: '🕋' },
-                  { city: 'المدينة المنورة', timezone: 'Asia/Riyadh', flag: '🕌' },
-                  { city: 'القاهرة', timezone: 'Africa/Cairo', flag: '🇪🇬' },
-                  { city: 'القدس', timezone: 'Asia/Jerusalem', flag: '🇵🇸' },
-                  { city: 'دبي', timezone: 'Asia/Dubai', flag: '🇦🇪' }
-                ].map((location) => (
+                  { timezone: 'Asia/Riyadh', flag: '🕋' },
+                  { timezone: 'Asia/Riyadh', flag: '🕌' },
+                  { timezone: 'Africa/Cairo', flag: '🇪🇬' },
+                  { timezone: 'Asia/Jerusalem', flag: '🇵🇸' },
+                  { timezone: 'Asia/Dubai', flag: '🇦🇪' }
+                ].map((location, idx) => (
                   <div 
-                    key={location.city}
+                    key={idx}
                     className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border-2 border-blue-200 hover:shadow-lg transition-all"
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="text-3xl">{location.flag}</span>
-                      <span className="font-bold text-blue-700 text-lg font-arabic">{location.city}</span>
-                    </div>
-                    <span className="text-blue-600 font-mono text-xl font-bold">
+                    <span className="text-4xl">{location.flag}</span>
+                    <span className="text-blue-600 font-mono text-2xl font-bold">
                       {new Date().toLocaleTimeString('ar-EG', {
                         timeZone: location.timezone,
                         hour: '2-digit',
@@ -214,29 +212,23 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* Info Cards */}
+        {/* Info Cards - Icons Only */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-gradient-to-br from-emerald-500 to-green-600 text-white p-6 shadow-xl border-4 border-amber-400">
+          <Card className="bg-white/95 backdrop-blur-sm p-8 shadow-xl border-4 border-emerald-300 hover:scale-105 transition-transform">
             <div className="text-center">
-              <div className="text-5xl mb-3">🕌</div>
-              <h3 className="text-2xl font-bold mb-2 font-arabic">الصلاة</h3>
-              <p className="text-emerald-100 font-arabic">استخدم بوصلة القبلة لتحديد الاتجاه الصحيح</p>
+              <div className="text-7xl">🕌</div>
             </div>
           </Card>
 
-          <Card className="bg-gradient-to-br from-blue-500 to-cyan-600 text-white p-6 shadow-xl border-4 border-amber-400">
+          <Card className="bg-white/95 backdrop-blur-sm p-8 shadow-xl border-4 border-blue-300 hover:scale-105 transition-transform">
             <div className="text-center">
-              <div className="text-5xl mb-3">⏰</div>
-              <h3 className="text-2xl font-bold mb-2 font-arabic">المواقيت</h3>
-              <p className="text-blue-100 font-arabic">تابع الوقت في المدن الإسلامية المقدسة</p>
+              <div className="text-7xl">⏰</div>
             </div>
           </Card>
 
-          <Card className="bg-gradient-to-br from-purple-500 to-pink-600 text-white p-6 shadow-xl border-4 border-amber-400">
+          <Card className="bg-white/95 backdrop-blur-sm p-8 shadow-xl border-4 border-purple-300 hover:scale-105 transition-transform">
             <div className="text-center">
-              <div className="text-5xl mb-3">🤲</div>
-              <h3 className="text-2xl font-bold mb-2 font-arabic">العبادة</h3>
-              <p className="text-purple-100 font-arabic">أدوات مساعدة لتحسين عبادتك</p>
+              <div className="text-7xl">🤲</div>
             </div>
           </Card>
         </div>
