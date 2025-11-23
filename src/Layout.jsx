@@ -112,7 +112,7 @@ export default function Layout({ children, currentPageName }) {
               <p className="text-amber-300 text-xl font-bold mb-2">📢 باص إسلامي صدقة جارية</p>
               <p className="text-white text-lg font-bold mb-3">صدقة جارية لوجه الله تعالى على روح المرحومة</p>
               <p className="text-amber-200 text-xl font-bold mb-3 font-arabic">جزبية عبد الرحيم هارون علي</p>
-              <p className="text-emerald-100 text-sm mb-2">اللهم اغفر لها وارحمها وأدخلها الفردوس الأعلى 🤲</p>
+              <p className="text-emerald-100 text-base mb-2 font-arabic leading-relaxed">اللهم اغفر لها وارحمها وعافها واعف عنها، وأكرم نزلها ووسع مدخلها، واغسلها بالماء والثلج والبَرَد، ونقها من الخطايا كما ينقى الثوب الأبيض من الدنس، وأبدلها داراً خيراً من دارها، وأهلاً خيراً من أهلها، وزوجاً خيراً من زوجها، وأدخلها الجنة وأعذها من عذاب القبر ومن عذاب النار 🤲</p>
               <a href="https://zaka.ai/" target="_blank" rel="noopener noreferrer" className="text-white text-lg hover:text-amber-300 transition-colors underline font-bold block mb-2">
                 🌐 zaka.ai
               </a>
