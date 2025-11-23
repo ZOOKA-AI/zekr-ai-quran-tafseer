@@ -10,18 +10,18 @@ import CameraScanner from '../components/tilawa/CameraScanner';
 import { trackListen } from '../components/system/ActionTracker';
 
 const RECITERS = {
-  husary: { name: "محمود خليل الحصري", baseUrl: "https://server13.mp3quran.net/husary/", description: "أول من سجل القرآن مرتلاً" },
+  husary: { name: "محمود خليل الحصري", baseUrl: "https://server13.mp3quran.net/husr/", description: "أول من سجل القرآن مرتلاً" },
   abdulbasit: { name: "عبد الباسط عبد الصمد", baseUrl: "https://server7.mp3quran.net/basit/", description: "أشهر قراء العالم الإسلامي" },
-  minshawi: { name: "محمد صديق المنشاوي", baseUrl: "https://server10.mp3quran.net/minshawi/", description: "صاحب الصوت الشجي" },
+  minshawi: { name: "محمد صديق المنشاوي", baseUrl: "https://server10.mp3quran.net/minsh/", description: "صاحب الصوت الشجي" },
   mishary: { name: "مشاري راشد العفاسي", baseUrl: "https://server8.mp3quran.net/afs/", description: "القارئ الكويتي الشهير" },
   sudais: { name: "عبد الرحمن السديس", baseUrl: "https://server11.mp3quran.net/sds/", description: "إمام الحرم المكي" },
   shatri: { name: "أبو بكر الشاطري", baseUrl: "https://server11.mp3quran.net/shatri/", description: "القارئ اليمني المتميز" },
   ajmy: { name: "أحمد العجمي", baseUrl: "https://server10.mp3quran.net/ajm/", description: "صوت مؤثر وخاشع" },
   ghamdi: { name: "سعد الغامدي", baseUrl: "https://server7.mp3quran.net/s_gmd/", description: "من أشهر القراء السعوديين" },
-  tablawi: { name: "محمد محمود الطبلاوي", baseUrl: "https://server8.mp3quran.net/tablawi/", description: "القارئ المصري العظيم" },
+  tablawi: { name: "محمد محمود الطبلاوي", baseUrl: "https://server8.mp3quran.net/tabl/", description: "القارئ المصري العظيم" },
   jbreen: { name: "محمد جبريل", baseUrl: "https://server11.mp3quran.net/jbreen/", description: "صاحب الأداء القوي" },
-  islam_sobhi: { name: "إسلام صبحي", baseUrl: "https://server11.mp3quran.net/islam_sobhi/", description: "القارئ الشاب المتميز" },
-  abdulrahman_mosad: { name: "عبدالرحمن مسعد", baseUrl: "https://server10.mp3quran.net/abdulrahman_mosad/", description: "صوت رائع ومبدع" }
+  islam_sobhi: { name: "إسلام صبحي", baseUrl: "https://server11.mp3quran.net/islam/", description: "القارئ الشاب المتميز" },
+  abdulrahman_mosad: { name: "عبدالرحمن مسعد", baseUrl: "https://server10.mp3quran.net/mosad/", description: "صوت رائع ومبدع" }
 };
 
 const SURAHS = [
@@ -73,11 +73,12 @@ export default function TilawaPage() {
         const surahStr = selectedSurah.toString().padStart(3, "0");
         const url = `${reciter.baseUrl}${surahStr}.mp3`;
         
-        toast.info('🔄 جاري تحميل التلاوة...');
+        toast.success('🎧 جاري التحميل...');
+        console.log('Audio URL:', url);
         
         audioRef.current.src = url;
         audioRef.current.volume = volume[0] / 100;
-        audioRef.current.crossOrigin = "anonymous";
+        audioRef.current.load();
         
         // إزالة المستمعين القدامى
         audioRef.current.onended = null;
