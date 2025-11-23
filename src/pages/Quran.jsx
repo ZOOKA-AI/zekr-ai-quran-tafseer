@@ -4,7 +4,7 @@ import { createPageUrl } from '@/utils';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Search, MessageSquare, Share2, Copy } from 'lucide-react';
+import { Search, MessageSquare, Share2, Copy, BookMarked, Mic, Award } from 'lucide-react';
 import { toast } from 'sonner';
 import SurahCard from '../components/quran/SurahCard';
 import VoiceAssistant from '../components/assistant/VoiceAssistant';
@@ -271,16 +271,36 @@ export default function QuranPage() {
           <VoiceAssistant />
         </div>
 
-        {/* Advanced Search Toggle */}
-        <div className="mb-8 text-center">
+        {/* Quick Action Buttons */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
           <Button
             onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
-            variant="outline"
-            className="border-2 border-emerald-400 hover:bg-emerald-50"
+            className="h-16 bg-white hover:bg-emerald-50 text-gray-900 font-bold shadow-lg border-2 border-emerald-300 hover:border-emerald-500 transition-all"
           >
             <Search className="w-5 h-5 ml-2" />
-            {showAdvancedSearch ? 'إخفاء' : 'إظهار'} البحث المتقدم
+            {showAdvancedSearch ? 'إخفاء' : 'بحث متقدم'}
           </Button>
+
+          <Link to={createPageUrl('Bookmarks')}>
+            <Button className="w-full h-16 bg-white hover:bg-amber-50 text-gray-900 font-bold shadow-lg border-2 border-amber-300 hover:border-amber-500 transition-all">
+              <BookMarked className="w-5 h-5 ml-2" />
+              المفضلة
+            </Button>
+          </Link>
+
+          <Link to={createPageUrl('Reciters')}>
+            <Button className="w-full h-16 bg-white hover:bg-blue-50 text-gray-900 font-bold shadow-lg border-2 border-blue-300 hover:border-blue-500 transition-all">
+              <Mic className="w-5 h-5 ml-2" />
+              المقرئين
+            </Button>
+          </Link>
+
+          <Link to={createPageUrl('Achievements')}>
+            <Button className="w-full h-16 bg-white hover:bg-purple-50 text-gray-900 font-bold shadow-lg border-2 border-purple-300 hover:border-purple-500 transition-all">
+              <Award className="w-5 h-5 ml-2" />
+              الإنجازات
+            </Button>
+          </Link>
         </div>
 
         {/* Advanced Search */}

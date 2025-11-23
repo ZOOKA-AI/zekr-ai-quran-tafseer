@@ -152,21 +152,23 @@ export default function KidsPage() {
           {activities.map((activity) => {
             const Icon = activity.icon;
             return (
-              <Card
+              <Button
                 key={activity.id}
-                className="bg-white shadow-xl hover:shadow-2xl transition-all hover:scale-105 cursor-pointer border-4 border-purple-200"
                 onClick={() => handleZookaTalk(activity.topic)}
+                className="h-auto p-0 bg-transparent hover:bg-transparent"
               >
-                <div className={`bg-gradient-to-br ${activity.color} p-8 text-white rounded-t-xl`}>
-                  <Icon className="w-16 h-16 mb-4 mx-auto" />
-                  <h3 className="text-2xl font-bold text-center">{activity.title}</h3>
-                </div>
-                <div className="p-6 text-center">
-                  <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold text-lg py-4">
-                    يلا نتعلم! 🚀
-                  </Button>
-                </div>
-              </Card>
+                <Card className="w-full bg-white shadow-lg hover:shadow-2xl transition-all hover:scale-105 cursor-pointer border-3 border-purple-200 hover:border-purple-400">
+                  <div className={`bg-gradient-to-br ${activity.color} p-6 text-white rounded-t-xl`}>
+                    <div className="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <Icon className="w-10 h-10" />
+                    </div>
+                    <h3 className="text-xl font-bold text-center mb-2">{activity.title}</h3>
+                  </div>
+                  <div className="p-4 text-center bg-gradient-to-r from-purple-50 to-pink-50">
+                    <p className="text-purple-600 font-bold text-sm">👆 اضغط للتعلم</p>
+                  </div>
+                </Card>
+              </Button>
             );
           })}
         </div>

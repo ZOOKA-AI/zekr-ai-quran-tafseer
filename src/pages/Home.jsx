@@ -168,53 +168,96 @@ export default function HomePage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Link to={createPageUrl('Quran')}>
-            <Card className="bg-gradient-to-br from-emerald-500 to-green-500 text-white p-8 shadow-2xl hover:scale-105 transition-all cursor-pointer border-4 border-emerald-300">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-3xl font-bold mb-2">📖 اقرأ القرآن</h3>
-                  <p className="text-lg">114 سورة • 30 جزء</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <Link to={createPageUrl('Quran')} className="transform hover:scale-105 transition-all duration-200">
+            <Card className="bg-gradient-to-br from-emerald-500 to-green-500 text-white p-6 shadow-xl hover:shadow-2xl cursor-pointer border-2 border-emerald-300 h-full">
+              <div className="text-center">
+                <div className="bg-white/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <BookOpen className="w-10 h-10" />
                 </div>
-                <BookOpen className="w-16 h-16" />
+                <h3 className="text-2xl font-bold mb-2">اقرأ القرآن</h3>
+                <p className="text-sm opacity-90">114 سورة • 30 جزء</p>
+                <p className="text-xs mt-2 opacity-75">تصفح وقراءة المصحف الكامل</p>
               </div>
             </Card>
           </Link>
 
-          <Link to={createPageUrl('Kids')}>
-            <Card className="bg-gradient-to-br from-pink-500 to-purple-500 text-white p-8 shadow-2xl hover:scale-105 transition-all cursor-pointer border-4 border-pink-300">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-3xl font-bold mb-2">🌟 ركن الأطفال</h3>
-                  <p className="text-lg">زوكا المرزوق في انتظارك!</p>
+          <Link to={createPageUrl('Kids')} className="transform hover:scale-105 transition-all duration-200">
+            <Card className="bg-gradient-to-br from-pink-500 to-purple-500 text-white p-6 shadow-xl hover:shadow-2xl cursor-pointer border-2 border-pink-300 h-full">
+              <div className="text-center">
+                <div className="bg-white/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Users className="w-10 h-10" />
                 </div>
-                <Users className="w-16 h-16" />
+                <h3 className="text-2xl font-bold mb-2">ركن الأطفال</h3>
+                <p className="text-sm opacity-90">زوكا المرزوق معلمك!</p>
+                <p className="text-xs mt-2 opacity-75">تعليم تفاعلي للأطفال</p>
               </div>
             </Card>
           </Link>
 
-          <Link to={createPageUrl('Tilawa')}>
-            <Card className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white p-8 shadow-2xl hover:scale-105 transition-all cursor-pointer border-4 border-blue-300">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-3xl font-bold mb-2">🎧 استمع للتلاوة</h3>
-                  <p className="text-lg">أشهر القراء</p>
+          <Link to={createPageUrl('Tilawa')} className="transform hover:scale-105 transition-all duration-200">
+            <Card className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white p-6 shadow-xl hover:shadow-2xl cursor-pointer border-2 border-blue-300 h-full">
+              <div className="text-center">
+                <div className="bg-white/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Play className="w-10 h-10" />
                 </div>
-                <Play className="w-16 h-16" />
+                <h3 className="text-2xl font-bold mb-2">استمع للتلاوة</h3>
+                <p className="text-sm opacity-90">8 قراء مشهورين</p>
+                <p className="text-xs mt-2 opacity-75">تلاوات مباشرة بجودة عالية</p>
               </div>
             </Card>
           </Link>
 
-          <Link to={createPageUrl('MemorizationPlan')}>
-            <Card className="bg-gradient-to-br from-amber-500 to-orange-500 text-white p-8 shadow-2xl hover:scale-105 transition-all cursor-pointer border-4 border-amber-300">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-3xl font-bold mb-2">🎯 خطة الحفظ</h3>
-                  <p className="text-lg">احفظ بطريقة منظمة</p>
+          <Link to={createPageUrl('MemorizationPlan')} className="transform hover:scale-105 transition-all duration-200">
+            <Card className="bg-gradient-to-br from-amber-500 to-orange-500 text-white p-6 shadow-xl hover:shadow-2xl cursor-pointer border-2 border-amber-300 h-full">
+              <div className="text-center">
+                <div className="bg-white/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Sparkles className="w-10 h-10" />
                 </div>
-                <Sparkles className="w-16 h-16" />
+                <h3 className="text-2xl font-bold mb-2">خطة الحفظ</h3>
+                <p className="text-sm opacity-90">3 برامج حفظ</p>
+                <p className="text-xs mt-2 opacity-75">برنامج حفظ منظم ومتابعة</p>
               </div>
             </Card>
+          </Link>
+        </div>
+
+        {/* More Quick Links */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+          <Link to={createPageUrl('Duaa')}>
+            <Button className="w-full h-20 bg-white hover:bg-gray-50 text-gray-900 font-bold shadow-lg border-2 border-purple-200 hover:border-purple-400 transition-all">
+              <div className="text-center">
+                <div className="text-2xl mb-1">🤲</div>
+                <div className="text-sm">الأدعية</div>
+              </div>
+            </Button>
+          </Link>
+
+          <Link to={createPageUrl('Adhkar')}>
+            <Button className="w-full h-20 bg-white hover:bg-gray-50 text-gray-900 font-bold shadow-lg border-2 border-green-200 hover:border-green-400 transition-all">
+              <div className="text-center">
+                <div className="text-2xl mb-1">📿</div>
+                <div className="text-sm">الأذكار</div>
+              </div>
+            </Button>
+          </Link>
+
+          <Link to={createPageUrl('Radio')}>
+            <Button className="w-full h-20 bg-white hover:bg-gray-50 text-gray-900 font-bold shadow-lg border-2 border-blue-200 hover:border-blue-400 transition-all">
+              <div className="text-center">
+                <div className="text-2xl mb-1">📻</div>
+                <div className="text-sm">الراديو</div>
+              </div>
+            </Button>
+          </Link>
+
+          <Link to={createPageUrl('Stats')}>
+            <Button className="w-full h-20 bg-white hover:bg-gray-50 text-gray-900 font-bold shadow-lg border-2 border-amber-200 hover:border-amber-400 transition-all">
+              <div className="text-center">
+                <div className="text-2xl mb-1">📊</div>
+                <div className="text-sm">الإحصائيات</div>
+              </div>
+            </Button>
           </Link>
         </div>
 
