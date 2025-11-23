@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Wifi, WifiOff, Database, HardDrive, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
-import { offlineStorage } from '@/utils/offlineStorage';
+import { offlineStorage } from '@/components/utils/offlineStorage';
 
 export default function SystemStatus() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);

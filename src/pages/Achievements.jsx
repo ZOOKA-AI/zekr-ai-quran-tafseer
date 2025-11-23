@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Trophy, Star, Award, Target, BookOpen, Zap, Crown, Heart } from 'lucide-react';
 import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
-import { offlineStorage } from '@/utils/offlineStorage';
+import { offlineStorage } from '@/components/utils/offlineStorage';
 
 const ACHIEVEMENTS = [
   {

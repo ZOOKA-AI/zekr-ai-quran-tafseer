@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Calendar, BookOpen, Target, Award, CheckCircle2, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
-import { offlineStorage } from '@/utils/offlineStorage';
+import { offlineStorage } from '@/components/utils/offlineStorage';
 
 const PLANS = {
   beginner: {
