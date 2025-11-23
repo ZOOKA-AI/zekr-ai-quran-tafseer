@@ -7,6 +7,7 @@ import SmartVoiceBot from '@/components/assistant/SmartVoiceBot';
 import OfflineIndicator from '@/components/offline/OfflineIndicator';
 import ThemeToggle from '@/components/ui/theme-toggle';
 import SystemStatus from '@/components/system/SystemStatus';
+import AutoUpdate from '@/components/system/AutoUpdate';
 
 export default function Layout({ children, currentPageName }) {
   const navItems = [
@@ -37,6 +38,7 @@ export default function Layout({ children, currentPageName }) {
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-100/70 via-white/80 to-emerald-100/70" />
       </div>
       <div className="relative z-10">
+      <AutoUpdate />
       <OfflineIndicator />
       <ThemeToggle />
       <SystemStatus />
