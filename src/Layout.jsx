@@ -74,8 +74,8 @@ export default function Layout({ children, currentPageName }) {
                     <button
                       className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-200 ${
                         isActive
-                          ? 'bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-cyan-500/20 text-white shadow-md border border-white/20'
-                          : 'text-white/70 hover:text-white hover:bg-white/10'
+                          ? 'bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-cyan-500/20 text-gray-900 shadow-md border border-purple-400/30'
+                          : 'text-gray-900 hover:text-gray-700 hover:bg-white/20'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
