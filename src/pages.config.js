@@ -20,6 +20,8 @@ import MemorizationPlan from './pages/MemorizationPlan';
 import Achievements from './pages/Achievements';
 import Home from './pages/Home';
 import Kids from './pages/Kids';
+import OrphansService from './pages/OrphansService';
+import OrphansAdmin from './pages/OrphansAdmin';
 import __Layout from './Layout.jsx';
 
 
@@ -46,6 +48,8 @@ export const PAGES = {
     "Achievements": Achievements,
     "Home": Home,
     "Kids": Kids,
+    "OrphansService": OrphansService,
+    "OrphansAdmin": OrphansAdmin,
 }
 
 export const pagesConfig = {
