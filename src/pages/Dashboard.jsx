@@ -158,7 +158,6 @@ export default function Dashboard() {
                   <div className="animate-spin w-10 h-10 border-4 border-white border-t-transparent rounded-full mx-auto drop-shadow-2xl"></div>
                 </div>
               )}
-            </div>
           </div>
 
           {/* World Clock */}
@@ -202,7 +201,6 @@ export default function Dashboard() {
                   </div>
                 ))}
               </div>
-            </div>
           </div>
         </div>
 
