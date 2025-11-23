@@ -9,14 +9,16 @@ import VoiceController from '../components/tilawa/VoiceController';
 import CameraScanner from '../components/tilawa/CameraScanner';
 
 const RECITERS = {
-  husary: { name: "محمود خليل الحصري", baseUrl: "https://server13.mp3quran.net/husary/" },
-  abdulbasit: { name: "عبد الباسط عبد الصمد", baseUrl: "https://server7.mp3quran.net/basit/" },
-  minshawi: { name: "محمد صديق المنشاوي", baseUrl: "https://server10.mp3quran.net/minshawi/" },
-  mishary: { name: "مشاري راشد العفاسي", baseUrl: "https://server8.mp3quran.net/afs/" },
-  sudais: { name: "عبد الرحمن السديس", baseUrl: "https://server11.mp3quran.net/sds/" },
-  khalid: { name: "خالد الجليل", baseUrl: "https://server8.mp3quran.net/khalid_al_jalil/" },
-  tablawi: { name: "محمد محمود الطبلاوي", baseUrl: "https://server8.mp3quran.net/tablawi/" },
-  islam: { name: "إسلام صبحي", baseUrl: "https://server11.mp3quran.net/islam_sobhi/" }
+  husary: { name: "محمود خليل الحصري", baseUrl: "https://server13.mp3quran.net/husary/", description: "أول من سجل القرآن مرتلاً" },
+  abdulbasit: { name: "عبد الباسط عبد الصمد", baseUrl: "https://server7.mp3quran.net/basit/", description: "أشهر قراء العالم الإسلامي" },
+  minshawi: { name: "محمد صديق المنشاوي", baseUrl: "https://server10.mp3quran.net/minshawi/", description: "صاحب الصوت الشجي" },
+  mishary: { name: "مشاري راشد العفاسي", baseUrl: "https://server8.mp3quran.net/afs/", description: "القارئ الكويتي الشهير" },
+  sudais: { name: "عبد الرحمن السديس", baseUrl: "https://server11.mp3quran.net/sds/", description: "إمام الحرم المكي" },
+  shatri: { name: "أبو بكر الشاطري", baseUrl: "https://server11.mp3quran.net/shatri/", description: "القارئ اليمني المتميز" },
+  ajmy: { name: "أحمد العجمي", baseUrl: "https://server10.mp3quran.net/ajm/", description: "صوت مؤثر وخاشع" },
+  ghamdi: { name: "سعد الغامدي", baseUrl: "https://server7.mp3quran.net/s_gmd/", description: "من أشهر القراء السعوديين" },
+  tablawi: { name: "محمد محمود الطبلاوي", baseUrl: "https://server8.mp3quran.net/tablawi/", description: "القارئ المصري العظيم" },
+  jbreen: { name: "محمد جبريل", baseUrl: "https://server11.mp3quran.net/jbreen/", description: "صاحب الأداء القوي" }
 };
 
 const SURAHS = [
@@ -233,8 +235,11 @@ export default function TilawaPage() {
                   </SelectTrigger>
                   <SelectContent className="bg-gray-900/95 border-white/20">
                     {Object.entries(RECITERS).map(([id, reciter]) => (
-                      <SelectItem key={id} value={id} className="text-white text-lg hover:bg-gradient-to-r hover:from-purple-600/50 hover:via-blue-600/50 hover:to-cyan-600/50">
-                        {reciter.name}
+                      <SelectItem key={id} value={id} className="text-white text-base hover:bg-gradient-to-r hover:from-purple-600/50 hover:via-blue-600/50 hover:to-cyan-600/50">
+                        <div>
+                          <div className="font-bold">{reciter.name}</div>
+                          <div className="text-xs text-gray-400">{reciter.description}</div>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
