@@ -19,7 +19,9 @@ const RECITERS = {
   ajmy: { name: "أحمد العجمي", baseUrl: "https://server10.mp3quran.net/ajm/", description: "صوت مؤثر وخاشع" },
   ghamdi: { name: "سعد الغامدي", baseUrl: "https://server7.mp3quran.net/s_gmd/", description: "من أشهر القراء السعوديين" },
   tablawi: { name: "محمد محمود الطبلاوي", baseUrl: "https://server8.mp3quran.net/tablawi/", description: "القارئ المصري العظيم" },
-  jbreen: { name: "محمد جبريل", baseUrl: "https://server11.mp3quran.net/jbreen/", description: "صاحب الأداء القوي" }
+  jbreen: { name: "محمد جبريل", baseUrl: "https://server11.mp3quran.net/jbreen/", description: "صاحب الأداء القوي" },
+  islam_sobhi: { name: "إسلام صبحي", baseUrl: "https://server11.mp3quran.net/islam_sobhi/", description: "القارئ الشاب المتميز" },
+  abdulrahman_mosad: { name: "عبدالرحمن مسعد", baseUrl: "https://server10.mp3quran.net/abdulrahman_mosad/", description: "صوت رائع ومبدع" }
 };
 
 const SURAHS = [
@@ -301,12 +303,14 @@ export default function TilawaPage() {
               {/* Volume Control */}
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
                 <div className="flex items-center gap-4 mb-2">
-                  <button 
+                  <Button 
                     onClick={toggleMute}
-                    className="text-purple-400 hover:text-purple-300 transition-colors"
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:text-purple-300 hover:bg-white/10 transition-colors"
                   >
                     {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
-                  </button>
+                  </Button>
                   <div className="flex-1">
                     <Slider
                       value={volume}
