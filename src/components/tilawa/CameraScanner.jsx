@@ -16,15 +16,22 @@ export default function CameraScanner() {
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' } 
+        video: { 
+          facingMode: 'environment',
+          width: { ideal: 1920 },
+          height: { ideal: 1080 }
+        } 
       });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         streamRef.current = stream;
+        await videoRef.current.play();
       }
       setIsOpen(true);
+      toast.success('تم فتح الكاميرا بنجاح 📷');
     } catch (error) {
-      toast.error('لا يمكن الوصول للكاميرا');
+      console.error('Camera error:', error);
+      toast.error('لا يمكن الوصول للكاميرا - تأكد من السماح بالوصول');
     }
   };
 
@@ -58,7 +65,12 @@ export default function CameraScanner() {
       
       // تحليل الصورة بالذكاء الاصطناعي
       const analysisResult = await base44.integrations.Core.InvokeLLM({
-        prompt: `أنت خبير في القرآن الكريم والنصوص الإسلامية. انظر لهذه الصورة وقم بما يلي:
+        prompt: `أنت خبير في القرآن الكريم والنصوص الإسلامية. 
+
+صدقة جارية لوجه الله تعالى على روح المرحومة: جزبية عبد الرحيم هارون علي
+اللهم اغفر لها وارحمها وأدخلها الفردوس الأعلى
+
+انظر لهذه الصورة وقم بما يلي:
 1. اقرأ النص العربي الموجود في الصورة (إن وجد)
 2. إذا كان النص من القرآن الكريم، اذكر السورة ورقم الآية
 3. قدم تفسيراً مختصراً للنص
