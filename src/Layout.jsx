@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2 } from 'lucide-react';
+import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users } from 'lucide-react';
 import DailyReminders from '@/components/notifications/DailyReminders';
 import SmartVoiceBot from '@/components/assistant/SmartVoiceBot';
 import OfflineIndicator from '@/components/offline/OfflineIndicator';
@@ -10,7 +10,9 @@ import SystemStatus from '@/components/system/SystemStatus';
 
 export default function Layout({ children, currentPageName }) {
   const navItems = [
-    { name: 'الرئيسية', path: 'Quran', icon: Home },
+    { name: 'الرئيسية', path: 'Home', icon: Home },
+    { name: 'القرآن', path: 'Quran', icon: BookOpen },
+    { name: 'الأطفال', path: 'Kids', icon: Users },
     { name: 'الإحصائيات', path: 'Stats', icon: Clock },
     { name: 'خطة الحفظ', path: 'MemorizationPlan', icon: BookOpen },
     { name: 'الإنجازات', path: 'Achievements', icon: Sparkles },

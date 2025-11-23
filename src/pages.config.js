@@ -18,6 +18,8 @@ import Adhkar from './pages/Adhkar';
 import Stats from './pages/Stats';
 import MemorizationPlan from './pages/MemorizationPlan';
 import Achievements from './pages/Achievements';
+import Home from './pages/Home';
+import Kids from './pages/Kids';
 import __Layout from './Layout.jsx';
 
 
@@ -42,6 +44,8 @@ export const PAGES = {
     "Stats": Stats,
     "MemorizationPlan": MemorizationPlan,
     "Achievements": Achievements,
+    "Home": Home,
+    "Kids": Kids,
 }
 
 export const pagesConfig = {
