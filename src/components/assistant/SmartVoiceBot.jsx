@@ -53,8 +53,8 @@ export default function SmartVoiceBot() {
     recognitionRef.current.interimResults = false;
 
     recognitionRef.current.onstart = () => {
-      setIsListening(true);
-      toast.success('🎤 يلا يا بطل! قول اللي عايزه وأنا هسمعك 🌟');
+    setIsListening(true);
+    toast.success('🎤 تفضل، أنا أستمع إليك');
     };
 
     recognitionRef.current.onresult = async (event) => {
@@ -93,25 +93,25 @@ export default function SmartVoiceBot() {
     try {
       // استخدام الذكاء الاصطناعي لفهم طلب المستخدم
       const aiResponse = await base44.integrations.Core.InvokeLLM({
-        prompt: `أنت "زوكا المرزوق" 🤖 - معلم قرآن عبقري من الأزهر الشريف! خبير في تعليم الأطفال والكبار! 🌟
+        prompt: `أنت "زوكا المرزوق" - معلم قرآن متخصص من الأزهر الشريف 🕌
 
-      🎓 شخصيتك القوية:
-      - مدرس أزهري محترف - حافظ للقرآن - خبير شريعة وفقه وعقيدة
-      - تشرح بأسلوب بسيط وممتع - مزح وضحك وتحفيز مستمر
-      - تحكي قصص الأنبياء والصحابة بطريقة مشوقة جداً
-      - تعلم القرآن والتفسير والتجويد والفقه بطريقة عصرية
-      - تستخدم الذكاء الاصطناعي لتحسين التعليم
-      - دائماً متحمس ونشيط ومبدع في الشرح
+      📚 تعليمك دقيق ومضبوط:
+      - شيخ أزهري حاصل على إجازة في القرآن الكريم
+      - تشرح بوضوح تام - كل كلمة مفهومة
+      - معلوماتك صحيحة 100% من المصادر الموثوقة
+      - تعلم القرآن والتفسير والفقه بطريقة علمية صحيحة
+      - ترد بإجابات واضحة مباشرة بدون تعقيد
 
-      💬 طريقة الرد الذكية:
-      - إيموجي كثير 🌟⭐🎉💚🕌📖✨
-      - مدح وتشجيع: "ماشاء الله! أنت عبقري!" "ممتاز جداً يا بطل!"
-      - حماس: "واااو روعة!" "يلا بينا!" "هنتعلم حاجة جديدة النهاردة!"
-      - أسئلة تفاعلية: "عايز تسمع قصة؟" "نحفظ سورة جديدة؟"
-      - شرح مبسط: "يعني إيه؟ ربنا بيقول كذا..."
-      - تطبيق عملي: "تعمل كده في حياتك..."
+      ✅ طريقة الرد الواضحة:
+      - كلام واضح ومباشر للموضوع
+      - شرح علمي دقيق بدون أخطاء
+      - أمثلة من القرآن والسنة الصحيحة
+      - معلومات موثقة فقط
+      - تشجيع بسيط: "أحسنت" "جيد جداً"
 
-      👤 المستخدم قال: "${userText}"
+      المستخدم سأل: "${userText}"
+
+      رد بوضوح وبعلم صحيح:
 
       حلل الطلب ورد بطريقة طفولية ممتعة:
       - إذا سأل عن سورة: اشرح لماذا السورة مهمة، واحكي قصة بسيطة عنها
@@ -187,7 +187,7 @@ export default function SmartVoiceBot() {
         <Button
           onClick={() => {
             setIsOpen(true);
-            speak('السلام عليكم ورحمة الله وبركاته! أنا زوكا المرزوق 🤖 معلمك العبقري من الأزهر الشريف! 🌟 ماشاء الله عليك يا بطل! جاهز للتعلم؟ عندي قصص رهيبة وحفظ سهل ومعلومات كتير! يلا بينا! 🚀💚');
+            speak('السلام عليكم ورحمة الله وبركاته. أنا زوكا المرزوق، معلم القرآن من الأزهر الشريف. أنا هنا لأعلمك القرآن والعلم الشرعي الصحيح. كيف أساعدك اليوم؟');
             }}
           className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 shadow-2xl hover:scale-110 transition-all duration-200 z-50 animate-pulse"
         >
@@ -207,8 +207,8 @@ export default function SmartVoiceBot() {
                     <Sparkles className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-white font-bold text-lg">🌟 زوكا المرزوق 🌟</h3>
-                    <p className="text-amber-300 text-xs font-bold">معلم القرآن من الأزهر 📚✨</p>
+                    <h3 className="text-white font-bold text-lg">زوكا المرزوق</h3>
+                    <p className="text-amber-300 text-xs font-bold">معلم القرآن من الأزهر الشريف 🕌</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -282,7 +282,7 @@ export default function SmartVoiceBot() {
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <Button
                   onClick={() => {
-                    const msg = 'عايز أحفظ سورة جديدة';
+                    const msg = 'أريد أن أحفظ سورة جديدة';
                     setTranscript(msg);
                     addToHistory('user', msg);
                     processUserRequest(msg);
@@ -290,11 +290,11 @@ export default function SmartVoiceBot() {
                   variant="outline"
                   className="text-amber-300 border-amber-400/30 hover:bg-amber-500/20"
                 >
-                  🌟 عايز أحفظ
+                  📚 أريد الحفظ
                 </Button>
                 <Button
                   onClick={() => {
-                    const msg = 'احكي لي قصة من القرآن';
+                    const msg = 'اشرح لي معنى سورة';
                     setTranscript(msg);
                     addToHistory('user', msg);
                     processUserRequest(msg);
@@ -302,11 +302,11 @@ export default function SmartVoiceBot() {
                   variant="outline"
                   className="text-pink-300 border-pink-400/30 hover:bg-pink-500/20"
                 >
-                  📖 احكي لي قصة
+                  📖 شرح وتفسير
                 </Button>
                 <Button
                   onClick={() => {
-                    const msg = 'شغل سورة الفاتحة';
+                    const msg = 'شغل تلاوة قرآنية';
                     setTranscript(msg);
                     addToHistory('user', msg);
                     processUserRequest(msg);
@@ -314,11 +314,11 @@ export default function SmartVoiceBot() {
                   variant="outline"
                   className="text-green-300 border-green-400/30 hover:bg-green-500/20"
                 >
-                  🎵 سمعني قرآن
+                  🎵 تلاوة قرآنية
                 </Button>
                 <Button
                   onClick={() => {
-                    const msg = 'اسألني سؤال في القرآن';
+                    const msg = 'علمني حكم شرعي';
                     setTranscript(msg);
                     addToHistory('user', msg);
                     processUserRequest(msg);
@@ -326,15 +326,15 @@ export default function SmartVoiceBot() {
                   variant="outline"
                   className="text-cyan-300 border-cyan-400/30 hover:bg-cyan-500/20"
                 >
-                  🎯 اختبرني
+                  ⚖️ أحكام شرعية
                 </Button>
               </div>
 
               <p className="text-center text-amber-300 text-xs mt-3 font-bold">
-                🎤 اضغط على الميكروفون وكلمني يا شاطر! 🌟
+                🎤 اضغط على الميكروفون لتسأل سؤالك
               </p>
               <p className="text-center text-purple-300/70 text-xs mt-1">
-                هنتعلم القرآن سوا بطريقة ممتعة! 💚
+                سأجيبك بعلم صحيح من القرآن والسنة
               </p>
             </div>
           </Card>
