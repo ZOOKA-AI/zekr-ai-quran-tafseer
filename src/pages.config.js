@@ -23,6 +23,7 @@ import Kids from './pages/Kids';
 import OrphansService from './pages/OrphansService';
 import OrphansAdmin from './pages/OrphansAdmin';
 import AdminDashboard from './pages/AdminDashboard';
+import ImplementationChecklist from './pages/ImplementationChecklist';
 import __Layout from './Layout.jsx';
 
 
@@ -52,6 +53,7 @@ export const PAGES = {
     "OrphansService": OrphansService,
     "OrphansAdmin": OrphansAdmin,
     "AdminDashboard": AdminDashboard,
+    "ImplementationChecklist": ImplementationChecklist,
 }
 
 export const pagesConfig = {
