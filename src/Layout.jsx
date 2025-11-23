@@ -9,8 +9,24 @@ import ThemeToggle from '@/components/ui/theme-toggle';
 import SystemStatus from '@/components/system/SystemStatus';
 import AutoUpdate from '@/components/system/AutoUpdate';
 import { Toaster } from 'sonner';
+import { base44 } from '@/api/base44Client';
 
 export default function Layout({ children, currentPageName }) {
+  const [isAdmin, setIsAdmin] = React.useState(false);
+
+  React.useEffect(() => {
+    checkAdmin();
+  }, []);
+
+  const checkAdmin = async () => {
+    try {
+      const user = await base44.auth.me();
+      setIsAdmin(user.role === 'admin');
+    } catch {
+      setIsAdmin(false);
+    }
+  };
+
   const navItems = [
     { name: 'الرئيسية', path: 'Home', icon: Home },
     { name: 'القرآن', path: 'Quran', icon: BookOpen },
@@ -25,8 +41,12 @@ export default function Layout({ children, currentPageName }) {
     { name: 'الأذكار', path: 'Adhkar', icon: BookOpen },
     { name: 'الخطوط', path: 'Calligraphy', icon: Sparkles },
     { name: 'المساعد', path: 'Assistant', icon: MessageSquare },
-    { name: 'الأدمن', path: 'AdminPanel', icon: User },
   ];
+
+  // إضافة زرار الأدمن فقط للأدمن
+  const displayNavItems = isAdmin 
+    ? [...navItems, { name: '🔐 الأدمن', path: 'AdminDashboard', icon: User }]
+    : navItems;
 
   return (
     <div className="min-h-screen relative overflow-hidden" dir="rtl">
@@ -76,7 +96,7 @@ export default function Layout({ children, currentPageName }) {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-center h-16">
             <div className="flex gap-2 flex-wrap justify-center">
-              {navItems.map((item) => {
+              {displayNavItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPageName === item.path;
                 return (

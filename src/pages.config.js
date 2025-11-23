@@ -22,6 +22,7 @@ import Home from './pages/Home';
 import Kids from './pages/Kids';
 import OrphansService from './pages/OrphansService';
 import OrphansAdmin from './pages/OrphansAdmin';
+import AdminDashboard from './pages/AdminDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -50,6 +51,7 @@ export const PAGES = {
     "Kids": Kids,
     "OrphansService": OrphansService,
     "OrphansAdmin": OrphansAdmin,
+    "AdminDashboard": AdminDashboard,
 }
 
 export const pagesConfig = {
