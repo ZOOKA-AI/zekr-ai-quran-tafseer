@@ -91,12 +91,104 @@ export default function QuranPage() {
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
           <div className="text-center">
-            <div className="mb-6">
-              <div className="inline-block p-5 bg-white/20 rounded-3xl border-4 border-amber-400 shadow-2xl glow-green">
-                <svg className="w-16 h-16 text-amber-300" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                </svg>
-              </div>
+            {/* وصف شامل للتطبيق */}
+            <div className="mb-8">
+              <Card className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 max-w-5xl mx-auto shadow-2xl border-4 border-amber-400">
+                <div className="text-center mb-6">
+                  <div className="inline-block p-5 bg-gradient-to-br from-emerald-500 to-green-500 rounded-3xl shadow-2xl">
+                    <svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                    </svg>
+                  </div>
+                  <h2 className="text-4xl font-bold text-gray-900 mt-4 mb-2">🌟 زوكا المرزوق 🌟</h2>
+                  <p className="text-2xl font-bold text-emerald-600">تطبيق القرآن الكريم الذكي بتقنية AI</p>
+                </div>
+                
+                {/* الميزات الرئيسية */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border-2 border-purple-300">
+                    <div className="text-3xl mb-2">🤖</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">معلم ذكي للأطفال</h3>
+                    <p className="text-sm text-gray-700">زوكا المرزوق - معلم أزهري متخصص يعلم الأطفال القرآن والشريعة بطريقة ممتعة، يحكي قصص، يمزح ويحفز الأطفال على الحفظ!</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-4 rounded-xl border-2 border-emerald-300">
+                    <div className="text-3xl mb-2">📖</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">قراءة وتفسير</h3>
+                    <p className="text-sm text-gray-700">القرآن الكامل مع تفاسير السعدي وابن كثير والطبري، ترجمات متعددة، وأسباب النزول</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-xl border-2 border-amber-300">
+                    <div className="text-3xl mb-2">🎧</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">تلاوات مباركة</h3>
+                    <p className="text-sm text-gray-700">استمع لأشهر القراء (الحصري، عبد الباسط، المنشاوي، مشاري، السديس) مع التحكم الصوتي الذكي</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl border-2 border-blue-300">
+                    <div className="text-3xl mb-2">🎯</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">خطة حفظ ذكية</h3>
+                    <p className="text-sm text-gray-700">برامج حفظ مخصصة للمبتدئين والمتقدمين مع متابعة يومية وتحفيز مستمر</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-pink-50 to-pink-100 p-4 rounded-xl border-2 border-pink-300">
+                    <div className="text-3xl mb-2">🤲</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">أدعية وأذكار</h3>
+                    <p className="text-sm text-gray-700">أذكار الصباح والمساء، أدعية قرآنية ونبوية مع خاصية الاستماع الصوتي</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-cyan-50 to-cyan-100 p-4 rounded-xl border-2 border-cyan-300">
+                    <div className="text-3xl mb-2">📻</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">إذاعات قرآنية</h3>
+                    <p className="text-sm text-gray-700">بث مباشر لإذاعات القرآن الكريم من مكة والمدينة وكل الدول العربية</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-4 rounded-xl border-2 border-indigo-300">
+                    <div className="text-3xl mb-2">🏆</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">إنجازات وتحفيز</h3>
+                    <p className="text-sm text-gray-700">نظام نقاط وشارات تحفيزية، متابعة التقدم اليومي، وإحصائيات تفصيلية</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-rose-50 to-rose-100 p-4 rounded-xl border-2 border-rose-300">
+                    <div className="text-3xl mb-2">📱</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">يعمل بدون نت!</h3>
+                    <p className="text-sm text-gray-700">تخزين محلي ذكي - كل البيانات محفوظة، يعمل 100% بدون إنترنت مع مزامنة تلقائية</p>
+                  </div>
+                </div>
+
+                {/* منهج الأزهر الشريف */}
+                <div className="bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-2xl p-6 mb-6">
+                  <h3 className="text-2xl font-bold mb-3 text-center">📚 منهج الأزهر الشريف الكامل 📚</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+                      <p className="text-4xl mb-2">📖</p>
+                      <p className="font-bold text-lg">تعليم القرآن</p>
+                      <p className="text-sm">التجويد والترتيل</p>
+                    </div>
+                    <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+                      <p className="text-4xl mb-2">🕌</p>
+                      <p className="font-bold text-lg">أصول الدين</p>
+                      <p className="text-sm">العقيدة والتوحيد</p>
+                    </div>
+                    <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+                      <p className="text-4xl mb-2">⚖️</p>
+                      <p className="font-bold text-lg">الفقه والشريعة</p>
+                      <p className="text-sm">أحكام العبادات</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* التحديث الذاتي بالذكاء الاصطناعي */}
+                <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl p-6 text-center">
+                  <div className="text-5xl mb-3">🚀</div>
+                  <h3 className="text-2xl font-bold mb-2">تحديث تلقائي بالذكاء الاصطناعي</h3>
+                  <p className="text-lg">التطبيق يحدث نفسه تلقائياً ويتطور باستمرار لخدمتك بأفضل طريقة!</p>
+                  <div className="flex justify-center gap-4 mt-4 flex-wrap">
+                    <span className="bg-white/20 px-4 py-2 rounded-full text-sm font-bold">✅ تحديث ذاتي</span>
+                    <span className="bg-white/20 px-4 py-2 rounded-full text-sm font-bold">🤖 ذكاء اصطناعي</span>
+                    <span className="bg-white/20 px-4 py-2 rounded-full text-sm font-bold">📈 تطوير مستمر</span>
+                  </div>
+                </div>
+              </Card>
             </div>
             <h1 className="text-7xl font-bold mb-4 text-gray-900 font-arabic drop-shadow-xl">
               القرآن الكريم
