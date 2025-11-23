@@ -59,10 +59,16 @@ export default function Layout({ children, currentPageName }) {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-16">
             <Link to={createPageUrl('Quran')} className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500/80 via-blue-500/80 to-cyan-500/80 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
-                <BookOpen className="w-6 h-6 text-white" />
+              <div className="relative w-14 h-14 bg-gradient-to-br from-amber-600 via-amber-500 to-amber-600 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:scale-110 shadow-xl border-2 border-amber-400">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 via-transparent to-amber-600/20 rounded-lg"></div>
+                <BookOpen className="w-7 h-7 text-white drop-shadow-lg" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white shadow-lg"></div>
+                <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white shadow-lg"></div>
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent font-arabic">﴿ ٱلْقُرْآنُ ٱلْكَرِيمُ ﴾</span>
+              <div className="flex flex-col items-center justify-center leading-none">
+                <span className="text-2xl font-bold bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 bg-clip-text text-transparent font-arabic tracking-wider" style={{textShadow: '0 2px 10px rgba(217,119,6,0.3)'}}>القرآن</span>
+                <span className="text-2xl font-bold bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 bg-clip-text text-transparent font-arabic tracking-wider -mt-1" style={{textShadow: '0 2px 10px rgba(5,150,105,0.3)'}}>الكريم</span>
+              </div>
             </Link>
             
             <div className="flex gap-2">
