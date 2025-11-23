@@ -13,6 +13,8 @@ import Tilawa from './pages/Tilawa';
 import Dashboard from './pages/Dashboard';
 import AdminPanel from './pages/AdminPanel';
 import Radio from './pages/Radio';
+import Duaa from './pages/Duaa';
+import Adhkar from './pages/Adhkar';
 import __Layout from './Layout.jsx';
 
 
@@ -32,6 +34,8 @@ export const PAGES = {
     "Dashboard": Dashboard,
     "AdminPanel": AdminPanel,
     "Radio": Radio,
+    "Duaa": Duaa,
+    "Adhkar": Adhkar,
 }
 
 export const pagesConfig = {
