@@ -26,8 +26,16 @@ export default function SmartVoiceBot() {
       utterance.pitch = 1.3; // صوت أعلى وأكثر حماس للأطفال
       
       utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        // بعد ما يخلص الكلام، ابدأ الاستماع تاني تلقائياً
+        setTimeout(() => {
+          if (isOpen) {
+            startListening();
+          }
+        }, 500);
+      };
+
       window.speechSynthesis.speak(utterance);
     }
   };
@@ -146,10 +154,10 @@ export default function SmartVoiceBot() {
       speak(botResponse);
       
     } catch (error) {
-      const errorMsg = 'معلش يا حبيبي، مش فاهم أوي! ممكن تعيد السؤال تاني؟ 😊';
+      const errorMsg = 'عذراً، لم أفهم السؤال. هل يمكنك إعادته من فضلك؟';
       setResponse(errorMsg);
       speak(errorMsg);
-      toast.error('😅 معلش، عيد السؤال تاني');
+      toast.error('لم أفهم السؤال، أعد المحاولة');
     }
   };
 

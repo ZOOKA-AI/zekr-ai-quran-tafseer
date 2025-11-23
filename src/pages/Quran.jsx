@@ -271,12 +271,13 @@ export default function QuranPage() {
             </Button>
           </Link>
 
-          <Link to={createPageUrl('Reciters')}>
-            <Button className="w-full h-16 bg-white hover:bg-blue-50 text-gray-900 font-bold shadow-lg border-2 border-blue-300 hover:border-blue-500 transition-all">
-              <Mic className="w-5 h-5 ml-2" />
-              المقرئين
-            </Button>
-          </Link>
+          <Button
+            onClick={() => window.location.href = createPageUrl('Reciters')}
+            className="w-full h-16 bg-white hover:bg-blue-50 text-gray-900 font-bold shadow-lg border-2 border-blue-300 hover:border-blue-500 transition-all"
+          >
+            <Mic className="w-5 h-5 ml-2" />
+            المقرئين
+          </Button>
 
           <Link to={createPageUrl('Achievements')}>
             <Button className="w-full h-16 bg-white hover:bg-purple-50 text-gray-900 font-bold shadow-lg border-2 border-purple-300 hover:border-purple-500 transition-all">
