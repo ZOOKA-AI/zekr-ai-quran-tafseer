@@ -50,20 +50,27 @@ export default function RadioPage() {
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef(null);
 
-  const handlePlayPause = (station) => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio();
-    }
+  const handlePlayPause = async (station) => {
+    try {
+      if (!audioRef.current) {
+        audioRef.current = new Audio();
+      }
 
-    if (selectedStation?.url === station.url && isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.src = station.url;
-      audioRef.current.volume = volume[0] / 100;
-      audioRef.current.play();
-      setSelectedStation(station);
-      setIsPlaying(true);
+      if (selectedStation?.url === station.url && isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+        toast.info('⏸️ تم إيقاف البث');
+      } else {
+        audioRef.current.src = station.url;
+        audioRef.current.volume = volume[0] / 100;
+        await audioRef.current.play();
+        setSelectedStation(station);
+        setIsPlaying(true);
+        toast.success(`📻 جاري بث ${station.name}`);
+      }
+    } catch (err) {
+      console.error('Play error:', err);
+      toast.error('❌ تعذر التشغيل - تحقق من الاتصال بالإنترنت');
     }
   };
 

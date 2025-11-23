@@ -8,6 +8,7 @@ import { Search, MessageSquare, Share2, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import SurahCard from '../components/quran/SurahCard';
 import VoiceAssistant from '../components/assistant/VoiceAssistant';
+import AdvancedSearch from '../components/advanced/AdvancedSearch';
 
 const SURAHS = [
   { number: 1, name: 'الفاتحة', arabic_name: 'ٱلْفَاتِحَة', transliteration: 'Al-Fatihah', verses_count: 7, revelation_place: 'Makkah', juz_start: 1 },
@@ -32,6 +33,13 @@ const SURAHS = [
 
 export default function QuranPage() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+
+  const handleAdvancedSearch = (params) => {
+    console.log('Advanced search:', params);
+    setSearchQuery(params.query);
+    toast.success('تم تطبيق البحث المتقدم');
+  };
 
   const handleShare = () => {
     const appUrl = window.location.origin;
@@ -170,6 +178,25 @@ export default function QuranPage() {
         <div className="mb-8">
           <VoiceAssistant />
         </div>
+
+        {/* Advanced Search Toggle */}
+        <div className="mb-8 text-center">
+          <Button
+            onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+            variant="outline"
+            className="border-2 border-emerald-400 hover:bg-emerald-50"
+          >
+            <Search className="w-5 h-5 ml-2" />
+            {showAdvancedSearch ? 'إخفاء' : 'إظهار'} البحث المتقدم
+          </Button>
+        </div>
+
+        {/* Advanced Search */}
+        {showAdvancedSearch && (
+          <div className="mb-8">
+            <AdvancedSearch onSearch={handleAdvancedSearch} />
+          </div>
+        )}
 
         {/* Smart Assistant Banner */}
         <div className="mb-8">
