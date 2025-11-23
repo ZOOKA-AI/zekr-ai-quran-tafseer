@@ -100,10 +100,9 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Qibla Compass */}
-          <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-4 border-emerald-300">
-            <div className="p-8">
+          <div className="p-8">
               <div className="flex items-center justify-center mb-6">
-                <Compass className="w-12 h-12 text-emerald-600" />
+                <Compass className="w-16 h-16 text-white drop-shadow-2xl" />
               </div>
 
               <div className="relative w-80 h-80 mx-auto">
@@ -145,46 +144,41 @@ export default function Dashboard() {
 
               {qiblaDirection !== null ? (
                 <div className="mt-6 text-center">
-                  <p className="text-emerald-700 font-bold text-3xl mb-2 font-mono">
+                  <p className="text-white font-bold text-4xl mb-2 font-mono drop-shadow-2xl">
                     {Math.round(qiblaDirection)}°
                   </p>
                   {userLocation && (
-                    <div className="mt-3 p-3 bg-emerald-50 rounded-lg">
-                      <div className="flex items-center justify-center gap-2 text-emerald-600">
-                        <MapPin className="w-6 h-6" />
-                      </div>
+                    <div className="mt-3 flex items-center justify-center">
+                      <MapPin className="w-8 h-8 text-white drop-shadow-2xl" />
                     </div>
                   )}
                 </div>
               ) : (
                 <div className="mt-6 text-center">
-                  <div className="animate-spin w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full mx-auto"></div>
+                  <div className="animate-spin w-10 h-10 border-4 border-white border-t-transparent rounded-full mx-auto drop-shadow-2xl"></div>
                 </div>
               )}
             </div>
-          </Card>
+          </div>
 
           {/* World Clock */}
-          <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-4 border-blue-300">
-            <div className="p-8">
+          <div className="p-8">
               <div className="flex items-center justify-center mb-6">
-                <Clock className="w-12 h-12 text-blue-600" />
+                <Clock className="w-16 h-16 text-white drop-shadow-2xl" />
               </div>
 
               {/* Current Time Display */}
               <div className="text-center mb-8">
-                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-8 shadow-2xl border-4 border-amber-400">
-                  <p className="text-white text-6xl font-bold mb-3 font-mono">
-                    {formatTime(currentTime)}
-                  </p>
-                  <p className="text-blue-100 text-xl font-arabic">
-                    {formatDate(currentTime)}
-                  </p>
-                </div>
+                <p className="text-white text-7xl font-bold mb-4 font-mono drop-shadow-2xl">
+                  {formatTime(currentTime)}
+                </p>
+                <p className="text-white text-2xl font-arabic drop-shadow-2xl">
+                  {formatDate(currentTime)}
+                </p>
               </div>
 
               {/* Major Cities Times */}
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {[
                   { timezone: 'Asia/Riyadh', flag: '🕋' },
                   { timezone: 'Asia/Riyadh', flag: '🕌' },
@@ -194,10 +188,10 @@ export default function Dashboard() {
                 ].map((location, idx) => (
                   <div 
                     key={idx}
-                    className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border-2 border-blue-200 hover:shadow-lg transition-all"
+                    className="flex items-center justify-between p-4 hover:scale-105 transition-all"
                   >
-                    <span className="text-4xl">{location.flag}</span>
-                    <span className="text-blue-600 font-mono text-2xl font-bold">
+                    <span className="text-5xl drop-shadow-2xl">{location.flag}</span>
+                    <span className="text-white font-mono text-3xl font-bold drop-shadow-2xl">
                       {new Date().toLocaleTimeString('ar-EG', {
                         timeZone: location.timezone,
                         hour: '2-digit',
@@ -209,28 +203,22 @@ export default function Dashboard() {
                 ))}
               </div>
             </div>
-          </Card>
+          </div>
         </div>
 
         {/* Info Cards - Icons Only */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-white/95 backdrop-blur-sm p-8 shadow-xl border-4 border-emerald-300 hover:scale-105 transition-transform">
-            <div className="text-center">
-              <div className="text-7xl">🕌</div>
-            </div>
-          </Card>
+          <div className="text-center p-8 hover:scale-110 transition-transform">
+            <div className="text-8xl drop-shadow-2xl">🕌</div>
+          </div>
 
-          <Card className="bg-white/95 backdrop-blur-sm p-8 shadow-xl border-4 border-blue-300 hover:scale-105 transition-transform">
-            <div className="text-center">
-              <div className="text-7xl">⏰</div>
-            </div>
-          </Card>
+          <div className="text-center p-8 hover:scale-110 transition-transform">
+            <div className="text-8xl drop-shadow-2xl">⏰</div>
+          </div>
 
-          <Card className="bg-white/95 backdrop-blur-sm p-8 shadow-xl border-4 border-purple-300 hover:scale-105 transition-transform">
-            <div className="text-center">
-              <div className="text-7xl">🤲</div>
-            </div>
-          </Card>
+          <div className="text-center p-8 hover:scale-110 transition-transform">
+            <div className="text-8xl drop-shadow-2xl">🤲</div>
+          </div>
         </div>
       </div>
     </div>
