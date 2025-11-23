@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Trophy, Star, Award, Target, BookOpen, Zap, Crown, Heart } from 'lucide-react';
+import { toast } from 'sonner';
+import { base44 } from '@/api/base44Client';
 
 const ACHIEVEMENTS = [
   {
@@ -76,6 +79,35 @@ export default function AchievementsPage() {
   const [achievements, setAchievements] = useState(ACHIEVEMENTS);
   const unlockedCount = achievements.filter(a => a.unlocked).length;
   const totalPoints = achievements.filter(a => a.unlocked).length * 100;
+
+  useEffect(() => {
+    loadAchievements();
+  }, []);
+
+  const loadAchievements = async () => {
+    try {
+      const user = await base44.auth.me();
+      if (user.achievements) {
+        setAchievements(user.achievements);
+      }
+    } catch (error) {
+      // استخدام البيانات الافتراضية
+    }
+  };
+
+  const testUnlock = async (achievementId) => {
+    const newAchievements = achievements.map(a => 
+      a.id === achievementId ? { ...a, unlocked: true, progress: a.target } : a
+    );
+    setAchievements(newAchievements);
+    
+    try {
+      await base44.auth.updateMe({ achievements: newAchievements });
+      toast.success('🎉 إنجاز جديد مفتوح!');
+    } catch (error) {
+      toast.success('🎉 إنجاز جديد مفتوح محلياً!');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 p-6" dir="rtl">
@@ -161,10 +193,18 @@ export default function AchievementsPage() {
                   </p>
                 </div>
 
-                {achievement.unlocked && (
+                {achievement.unlocked ? (
                   <Badge className="w-full bg-white/20 text-white text-center justify-center py-2">
                     ✅ مفتوح
                   </Badge>
+                ) : (
+                  <Button 
+                    onClick={() => testUnlock(achievement.id)}
+                    className="w-full bg-gray-700 hover:bg-gray-600 text-white"
+                    size="sm"
+                  >
+                    🔓 افتح (تجريبي)
+                  </Button>
                 )}
               </Card>
             );

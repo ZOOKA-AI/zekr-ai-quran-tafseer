@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Calendar, BookOpen, Target, Award, CheckCircle2 } from 'lucide-react';
+import { Calendar, BookOpen, Target, Award, CheckCircle2, Plus } from 'lucide-react';
 import { toast } from 'sonner';
+import { base44 } from '@/api/base44Client';
 
 const PLANS = {
   beginner: {
@@ -41,11 +42,52 @@ export default function MemorizationPlanPage() {
   const [selectedPlan, setSelectedPlan] = useState('beginner');
   const [schedule, setSchedule] = useState(SAMPLE_SCHEDULE);
 
-  const toggleComplete = (day) => {
-    setSchedule(prev => prev.map(item => 
+  useEffect(() => {
+    loadSchedule();
+  }, []);
+
+  const loadSchedule = async () => {
+    try {
+      const user = await base44.auth.me();
+      if (user.memorization_schedule) {
+        setSchedule(user.memorization_schedule);
+      }
+    } catch (error) {
+      // استخدام البيانات الافتراضية
+    }
+  };
+
+  const toggleComplete = async (day) => {
+    const newSchedule = schedule.map(item => 
       item.day === day ? { ...item, completed: !item.completed } : item
-    ));
-    toast.success('تم تحديث التقدم! 🎉');
+    );
+    setSchedule(newSchedule);
+    
+    try {
+      await base44.auth.updateMe({ memorization_schedule: newSchedule });
+      toast.success('تم حفظ التقدم! 🎉');
+    } catch (error) {
+      toast.success('تم التحديث محلياً! 🎉');
+    }
+  };
+
+  const addNewDay = async () => {
+    const lastDay = schedule[schedule.length - 1]?.day || 0;
+    const newItem = {
+      day: lastDay + 1,
+      surah: 'جديد',
+      pages: 1,
+      completed: false
+    };
+    const newSchedule = [...schedule, newItem];
+    setSchedule(newSchedule);
+    
+    try {
+      await base44.auth.updateMe({ memorization_schedule: newSchedule });
+      toast.success('تمت إضافة يوم جديد! ✨');
+    } catch (error) {
+      toast.success('تمت الإضافة محلياً! ✨');
+    }
   };
 
   const plan = PLANS[selectedPlan];
@@ -105,10 +147,16 @@ export default function MemorizationPlanPage() {
 
         {/* Daily Schedule */}
         <Card className="p-8 border-4 border-emerald-200">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center flex items-center justify-center gap-3">
-            <Target className="w-8 h-8 text-emerald-600" />
-            جدول الحفظ اليومي
-          </h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <Target className="w-8 h-8 text-emerald-600" />
+              جدول الحفظ اليومي
+            </h2>
+            <Button onClick={addNewDay} className="bg-emerald-600 hover:bg-emerald-700">
+              <Plus className="w-5 h-5 ml-2" />
+              إضافة يوم
+            </Button>
+          </div>
           <div className="space-y-4">
             {schedule.map((item) => (
               <Card 
