@@ -15,6 +15,9 @@ import AdminPanel from './pages/AdminPanel';
 import Radio from './pages/Radio';
 import Duaa from './pages/Duaa';
 import Adhkar from './pages/Adhkar';
+import Stats from './pages/Stats';
+import MemorizationPlan from './pages/MemorizationPlan';
+import Achievements from './pages/Achievements';
 import __Layout from './Layout.jsx';
 
 
@@ -36,6 +39,9 @@ export const PAGES = {
     "Radio": Radio,
     "Duaa": Duaa,
     "Adhkar": Adhkar,
+    "Stats": Stats,
+    "MemorizationPlan": MemorizationPlan,
+    "Achievements": Achievements,
 }
 
 export const pagesConfig = {
