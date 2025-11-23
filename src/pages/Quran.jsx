@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import SurahCard from '../components/quran/SurahCard';
 import VoiceAssistant from '../components/assistant/VoiceAssistant';
 import AdvancedSearch from '../components/advanced/AdvancedSearch';
+import { trackSearch, trackNavigation } from '../components/system/ActionTracker';
 
 import { ALL_SURAHS } from '../components/quran/QuranData';
 
@@ -22,6 +23,7 @@ export default function QuranPage() {
     console.log('Advanced search:', params);
     setSearchQuery(params.query);
     toast.success('تم تطبيق البحث المتقدم');
+    trackSearch(`بحث متقدم: ${params.query}`);
   };
 
   const handleShare = () => {
@@ -37,6 +39,7 @@ export default function QuranPage() {
       navigator.clipboard.writeText(shareText);
       toast.success('تم نسخ الرابط! شاركه مع من تحب لتنال الأجر 🌟');
     }
+    trackNavigation('مشاركة التطبيق');
   };
 
   const handleCopyLink = () => {

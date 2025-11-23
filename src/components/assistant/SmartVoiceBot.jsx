@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import { trackVoiceCommand } from '../system/ActionTracker';
 
 export default function SmartVoiceBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,8 +70,9 @@ export default function SmartVoiceBot() {
       const userText = event.results[0][0].transcript;
       setTranscript(userText);
       setIsListening(false);
-      
+
       addToHistory('user', userText);
+      trackVoiceCommand(`سؤال: ${userText}`);
       await processUserRequest(userText);
     };
 

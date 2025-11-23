@@ -7,6 +7,7 @@ import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { toast } from 'sonner';
 import VoiceController from '../components/tilawa/VoiceController';
 import CameraScanner from '../components/tilawa/CameraScanner';
+import { trackListen } from '../components/system/ActionTracker';
 
 const RECITERS = {
   husary: { name: "محمود خليل الحصري", baseUrl: "https://server13.mp3quran.net/husary/", description: "أول من سجل القرآن مرتلاً" },
@@ -76,9 +77,13 @@ export default function TilawaPage() {
         
         await audioRef.current.play();
         setIsPlaying(true);
-        
+
         const surah = SURAHS.find(s => s.number === selectedSurah);
         toast.success(`🎧 بدأت تلاوة سورة ${surah?.name || selectedSurah}`);
+
+        // تسجيل الاستماع
+        const reciterName = RECITERS[selectedReciter].name;
+        trackListen(`استماع لسورة ${surah?.name} - القارئ ${reciterName}`);
 
         audioRef.current.onended = () => {
           setIsPlaying(false);
