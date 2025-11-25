@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users } from 'lucide-react';
 import DailyReminders from '@/components/notifications/DailyReminders';
-import SmartVoiceBot from '@/components/assistant/SmartVoiceBot';
+import SmartChatBot from '@/components/assistant/SmartChatBot';
 import OfflineIndicator from '@/components/offline/OfflineIndicator';
 import ThemeToggle from '@/components/ui/theme-toggle';
 import SystemStatus from '@/components/system/SystemStatus';
@@ -67,7 +67,7 @@ export default function Layout({ children, currentPageName }) {
       <ThemeToggle />
       <SystemStatus />
       <DailyReminders />
-      <SmartVoiceBot />
+      <SmartChatBot />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap');
         
