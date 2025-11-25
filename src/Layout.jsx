@@ -32,6 +32,7 @@ export default function Layout({ children, currentPageName }) {
     { name: 'القرآن', path: 'Quran', icon: BookOpen },
     { name: 'الأطفال', path: 'Kids', icon: Users },
     { name: '✅ قائمة التنفيذ', path: 'ImplementationChecklist', icon: BookMarked },
+    { name: '📊 مخطط المشروع', path: 'ProjectChart', icon: Clock },
     { name: 'الإحصائيات', path: 'Stats', icon: Clock },
     { name: 'خطة الحفظ', path: 'MemorizationPlan', icon: BookOpen },
     { name: 'الإنجازات', path: 'Achievements', icon: Sparkles },
