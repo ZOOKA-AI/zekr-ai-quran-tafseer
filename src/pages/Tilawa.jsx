@@ -58,73 +58,59 @@ export default function TilawaPage() {
 
   const handlePlayPause = async () => {
     try {
-      if (!audioRef.current) {
-        audioRef.current = new Audio();
-        audioRef.current.volume = volume[0] / 100;
-        audioRef.current.crossOrigin = "anonymous";
-      }
-
-      if (isPlaying) {
+      if (isPlaying && audioRef.current) {
         audioRef.current.pause();
         setIsPlaying(false);
         toast.info('⏸️ تم إيقاف التلاوة مؤقتاً');
-      } else {
-        const reciter = RECITERS[selectedReciter];
-        const surahStr = selectedSurah.toString().padStart(3, "0");
-        const url = `${reciter.baseUrl}${surahStr}.mp3`;
-        
-        toast.success('🎧 جاري التحميل...');
-        console.log('Audio URL:', url);
-        
-        audioRef.current.src = url;
-        audioRef.current.volume = volume[0] / 100;
-        audioRef.current.load();
-        
-        // إزالة المستمعين القدامى
-        audioRef.current.onended = null;
-        audioRef.current.onerror = null;
-        
-        // إضافة المستمعين الجدد
-        audioRef.current.onended = () => {
-          setIsPlaying(false);
-          toast.success('✅ انتهت التلاوة');
-        };
-
-        audioRef.current.onerror = (err) => {
-          console.error('Audio error:', err);
-          setIsPlaying(false);
-          toast.error('❌ خطأ في تشغيل التلاوة - جرب قارئ آخر');
-        };
-
-        audioRef.current.oncanplay = () => {
-          const surah = SURAHS.find(s => s.number === selectedSurah);
-          toast.success(`🎧 بدأت تلاوة سورة ${surah?.name || selectedSurah}`);
-          
-          // تسجيل الاستماع
-          const reciterName = RECITERS[selectedReciter].name;
-          trackListen(`استماع لسورة ${surah?.name} - القارئ ${reciterName}`);
-        };
-        
-        const playPromise = audioRef.current.play();
-        
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setIsPlaying(true);
-            })
-            .catch((err) => {
-              console.error('Play error:', err);
-              setIsPlaying(false);
-              toast.error('❌ حدث خطأ - اضغط مرة أخرى');
-            });
-        } else {
-          setIsPlaying(true);
-        }
+        return;
       }
+
+      // إنشاء Audio جديد في كل مرة لتجنب مشاكل التحميل
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+      }
+
+      const reciter = RECITERS[selectedReciter];
+      const url = `${reciter.baseUrl}${selectedSurah}.mp3`;
+      
+      toast.loading('🎧 جاري تحميل التلاوة...', { id: 'loading' });
+      console.log('Loading audio:', url);
+      
+      const audio = new Audio();
+      audio.crossOrigin = "anonymous";
+      audio.preload = "auto";
+      
+      audio.onloadeddata = () => {
+        toast.dismiss('loading');
+        const surah = SURAHS.find(s => s.number === selectedSurah);
+        toast.success(`🎧 بدأت تلاوة سورة ${surah?.name || selectedSurah}`);
+        trackListen(`استماع لسورة ${surah?.name} - القارئ ${reciter.name}`);
+      };
+
+      audio.onended = () => {
+        setIsPlaying(false);
+        toast.success('✅ انتهت التلاوة');
+      };
+
+      audio.onerror = () => {
+        toast.dismiss('loading');
+        setIsPlaying(false);
+        toast.error('❌ تعذر تشغيل التلاوة - جرب قارئ آخر');
+      };
+
+      audio.src = url;
+      audio.volume = volume[0] / 100;
+      audioRef.current = audio;
+
+      await audio.play();
+      setIsPlaying(true);
+
     } catch (err) {
       console.error('Play error:', err);
+      toast.dismiss('loading');
       setIsPlaying(false);
-      toast.error('❌ حدث خطأ - جرب مرة أخرى');
+      toast.error('❌ تعذر التشغيل - تحقق من الاتصال');
     }
   };
 
