@@ -26,6 +26,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import ImplementationChecklist from './pages/ImplementationChecklist';
 import ProjectChart from './pages/ProjectChart';
 import ProjectDocumentation from './pages/ProjectDocumentation';
+import CompleteCodeReference from './pages/CompleteCodeReference';
 import __Layout from './Layout.jsx';
 
 
@@ -58,6 +59,7 @@ export const PAGES = {
     "ImplementationChecklist": ImplementationChecklist,
     "ProjectChart": ProjectChart,
     "ProjectDocumentation": ProjectDocumentation,
+    "CompleteCodeReference": CompleteCodeReference,
 }
 
 export const pagesConfig = {
