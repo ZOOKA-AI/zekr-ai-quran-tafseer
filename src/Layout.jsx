@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users } from 'lucide-react';
+import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users, Menu, X } from 'lucide-react';
 import DailyReminders from '@/components/notifications/DailyReminders';
 import SmartChatBot from '@/components/assistant/SmartChatBot';
 import OfflineIndicator from '@/components/offline/OfflineIndicator';
@@ -13,6 +13,7 @@ import { base44 } from '@/api/base44Client';
 
 export default function Layout({ children, currentPageName }) {
   const [isAdmin, setIsAdmin] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
     checkAdmin();
@@ -27,19 +28,18 @@ export default function Layout({ children, currentPageName }) {
     }
   };
 
-  const navItems = [
+  const mainNavItems = [
     { name: 'الرئيسية', path: 'Home', icon: Home },
     { name: 'القرآن', path: 'Quran', icon: BookOpen },
+    { name: 'التلاوة', path: 'Tilawa', icon: Volume2 },
+    { name: 'الحفظ', path: 'MemorizationPlan', icon: BookMarked },
+  ];
+
+  const moreNavItems = [
     { name: 'الأطفال', path: 'Kids', icon: Users },
-    { name: '✅ قائمة التنفيذ', path: 'ImplementationChecklist', icon: BookMarked },
-    { name: '📊 مخطط المشروع', path: 'ProjectChart', icon: Clock },
-    { name: '📚 دليل المشروع', path: 'ProjectDocumentation', icon: BookMarked },
-    { name: '💻 الكود الكامل', path: 'CompleteCodeReference', icon: BookMarked },
     { name: 'الإحصائيات', path: 'Stats', icon: Clock },
-    { name: 'خطة الحفظ', path: 'MemorizationPlan', icon: BookOpen },
     { name: 'الإنجازات', path: 'Achievements', icon: Sparkles },
     { name: 'الراديو', path: 'Radio', icon: Volume2 },
-    { name: 'التلاوة', path: 'Tilawa', icon: Volume2 },
     { name: 'المقرئين', path: 'Reciters', icon: Mic },
     { name: 'الأدعية', path: 'Duaa', icon: Sparkles },
     { name: 'الأذكار', path: 'Adhkar', icon: BookOpen },
@@ -47,10 +47,17 @@ export default function Layout({ children, currentPageName }) {
     { name: 'المساعد', path: 'Assistant', icon: MessageSquare },
   ];
 
-  // إضافة زرار الأدمن فقط للأدمن
-  const displayNavItems = isAdmin 
-    ? [...navItems, { name: '🔐 الأدمن', path: 'AdminDashboard', icon: User }]
-    : navItems;
+  const devNavItems = [
+    { name: '✅ قائمة التنفيذ', path: 'ImplementationChecklist', icon: BookMarked },
+    { name: '📊 مخطط المشروع', path: 'ProjectChart', icon: Clock },
+    { name: '📚 دليل المشروع', path: 'ProjectDocumentation', icon: BookMarked },
+    { name: '💻 الكود الكامل', path: 'CompleteCodeReference', icon: BookMarked },
+  ];
+
+  const allNavItems = [...mainNavItems, ...moreNavItems, ...devNavItems];
+  if (isAdmin) {
+    allNavItems.push({ name: '🔐 الأدمن', path: 'AdminDashboard', icon: User });
+  }
 
   return (
     <div className="min-h-screen relative overflow-hidden" dir="rtl">
@@ -97,28 +104,92 @@ export default function Layout({ children, currentPageName }) {
 
       {/* Navigation */}
       <nav className="bg-white/5 backdrop-blur-md border-b border-white/10 shadow-lg sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-center h-16">
-            <div className="flex gap-2 flex-wrap justify-center">
-              {displayNavItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = currentPageName === item.path;
-                return (
-                  <Link key={item.path} to={createPageUrl(item.path)}>
-                    <button
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-200 ${
-                        isActive
-                          ? 'bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-cyan-500/20 text-gray-900 shadow-md border border-purple-400/30'
-                          : 'text-gray-900 hover:text-gray-700 hover:bg-white/20'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                      <span className="font-medium text-sm">{item.name}</span>
-                    </button>
-                  </Link>
-                );
-              })}
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Desktop - الرئيسية فقط */}
+          <div className="hidden md:flex items-center justify-center h-16 gap-2">
+            {mainNavItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPageName === item.path;
+              return (
+                <Link key={item.path} to={createPageUrl(item.path)}>
+                  <button
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                      isActive
+                        ? 'bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-cyan-500/20 text-gray-900 shadow-md border border-purple-400/30'
+                        : 'text-gray-900 hover:bg-white/20'
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    <span className="font-bold">{item.name}</span>
+                  </button>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Mobile - أزرار كبيرة + قائمة */}
+          <div className="md:hidden">
+            <div className="flex items-center justify-between h-14">
+              {/* الأزرار الرئيسية */}
+              <div className="flex gap-1 flex-1">
+                {mainNavItems.slice(0, 3).map((item) => {
+                  const Icon = item.icon;
+                  const isActive = currentPageName === item.path;
+                  return (
+                    <Link key={item.path} to={createPageUrl(item.path)} className="flex-1">
+                      <button
+                        className={`w-full flex flex-col items-center gap-1 py-2 rounded-lg transition-all ${
+                          isActive
+                            ? 'bg-emerald-500/20 text-emerald-900 shadow-md'
+                            : 'text-gray-700 active:bg-white/20'
+                        }`}
+                      >
+                        <Icon className="w-6 h-6" />
+                        <span className="text-xs font-bold">{item.name}</span>
+                      </button>
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {/* زر القائمة */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="mr-2 p-2 rounded-lg bg-emerald-600 text-white active:bg-emerald-700"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
             </div>
+
+            {/* القائمة المنسدلة للموبايل */}
+            {mobileMenuOpen && (
+              <div className="absolute top-14 left-0 right-0 bg-white/95 backdrop-blur-lg shadow-2xl border-b-4 border-emerald-500 max-h-[80vh] overflow-y-auto">
+                <div className="p-4 space-y-2">
+                  {allNavItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = currentPageName === item.path;
+                    return (
+                      <Link 
+                        key={item.path} 
+                        to={createPageUrl(item.path)}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <button
+                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-right ${
+                            isActive
+                              ? 'bg-emerald-500 text-white shadow-md'
+                              : 'bg-gray-100 text-gray-900 active:bg-gray-200'
+                          }`}
+                        >
+                          <Icon className="w-5 h-5" />
+                          <span className="font-bold text-base">{item.name}</span>
+                        </button>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </nav>
