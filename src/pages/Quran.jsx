@@ -258,34 +258,41 @@ export default function QuranPage() {
         </div>
 
         {/* Quick Action Buttons */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Button
             onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
-            className="h-16 bg-white hover:bg-emerald-50 text-gray-900 font-bold shadow-lg border-2 border-emerald-300 hover:border-emerald-500 transition-all"
+            className="h-20 md:h-16 bg-gradient-to-br from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white font-bold shadow-xl border-2 border-emerald-400 transition-all hover:scale-105"
           >
-            <Search className="w-5 h-5 ml-2" />
-            {showAdvancedSearch ? 'إخفاء' : 'بحث متقدم'}
+            <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
+              <Search className="w-6 h-6 md:w-5 md:h-5" />
+              <span className="text-sm md:text-base">{showAdvancedSearch ? 'إخفاء البحث' : 'بحث متقدم'}</span>
+            </div>
           </Button>
 
-          <Link to={createPageUrl('Bookmarks')}>
-            <Button className="w-full h-16 bg-white hover:bg-amber-50 text-gray-900 font-bold shadow-lg border-2 border-amber-300 hover:border-amber-500 transition-all">
-              <BookMarked className="w-5 h-5 ml-2" />
-              المفضلة
+          <Link to={createPageUrl('Bookmarks')} className="w-full">
+            <Button className="w-full h-20 md:h-16 bg-gradient-to-br from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold shadow-xl border-2 border-amber-400 transition-all hover:scale-105">
+              <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
+                <BookMarked className="w-6 h-6 md:w-5 md:h-5" />
+                <span className="text-sm md:text-base">المفضلة</span>
+              </div>
             </Button>
           </Link>
 
-          <Button
-            onClick={() => window.location.href = createPageUrl('Reciters')}
-            className="w-full h-16 bg-white hover:bg-blue-50 text-gray-900 font-bold shadow-lg border-2 border-blue-300 hover:border-blue-500 transition-all"
-          >
-            <Mic className="w-5 h-5 ml-2" />
-            المقرئين
-          </Button>
+          <Link to={createPageUrl('Reciters')} className="w-full">
+            <Button className="w-full h-20 md:h-16 bg-gradient-to-br from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold shadow-xl border-2 border-blue-400 transition-all hover:scale-105">
+              <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
+                <Mic className="w-6 h-6 md:w-5 md:h-5" />
+                <span className="text-sm md:text-base">المقرئين</span>
+              </div>
+            </Button>
+          </Link>
 
-          <Link to={createPageUrl('Achievements')}>
-            <Button className="w-full h-16 bg-white hover:bg-purple-50 text-gray-900 font-bold shadow-lg border-2 border-purple-300 hover:border-purple-500 transition-all">
-              <Award className="w-5 h-5 ml-2" />
-              الإنجازات
+          <Link to={createPageUrl('Achievements')} className="w-full">
+            <Button className="w-full h-20 md:h-16 bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold shadow-xl border-2 border-purple-400 transition-all hover:scale-105">
+              <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
+                <Award className="w-6 h-6 md:w-5 md:h-5" />
+                <span className="text-sm md:text-base">الإنجازات</span>
+              </div>
             </Button>
           </Link>
         </div>
