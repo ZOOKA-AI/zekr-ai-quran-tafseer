@@ -54,9 +54,9 @@ export default function QuranPage() {
     if (!searchQuery) return ALL_SURAHS;
     const q = searchQuery.toLowerCase();
     return ALL_SURAHS.filter(s => 
-      s.name.includes(searchQuery) || 
-      s.transliteration.toLowerCase().includes(q) ||
-      s.number.toString() === searchQuery
+      s.name?.includes(searchQuery) || 
+      s.transliteration?.toLowerCase().includes(q) ||
+      s.number?.toString() === searchQuery
     );
   }, [searchQuery]);
 
