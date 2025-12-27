@@ -8,6 +8,7 @@ import OfflineIndicator from '@/components/offline/OfflineIndicator';
 import ThemeToggle from '@/components/ui/theme-toggle';
 import SystemStatus from '@/components/system/SystemStatus';
 import AutoUpdate from '@/components/system/AutoUpdate';
+import PerformanceMonitor from '@/components/system/PerformanceMonitor';
 import { Toaster } from 'sonner';
 import { base44 } from '@/api/base44Client';
 
@@ -58,11 +59,12 @@ export default function Layout({ children, currentPageName }) {
         <Toaster position="top-center" richColors />
         <div className="relative z-10">
         <AutoUpdate />
-      <OfflineIndicator />
-      <ThemeToggle />
-      <SystemStatus />
-      <DailyReminders />
-      <SmartChatBot />
+        <OfflineIndicator />
+        <ThemeToggle />
+        <SystemStatus />
+        <DailyReminders />
+        <SmartChatBot />
+        <PerformanceMonitor />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap');
         
