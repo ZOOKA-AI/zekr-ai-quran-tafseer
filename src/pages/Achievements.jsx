@@ -85,22 +85,11 @@ export default function AchievementsPage() {
     loadAchievements();
   }, []);
 
-  const loadAchievements = async () => {
-    // تحميل محلي أولاً
+  const loadAchievements = () => {
+    // تحميل محلي فقط - فوري
     const localAchievements = offlineStorage.loadAchievements();
     if (localAchievements) {
       setAchievements(localAchievements);
-    }
-
-    // محاولة المزامنة
-    try {
-      const user = await base44.auth.me();
-      if (user.achievements) {
-        setAchievements(user.achievements);
-        offlineStorage.saveAchievements(user.achievements);
-      }
-    } catch (error) {
-      // البيانات المحلية كافية
     }
   };
 

@@ -2,18 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users, Menu, X } from 'lucide-react';
-import DailyReminders from '@/components/notifications/DailyReminders';
-import SmartChatBot from '@/components/assistant/SmartChatBot';
-import OfflineIndicator from '@/components/offline/OfflineIndicator';
-import ThemeToggle from '@/components/ui/theme-toggle';
-import SystemStatus from '@/components/system/SystemStatus';
-import AutoUpdate from '@/components/system/AutoUpdate';
-import PerformanceMonitor from '@/components/system/PerformanceMonitor';
-import QuickTestButtons from '@/components/system/QuickTestReport';
 import { Toaster } from 'sonner';
-import { base44 } from '@/api/base44Client';
+import FastLoader from '@/components/system/FastLoader';
 
 export default function Layout({ children, currentPageName }) {
+  const [loaded, setLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    setLoaded(true);
+  }, []);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   
   // لا حاجة لتسجيل دخول - التطبيق مفتوح للجميع
@@ -47,26 +44,16 @@ export default function Layout({ children, currentPageName }) {
 
   const allNavItems = [...mainNavItems, ...moreNavItems, ...devNavItems];
 
+  if (!loaded) {
+    return <FastLoader />;
+  }
+
   return (
     <div className="min-h-screen relative overflow-hidden" dir="rtl">
-      {/* Spiritual Background */}
-      <div className="fixed inset-0 z-0">
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=80)' }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-100/70 via-white/80 to-emerald-100/70" />
-        </div>
-        <Toaster position="top-center" richColors />
-        <div className="relative z-10">
-        <AutoUpdate />
-        <OfflineIndicator />
-        <ThemeToggle />
-        <SystemStatus />
-        <DailyReminders />
-        <SmartChatBot />
-        <PerformanceMonitor />
-        <QuickTestButtons />
+      <div className="fixed inset-0 z-0 bg-gradient-to-br from-cyan-50 via-white to-emerald-50" />
+      <Toaster position="top-center" richColors />
+      <div className="relative z-10">
+
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap');
         

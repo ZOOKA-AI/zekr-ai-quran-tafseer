@@ -12,22 +12,36 @@ const STORAGE_KEYS = {
 };
 
 class OfflineStorage {
+  constructor() {
+    this.cache = new Map();
+  }
+
   save(key, data) {
     try {
-      localStorage.setItem(key, JSON.stringify(data));
+      const str = JSON.stringify(data);
+      localStorage.setItem(key, str);
+      this.cache.set(key, data);
       return true;
     } catch (err) {
-      console.error('Save error:', err);
       return false;
     }
   }
 
   load(key, defaultValue = null) {
+    // تحميل من الكاش أولاً
+    if (this.cache.has(key)) {
+      return this.cache.get(key);
+    }
+    
     try {
       const data = localStorage.getItem(key);
-      return data ? JSON.parse(data) : defaultValue;
+      if (data) {
+        const parsed = JSON.parse(data);
+        this.cache.set(key, parsed);
+        return parsed;
+      }
+      return defaultValue;
     } catch (err) {
-      console.error('Load error:', err);
       return defaultValue;
     }
   }

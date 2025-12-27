@@ -19,6 +19,14 @@ export default function StatsPage() {
     loadStats();
   }, []);
 
+  // تحميل سريع فوري
+  React.useLayoutEffect(() => {
+    const cached = offlineStorage.loadStats();
+    if (cached) {
+      setStats(cached);
+    }
+  }, []);
+
   const loadStats = async () => {
     // تحميل من التخزين المحلي - لا حاجة لحساب
     const localStats = offlineStorage.loadStats();

@@ -29,6 +29,7 @@ import Reciters from './pages/Reciters';
 import Stats from './pages/Stats';
 import SurahView from './pages/SurahView';
 import Tilawa from './pages/Tilawa';
+import SpeedTest from './pages/SpeedTest';
 import __Layout from './Layout.jsx';
 
 
@@ -64,6 +65,7 @@ export const PAGES = {
     "Stats": Stats,
     "SurahView": SurahView,
     "Tilawa": Tilawa,
+    "SpeedTest": SpeedTest,
 }
 
 export const pagesConfig = {
