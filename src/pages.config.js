@@ -33,6 +33,7 @@ import SpeedTest from './pages/SpeedTest';
 import Settings from './pages/Settings';
 import Community from './pages/Community';
 import OfflineDownloads from './pages/OfflineDownloads';
+import PWAInfo from './pages/PWAInfo';
 import __Layout from './Layout.jsx';
 
 
@@ -72,6 +73,7 @@ export const PAGES = {
     "Settings": Settings,
     "Community": Community,
     "OfflineDownloads": OfflineDownloads,
+    "PWAInfo": PWAInfo,
 }
 
 export const pagesConfig = {

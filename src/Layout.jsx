@@ -3,12 +3,30 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users, Menu, X } from 'lucide-react';
 import { Toaster } from 'sonner';
+import InstallPrompt from '@/components/pwa/InstallPrompt';
 
 export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  
-  // لا حاجة لتسجيل دخول - التطبيق مفتوح للجميع
-  const isAdmin = false;
+
+  React.useEffect(() => {
+    document.title = 'ذكر - القرآن الكريم والتفسير';
+    
+    let metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (!metaTheme) {
+      metaTheme = document.createElement('meta');
+      metaTheme.name = 'theme-color';
+      document.head.appendChild(metaTheme);
+    }
+    metaTheme.content = '#059669';
+
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = 'تطبيق القرآن الكريم الشامل مع التفسير والفقه - صدقة جارية';
+  }, []);
 
   const mainNavItems = [
     { name: 'الرئيسية', path: 'Home', icon: Home },
@@ -30,7 +48,8 @@ export default function Layout({ children, currentPageName }) {
     { name: 'الخطوط', path: 'Calligraphy', icon: Sparkles },
     { name: 'المساعد', path: 'Assistant', icon: MessageSquare },
     { name: 'الإعدادات', path: 'Settings', icon: User },
-  ];
+    { name: '📱 تثبيت التطبيق', path: 'PWAInfo', icon: User },
+    ];
 
   const devNavItems = [
     { name: '✅ قائمة التنفيذ', path: 'ImplementationChecklist', icon: BookMarked },
@@ -166,6 +185,9 @@ export default function Layout({ children, currentPageName }) {
 
       {/* Main Content */}
       <main>{children}</main>
+
+      {/* PWA Install Prompt */}
+      <InstallPrompt />
 
       {/* Footer */}
       <footer className="relative mt-16 overflow-hidden">
