@@ -93,10 +93,10 @@ export default function VerseOfTheDay() {
 
   const handleShare = () => {
     if (!verse) return;
-    const text = `🌟 آية اليوم 🌟\n\n${verse.text}\n\n📖 ${verse.tafsir}\n\n(${verse.reference})`;
+    const text = `🌟 آية اليوم من تطبيق ذكر 🌟\n\n${verse.text}\n\n📖 ${verse.tafsir}\n\n(${verse.reference})`;
     
     if (navigator.share) {
-      navigator.share({ title: 'آية اليوم', text });
+      navigator.share({ title: 'ذكر - آية اليوم', text });
     } else {
       navigator.clipboard.writeText(text);
       toast.success('تم نسخ الآية للمشاركة!');

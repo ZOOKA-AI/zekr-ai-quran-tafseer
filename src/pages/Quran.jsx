@@ -30,11 +30,11 @@ export default function QuranPage() {
 
   const handleShare = () => {
     const appUrl = window.location.origin;
-    const shareText = '🕌 تطبيق القرآن الكريم - مجاني بالكامل لوجه الله تعالى\n\nصدقة جارية - شارك الأجر معنا 🤲\n\n' + appUrl;
+    const shareText = '🕌 ذكر - القرآن الكريم والتفسير والفقه - مجاني بالكامل لوجه الله تعالى\n\nصدقة جارية - شارك الأجر معنا 🤲\n\n' + appUrl;
     
     if (navigator.share) {
       navigator.share({
-        title: 'تطبيق القرآن الكريم',
+        title: 'ذكر - القرآن الكريم والتفسير',
         text: shareText,
       });
     } else {
