@@ -17,9 +17,9 @@ const SurahCard = ({ surah }) => {
               </div>
               <div>
                 <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-emerald-600 transition-colors duration-200">
-                  {surah.name}
+                  {surah.name || ''}
                 </h3>
-                <p className="text-sm text-gray-600">{surah.transliteration}</p>
+                <p className="text-sm text-gray-600">{surah.transliteration || ''}</p>
               </div>
             </div>
             <div className="text-right">
@@ -31,14 +31,14 @@ const SurahCard = ({ surah }) => {
             <div className="flex items-center gap-4">
               <Badge variant="outline" className="border-emerald-200 text-emerald-700">
                 <BookOpen className="w-3 h-3 mr-1" />
-                {surah.verses_count} آية
+                {surah.verses_count || surah.verses || 0} آية
               </Badge>
               <Badge variant="outline" className="border-amber-200 text-amber-700">
                 <MapPin className="w-3 h-3 mr-1" />
                 {surah.revelation_place === 'Makkah' ? 'مكية' : 'مدنية'}
               </Badge>
             </div>
-            <p className="text-xs text-gray-500">الجزء {surah.juz_start}</p>
+            <p className="text-xs text-gray-500">الجزء {surah.juz_start || 1}</p>
           </div>
         </div>
       </Card>
