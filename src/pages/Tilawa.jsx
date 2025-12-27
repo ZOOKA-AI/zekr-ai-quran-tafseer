@@ -1,12 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
-import { toast } from 'sonner';
-import localAudioLibrary from '../components/audio/LocalAudioLibrary';
 import { ALL_SURAHS } from '../components/quran/QuranData';
+import AdvancedPlayer from '../components/tilawa/AdvancedPlayer';
 
 // أصوات محلية - تعمل بدون نت باستخدام Web Speech API
 const LOCAL_VOICES = {
@@ -31,59 +27,14 @@ const SURAHS = [
 
 export default function TilawaPage() {
   const [selectedSurah, setSelectedSurah] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState([80]);
-  const [currentVerse, setCurrentVerse] = useState(0);
-  const [totalVerses, setTotalVerses] = useState(0);
-
-  const handlePlayPause = async () => {
-    try {
-      if (isPlaying) {
-        localAudioLibrary.stop();
-        setIsPlaying(false);
-        toast.info('⏸️ تم إيقاف التلاوة');
-        return;
-      }
-
-      // الحصول على السورة
-      const surah = ALL_SURAHS.find(s => s.number === selectedSurah);
-      if (!surah) {
-        toast.error('السورة غير موجودة');
-        return;
-      }
-
-      toast.loading('🎧 جاري التحضير...', { id: 'loading' });
-      
-      // محاكاة آيات السورة (في التطبيق الحقيقي ستكون من قاعدة البيانات)
-      const verses = Array.from({ length: surah.verses }, (_, i) => ({
-        number: i + 1,
-        text: `آية رقم ${i + 1} من سورة ${surah.name}` // سيتم استبدالها بالنص الحقيقي
-      }));
-
-      setTotalVerses(verses.length);
-      setCurrentVerse(0);
-      setIsPlaying(true);
-
-      toast.dismiss('loading');
-      toast.success(`🎧 بدأت تلاوة سورة ${surah.name}`);
-
-      // قراءة السورة آية بآية
-      await localAudioLibrary.reciteSurah(verses, {
-        includeBismillah: selectedSurah !== 1 && selectedSurah !== 9,
-        onProgress: (current, total) => {
-          setCurrentVerse(current);
-        }
-      });
-
-      setIsPlaying(false);
-      toast.success('✅ انتهت التلاوة');
-
-    } catch (err) {
-      console.error('Play error:', err);
-      setIsPlaying(false);
-      toast.error('❌ خطأ في التشغيل');
-    }
-  };
+  
+  const selectedSurahData = ALL_SURAHS.find(s => s.number === selectedSurah);
+  
+  // آيات مثالية - في التطبيق الحقيقي ستأتي من API
+  const sampleVerses = selectedSurahData ? Array.from({ length: Math.min(selectedSurahData.verses, 10) }, (_, i) => ({
+    number: i + 1,
+    text: `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ`
+  })) : [];
 
 
 
@@ -166,89 +117,30 @@ export default function TilawaPage() {
             <h1 className="text-6xl font-bold text-gray-900 mb-4 font-arabic drop-shadow-2xl">
               ﴿ وَرَتِّلِ ٱلْقُرْءَانَ تَرْتِيلًا ﴾
             </h1>
-            <p className="text-lg text-gray-900 font-bold drop-shadow-lg">تلاوة محلية • بدون إنترنت 100%</p>
-            {isPlaying && totalVerses > 0 && (
-              <p className="text-emerald-600 font-bold mt-2">
-                الآية {currentVerse} من {totalVerses}
-              </p>
-            )}
+            <p className="text-lg text-gray-900 font-bold drop-shadow-lg">مشغل تلاوة متقدم • اختر القارئ وسرعة التلاوة</p>
           </div>
 
-          {/* Main Control Card */}
-          <Card className="bg-gradient-to-br from-emerald-900/95 via-green-900/90 to-emerald-900/95 backdrop-blur-xl border-2 border-emerald-400/60 shadow-2xl">
-            <div className="p-8">
-              {/* Info Banner */}
-              <div className="mb-6 bg-emerald-500/20 border border-emerald-400/40 rounded-xl p-4 text-center">
-                <p className="text-white font-bold text-lg mb-2">🎤 قراءة محلية بصوت المتصفح</p>
-                <p className="text-emerald-200 text-sm">يعمل بدون إنترنت - جودة عالية - سريع</p>
-              </div>
+          {/* Surah Selection */}
+          <Card className="bg-white/90 backdrop-blur-xl border-2 border-emerald-400/60 shadow-2xl mb-6 p-6">
+            <label className="block text-gray-900 text-lg font-bold mb-3 text-center">
+              📖 اختر السورة
+            </label>
+            <Select value={selectedSurah.toString()} onValueChange={(v) => setSelectedSurah(Number(v))}>
+              <SelectTrigger className="h-12 text-lg bg-white border-2 border-emerald-300 text-gray-900">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-emerald-300">
+                {ALL_SURAHS.map(surah => (
+                  <SelectItem key={surah.number} value={surah.number.toString()} className="text-gray-900 text-lg">
+                    {surah.name} - {surah.verses} آية
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </Card>
 
-              {/* Surah Selection */}
-              <div className="mb-8">
-                <label className="block text-white text-lg font-bold mb-3 text-center">
-                  📖 اختر السورة
-                </label>
-                <Select value={selectedSurah.toString()} onValueChange={(v) => setSelectedSurah(Number(v))}>
-                  <SelectTrigger className="h-12 text-lg bg-white/90 border-2 border-emerald-300 text-gray-900 hover:bg-white transition-all">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border-emerald-300">
-                    {ALL_SURAHS.map(surah => (
-                      <SelectItem key={surah.number} value={surah.number.toString()} className="text-gray-900 text-lg hover:bg-emerald-100">
-                        {surah.name} - {surah.verses} آية
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Big Play Button */}
-              <div className="relative flex justify-center mb-8">
-                {isPlaying && (
-                  <>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-48 h-48 rounded-full bg-gradient-to-r from-emerald-500/30 via-green-500/30 to-teal-500/30 pulse-ring"></div>
-                    </div>
-                    <div className="absolute inset-0 flex items-center justify-center" style={{animationDelay: '0.5s'}}>
-                      <div className="w-48 h-48 rounded-full bg-gradient-to-r from-emerald-500/30 via-green-500/30 to-teal-500/30 pulse-ring"></div>
-                    </div>
-                  </>
-                )}
-                <Button
-                  onClick={handlePlayPause}
-                  className={`relative w-32 h-32 rounded-full text-white font-bold text-xl shadow-2xl transition-all duration-200 hover:scale-105 ${
-                    isPlaying 
-                      ? 'bg-gradient-to-br from-red-500 to-pink-600' 
-                      : 'bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500'
-                  }`}
-                >
-                  {isPlaying ? (
-                    <Pause className="w-16 h-16" />
-                  ) : (
-                    <Play className="w-16 h-16 mr-2" />
-                  )}
-                </Button>
-              </div>
-
-              {/* Note */}
-              <div className="bg-amber-500/20 border border-amber-400/40 rounded-xl p-4 text-center">
-                <p className="text-amber-200 text-sm">
-                  💡 القراءة باستخدام صوت المتصفح المدمج - لا حاجة للإنترنت
-                </p>
-              </div>
-              </div>
-              </Card>
-
-          {/* Status Display */}
-          {isPlaying && (
-            <div className="mt-6 text-center">
-              <div className="inline-block bg-white/90 backdrop-blur-sm border border-gray-300 rounded-2xl px-6 py-3">
-                <p className="text-gray-900 text-lg font-bold">
-                  🎵 جاري التشغيل...
-                </p>
-              </div>
-            </div>
-          )}
+          {/* Advanced Player */}
+          <AdvancedPlayer surah={selectedSurah} verses={sampleVerses} />
         </div>
       </div>
 
