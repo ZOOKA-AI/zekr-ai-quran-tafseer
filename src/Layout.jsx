@@ -211,39 +211,20 @@ export default function Layout({ children, currentPageName }) {
       <InstallPrompt />
 
       {/* Footer */}
-      <footer className="relative mt-16 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
+      <footer className="relative mt-8 bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 py-6 relative z-10">
           <div className="text-center">
-            <p className="text-2xl mb-4 font-arabic text-white" style={{textShadow: '0 0 20px rgba(251,191,36,0.6)'}}>﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</p>
-            <p className="text-amber-200 mb-6">اللهم اجعلنا من أهل القرآن وخاصته</p>
+            <p className="text-lg mb-2 font-arabic text-white">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</p>
+            <p className="text-amber-200 mb-3 text-sm">اللهم اجعلنا من أهل القرآن وخاصته</p>
 
-            <div className="flex flex-wrap gap-3 justify-center items-center mb-4">
-              <span className="text-amber-300 text-sm font-bold">📢 باص إسلامي</span>
-              <span className="text-white text-sm">🤲 صدقة جارية</span>
-              <span className="text-amber-200 text-sm font-arabic">جزبية عبد الرحيم هارون علي</span>
-              <a href="https://zaka.ai/" target="_blank" rel="noopener noreferrer" className="text-white text-sm hover:text-amber-300 transition-colors underline">🌐 zaka.ai</a>
-              <span className="text-emerald-100 text-sm">🇪🇬 مصر</span>
-              <span className="text-white text-sm">👍 القناة</span>
+            <div className="text-xs text-amber-200 mb-2">
+              🤲 صدقة جارية • جزبية عبد الرحيم هارون علي
             </div>
-
-            <div className="flex flex-wrap gap-3 justify-center items-center mb-4">
-              <span className="text-amber-200 text-sm">🤲 مجاني بالكامل</span>
-              <span className="text-white text-sm">✨ الإمارات 🇦🇪</span>
-              <span className="text-amber-300 text-sm font-bold">🤖 ZOOKA-AI المرزوق</span>
-              <span className="text-amber-200 text-sm">موسى وهارون 🇦🇪</span>
-              <span className="text-amber-100 text-sm">🇪🇬 الفقراء لله</span>
+            <div className="text-xs text-white mb-2">
+              مجاني بالكامل • zaka.ai
             </div>
-
-            <div className="flex flex-wrap gap-3 justify-center items-center">
-              <span className="text-amber-300 text-sm font-bold">🔐 المشرف العام</span>
-              <a href="mailto:Zookaalmrzwq@gmail.com" className="text-amber-100 text-sm hover:text-white transition-colors underline">Zookaalmrzwq@gmail.com</a>
-              <a href="https://zaka.ai/" target="_blank" rel="noopener noreferrer" className="text-amber-300 text-sm hover:text-amber-200 transition-colors underline font-bold">🌐 zaka.ai</a>
-              <span className="text-white text-sm font-bold">⚠️ جميع الحقوق محفوظة</span>
-            </div>
-            <div className="flex justify-center gap-8 text-sm text-amber-300">
-              <span>© 2024 القرآن الكريم</span>
-              <span>•</span>
-              <span>منصة إسلامية متكاملة</span>
+            <div className="text-xs text-amber-300">
+              © 2024 القرآن الكريم
             </div>
           </div>
         </div>
