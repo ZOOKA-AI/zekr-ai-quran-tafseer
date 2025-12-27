@@ -8,10 +8,16 @@ import { toast } from 'sonner';
 import FastCache from '../performance/FastCache';
 
 const RECITERS = [
-  { id: 'husary', name: 'محمود خليل الحصري', url: 'https://cdn.islamic.network/quran/audio/128/ar.alafasy/' },
-  { id: 'sudais', name: 'عبد الرحمن السديس', url: 'https://cdn.islamic.network/quran/audio/128/ar.abdurrahmaansudais/' },
-  { id: 'minshawi', name: 'محمد صديق المنشاوي', url: 'https://cdn.islamic.network/quran/audio/128/ar.minshawi/' },
-  { id: 'alafasy', name: 'مشاري راشد العفاسي', url: 'https://cdn.islamic.network/quran/audio/128/ar.alafasy/' },
+  { id: 'husary', name: 'محمود خليل الحصري', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.alafasy/' },
+  { id: 'sudais', name: 'عبد الرحمن السديس', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.abdurrahmaansudais/' },
+  { id: 'minshawi', name: 'محمد صديق المنشاوي', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.minshawi/' },
+  { id: 'alafasy', name: 'مشاري راشد العفاسي', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.alafasy/' },
+];
+
+const QUALITY_OPTIONS = [
+  { id: '64', name: 'جودة منخفضة (64kbps)', size: '~500KB' },
+  { id: '128', name: 'جودة متوسطة (128kbps)', size: '~1MB' },
+  { id: '192', name: 'جودة عالية (192kbps)', size: '~1.5MB' },
 ];
 
 export default function AdvancedPlayer({ surah, verses = [] }) {
@@ -21,6 +27,9 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
   const [playbackRate, setPlaybackRate] = useState([1]);
   const [volume, setVolume] = useState([80]);
   const [downloaded, setDownloaded] = useState(false);
+  const [selectedQuality, setSelectedQuality] = useState('128');
+  const [downloadProgress, setDownloadProgress] = useState(0);
+  const [isDownloading, setIsDownloading] = useState(false);
   
   const audioRef = useRef(null);
 
@@ -36,10 +45,11 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
     
     const reciter = RECITERS.find(r => r.id === selectedReciter);
     const verseNum = verseIndex + 1;
-    const audioUrl = `${reciter.url}${surah.toString().padStart(3, '0')}${verseNum.toString().padStart(3, '0')}.mp3`;
+    const baseUrl = reciter.url.replace('{quality}', selectedQuality);
+    const audioUrl = `${baseUrl}${surah.toString().padStart(3, '0')}${verseNum.toString().padStart(3, '0')}.mp3`;
     
     // تحقق من الكاش
-    const cached = FastCache.get(`audio_${surah}_${verseNum}_${selectedReciter}`);
+    const cached = FastCache.get(`audio_${surah}_${verseNum}_${selectedReciter}_${selectedQuality}`);
     
     if (audioRef.current) {
       audioRef.current.src = cached || audioUrl;
@@ -82,35 +92,49 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
   };
 
   const handleDownload = async () => {
-    if (!surah) return;
+    if (!surah || isDownloading) return;
     
+    setIsDownloading(true);
+    setDownloadProgress(0);
     toast.loading('جاري تحميل السورة...', { id: 'download' });
     
     const reciter = RECITERS.find(r => r.id === selectedReciter);
-    let downloaded = 0;
+    const baseUrl = reciter.url.replace('{quality}', selectedQuality);
+    let downloadedCount = 0;
     
     for (let i = 0; i < verses.length; i++) {
       try {
         const verseNum = i + 1;
-        const audioUrl = `${reciter.url}${surah.toString().padStart(3, '0')}${verseNum.toString().padStart(3, '0')}.mp3`;
+        const audioUrl = `${baseUrl}${surah.toString().padStart(3, '0')}${verseNum.toString().padStart(3, '0')}.mp3`;
         
         const response = await fetch(audioUrl);
         const blob = await response.blob();
         const reader = new FileReader();
         
         reader.onloadend = () => {
-          FastCache.set(`audio_${surah}_${verseNum}_${selectedReciter}`, reader.result, 1000 * 60 * 60 * 24 * 7); // أسبوع
-          downloaded++;
+          FastCache.set(`audio_${surah}_${verseNum}_${selectedReciter}_${selectedQuality}`, reader.result, 1000 * 60 * 60 * 24 * 30); // شهر
+          downloadedCount++;
           
-          if (downloaded === verses.length) {
-            toast.success('تم تحميل السورة للاستماع بدون نت!', { id: 'download' });
+          const progress = Math.round((downloadedCount / verses.length) * 100);
+          setDownloadProgress(progress);
+          
+          if (downloadedCount === verses.length) {
+            toast.success('✅ تم تحميل السورة بنجاح!', { id: 'download' });
             setDownloaded(true);
+            setIsDownloading(false);
+            
+            // حفظ حالة التحميل
+            const downloadedSurahs = JSON.parse(localStorage.getItem('downloadedSurahs') || '[]');
+            downloadedSurahs.push({ surah, reciter: selectedReciter, quality: selectedQuality });
+            localStorage.setItem('downloadedSurahs', JSON.stringify(downloadedSurahs));
           }
         };
         
         reader.readAsDataURL(blob);
       } catch (err) {
         console.error('Download error:', err);
+        toast.error('خطأ في التحميل', { id: 'download' });
+        setIsDownloading(false);
       }
     }
   };
@@ -166,13 +190,27 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
 
       {/* عرض الآية الحالية */}
       {verses.length > 0 && (
-        <div className="bg-white/95 rounded-xl p-6 mb-6">
-          <p className="text-center text-emerald-600 font-bold mb-2">
-            الآية {currentVerse + 1} من {verses.length}
-          </p>
-          <p className="text-3xl font-arabic text-gray-900 leading-loose text-center">
-            {verses[currentVerse]?.text || 'جاري التحميل...'}
-          </p>
+        <div className="bg-gradient-to-br from-white via-emerald-50 to-white rounded-2xl p-8 mb-6 shadow-xl border-2 border-emerald-300">
+          <div className="text-center mb-4">
+            <div className="inline-block bg-emerald-600 text-white px-6 py-2 rounded-full font-bold shadow-lg">
+              الآية {currentVerse + 1} من {verses.length}
+            </div>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-inner">
+            <p className="text-4xl font-arabic text-gray-900 leading-loose text-center mb-4">
+              {verses[currentVerse]?.text || 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'}
+            </p>
+            {isPlaying && (
+              <div className="flex justify-center">
+                <div className="flex gap-2">
+                  <div className="w-2 h-8 bg-emerald-500 rounded animate-pulse" style={{animationDelay: '0ms'}} />
+                  <div className="w-2 h-8 bg-emerald-500 rounded animate-pulse" style={{animationDelay: '100ms'}} />
+                  <div className="w-2 h-8 bg-emerald-500 rounded animate-pulse" style={{animationDelay: '200ms'}} />
+                  <div className="w-2 h-8 bg-emerald-500 rounded animate-pulse" style={{animationDelay: '300ms'}} />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -241,15 +279,51 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
         />
       </div>
 
+      {/* خيارات الجودة */}
+      <div className="mb-6">
+        <label className="block text-white font-bold mb-3 text-center">
+          📊 جودة التحميل
+        </label>
+        <Select value={selectedQuality} onValueChange={setSelectedQuality}>
+          <SelectTrigger className="bg-white/90 border-2 border-emerald-300 text-gray-900">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="bg-white">
+            {QUALITY_OPTIONS.map(quality => (
+              <SelectItem key={quality.id} value={quality.id} className="text-gray-900">
+                {quality.name} - {quality.size}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       {/* زر التحميل */}
-      <Button
-        onClick={handleDownload}
-        className="w-full bg-amber-500 hover:bg-amber-600 text-white"
-        disabled={downloaded}
-      >
-        <Download className="w-5 h-5 ml-2" />
-        {downloaded ? 'تم التحميل ✓' : 'تحميل السورة للاستماع بدون نت'}
-      </Button>
+      <div className="space-y-3">
+        <Button
+          onClick={handleDownload}
+          className="w-full bg-amber-500 hover:bg-amber-600 text-white h-14 text-lg"
+          disabled={downloaded || isDownloading}
+        >
+          <Download className="w-6 h-6 ml-2" />
+          {isDownloading ? `جاري التحميل... ${downloadProgress}%` : downloaded ? 'تم التحميل ✓' : 'تحميل السورة للاستماع بدون نت'}
+        </Button>
+        
+        {isDownloading && (
+          <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+            <div 
+              className="bg-gradient-to-r from-emerald-500 to-green-500 h-full transition-all duration-300"
+              style={{ width: `${downloadProgress}%` }}
+            />
+          </div>
+        )}
+        
+        {downloaded && (
+          <div className="bg-green-50 border border-green-300 rounded-lg p-3 text-center">
+            <p className="text-green-700 font-bold">✅ السورة محفوظة - يمكنك الاستماع بدون إنترنت</p>
+          </div>
+        )}
+      </div>
     </Card>
   );
 }
