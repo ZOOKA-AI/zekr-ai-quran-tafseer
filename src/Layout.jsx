@@ -33,6 +33,7 @@ export default function Layout({ children, currentPageName }) {
     { name: 'الأذكار', path: 'Adhkar', icon: BookOpen },
     { name: 'الخطوط', path: 'Calligraphy', icon: Sparkles },
     { name: 'المساعد', path: 'Assistant', icon: MessageSquare },
+    { name: 'الإعدادات', path: 'Settings', icon: User },
   ];
 
   const devNavItems = [
