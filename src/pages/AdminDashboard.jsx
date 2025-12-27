@@ -25,30 +25,11 @@ export default function AdminDashboard() {
     toast.info('📊 وضع المراقبة - للاطلاع فقط');
   };
 
-  // البيانات
-  const { data: orphans = [] } = useQuery({
-    queryKey: ['orphans'],
-    queryFn: () => base44.entities.Orphan.list(),
-    enabled: !!user
-  });
-
-  const { data: donations = [] } = useQuery({
-    queryKey: ['donations'],
-    queryFn: () => base44.entities.Donation.list(),
-    enabled: !!user
-  });
-
-  const { data: systemLogs = [] } = useQuery({
-    queryKey: ['system-logs'],
-    queryFn: () => base44.entities.SystemLog.list('-created_date', 50),
-    enabled: !!user
-  });
-
-  const { data: bookmarks = [] } = useQuery({
-    queryKey: ['bookmarks'],
-    queryFn: () => base44.entities.Bookmark.list(),
-    enabled: !!user
-  });
+  // البيانات - معطلة للسرعة
+  const orphans = [];
+  const donations = [];
+  const systemLogs = [];
+  const bookmarks = [];
 
   if (loading) {
     return (
