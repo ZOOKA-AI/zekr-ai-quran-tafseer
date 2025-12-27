@@ -6,11 +6,6 @@ import { Toaster } from 'sonner';
 import FastLoader from '@/components/system/FastLoader';
 
 export default function Layout({ children, currentPageName }) {
-  const [loaded, setLoaded] = React.useState(false);
-
-  React.useEffect(() => {
-    setLoaded(true);
-  }, []);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   
   // لا حاجة لتسجيل دخول - التطبيق مفتوح للجميع
@@ -44,10 +39,6 @@ export default function Layout({ children, currentPageName }) {
   ];
 
   const allNavItems = [...mainNavItems, ...moreNavItems, ...devNavItems];
-
-  if (!loaded) {
-    return <FastLoader />;
-  }
 
   return (
     <div className="min-h-screen relative overflow-hidden" dir="rtl">

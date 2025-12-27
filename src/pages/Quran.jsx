@@ -49,10 +49,14 @@ export default function QuranPage() {
     toast.success('تم نسخ رابط التطبيق! 📋');
   };
 
-  const filteredSurahs = SURAHS.filter(surah => 
-    surah.name.includes(searchQuery) || 
-    surah.transliteration.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    surah.number.toString().includes(searchQuery)
+  // تحسين البحث - memo للأداء
+  const filteredSurahs = React.useMemo(() => 
+    ALL_SURAHS.filter(surah => 
+      searchQuery === '' || 
+      surah.name.includes(searchQuery) || 
+      surah.transliteration.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      surah.number.toString().includes(searchQuery)
+    ), [searchQuery]
   );
 
   return (

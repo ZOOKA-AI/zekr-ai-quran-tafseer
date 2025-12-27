@@ -14,15 +14,28 @@ const STORAGE_KEYS = {
 class OfflineStorage {
   constructor() {
     this.cache = new Map();
+    this.maxCacheSize = 100;
   }
 
   save(key, data) {
     try {
+      // تنظيف الكاش إذا امتلأ
+      if (this.cache.size >= this.maxCacheSize) {
+        const firstKey = this.cache.keys().next().value;
+        this.cache.delete(firstKey);
+      }
+      
       const str = JSON.stringify(data);
       localStorage.setItem(key, str);
       this.cache.set(key, data);
       return true;
     } catch (err) {
+      // حذف أقدم عنصر عند امتلاء localStorage
+      if (err.name === 'QuotaExceededError') {
+        const oldestKey = localStorage.key(0);
+        if (oldestKey) localStorage.removeItem(oldestKey);
+        return this.save(key, data);
+      }
       return false;
     }
   }
