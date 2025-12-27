@@ -9,15 +9,64 @@ import { createPageUrl } from '@/utils';
 import { toast } from 'sonner';
 import { ALL_SURAHS } from '../quran/QuranData';
 
-// قاعدة بيانات آيات مثالية (في التطبيق الحقيقي ستكون من API)
+// قاعدة بيانات آيات مع التفاسير
 const SAMPLE_VERSES = [
-  { surah: 1, verse: 1, text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ', translation: 'In the name of Allah, the Entirely Merciful, the Especially Merciful' },
-  { surah: 1, verse: 2, text: 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ', translation: 'All praise is due to Allah, Lord of the worlds' },
-  { surah: 2, verse: 255, text: 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ', translation: 'Allah - there is no deity except Him, the Ever-Living, the Sustainer' },
-  { surah: 112, verse: 1, text: 'قُلْ هُوَ اللَّهُ أَحَدٌ', translation: 'Say, He is Allah, [who is] One' },
-  { surah: 112, verse: 2, text: 'اللَّهُ الصَّمَدُ', translation: 'Allah, the Eternal Refuge' },
-  { surah: 55, verse: 13, text: 'فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ', translation: 'So which of the favors of your Lord would you deny?' },
-  { surah: 18, verse: 10, text: 'رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً', translation: 'Our Lord, grant us from Yourself mercy' },
+  { 
+    surah: 1, verse: 1, 
+    text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ', 
+    translation: 'In the name of Allah, the Entirely Merciful, the Especially Merciful',
+    tafsir_saadi: 'أي أبتدئ بكل اسم لله تعالى، لأن لفظ اسم مفرد مضاف فيعم جميع الأسماء الحسنى',
+    tafsir_kathir: 'افتتح تعالى كتابه العزيز بالبسملة وهي من القرآن في أول كل سورة',
+    tafsir_tabari: 'اختلف أهل التأويل في تأويلها فمنهم من قال معناه أبدأ بكل اسم لله'
+  },
+  { 
+    surah: 1, verse: 2, 
+    text: 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ', 
+    translation: 'All praise is due to Allah, Lord of the worlds',
+    tafsir_saadi: 'الحمد هو وصف المحمود بالصفات الكاملة مع المحبة والتعظيم',
+    tafsir_kathir: 'الحمد لله هو الثناء على الله بصفات الكمال وبأفعاله الدائرة بين الفضل والعدل',
+    tafsir_tabari: 'معنى الحمد لله الشكر لله خالصا دون سائر ما يُعبد من دونه'
+  },
+  { 
+    surah: 2, verse: 255, 
+    text: 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ', 
+    translation: 'Allah - there is no deity except Him, the Ever-Living, the Sustainer',
+    tafsir_saadi: 'هذه آية الكرسي تضمنت من أصول الأسماء والصفات ما لم تتضمنه آية أخرى',
+    tafsir_kathir: 'هذه آية الكرسي ولها شأن عظيم وقد صح الحديث بأنها أعظم آية في القرآن',
+    tafsir_tabari: 'يقول تعالى ذكره الله الذي له عبادة الخلق لا إله غيره ولا رب سواه'
+  },
+  { 
+    surah: 112, verse: 1, 
+    text: 'قُلْ هُوَ اللَّهُ أَحَدٌ', 
+    translation: 'Say, He is Allah, [who is] One',
+    tafsir_saadi: 'الأحد الذي تفرد بالكمال وتوحد بالجلال',
+    tafsir_kathir: 'أي الواحد الأحد الذي لا نظير له ولا وزير',
+    tafsir_tabari: 'قل يا محمد لهؤلاء المشركين الله الواحد'
+  },
+  { 
+    surah: 112, verse: 2, 
+    text: 'اللَّهُ الصَّمَدُ', 
+    translation: 'Allah, the Eternal Refuge',
+    tafsir_saadi: 'الصمد هو الذي تصمد إليه القلوب بحوائجها',
+    tafsir_kathir: 'الصمد السيد الذي قد كمل في سؤدده',
+    tafsir_tabari: 'الصمد الذي يصمد إليه الخلائق في حوائجهم'
+  },
+  { 
+    surah: 55, verse: 13, 
+    text: 'فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ', 
+    translation: 'So which of the favors of your Lord would you deny?',
+    tafsir_saadi: 'فبأي نعم الله تكذبان أيها الثقلان الإنس والجن',
+    tafsir_kathir: 'أي فبأي النعم التي أنعمها عليكم تكذبان',
+    tafsir_tabari: 'يقول تعالى فبأي نعم ربكما تكذبان يا معشر الجن والإنس'
+  },
+  { 
+    surah: 18, verse: 10, 
+    text: 'إِذْ أَوَى الْفِتْيَةُ إِلَى الْكَهْفِ فَقَالُوا رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً', 
+    translation: 'Our Lord, grant us from Yourself mercy',
+    tafsir_saadi: 'دعوا الله أن يرحمهم ويهديهم ويثبتهم',
+    tafsir_kathir: 'أي اجعل لنا من عندك رحمة تثبتنا على الإيمان',
+    tafsir_tabari: 'قالوا ربنا أعطنا من عندك رحمة تهدينا بها'
+  },
 ];
 
 const TAFSIR_OPTIONS = [
@@ -42,19 +91,25 @@ export default function QuranSearch() {
   const [searchType, setSearchType] = useState('word'); // word or verse
   const [showFilters, setShowFilters] = useState(false);
 
-  // البحث في الآيات
+  // البحث في الآيات والتفاسير
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
 
     const query = searchQuery.trim().toLowerCase();
     
     return SAMPLE_VERSES.filter(verse => {
-      // البحث بالكلمة أو الآية
+      // البحث في نص الآية
       const matchesText = verse.text.includes(searchQuery) || 
                          verse.text.toLowerCase().includes(query) ||
                          verse.translation.toLowerCase().includes(query);
       
-      return matchesText;
+      // البحث في التفاسير
+      const matchesTafsir = 
+        (selectedTafsir === 'all' || selectedTafsir === 'saadi') && verse.tafsir_saadi?.includes(searchQuery) ||
+        (selectedTafsir === 'all' || selectedTafsir === 'kathir') && verse.tafsir_kathir?.includes(searchQuery) ||
+        (selectedTafsir === 'all' || selectedTafsir === 'tabari') && verse.tafsir_tabari?.includes(searchQuery);
+      
+      return matchesText || matchesTafsir;
     }).map(verse => {
       const surahData = ALL_SURAHS.find(s => s.number === verse.surah);
       return {
@@ -63,7 +118,7 @@ export default function QuranSearch() {
         surahTransliteration: surahData?.transliteration || ''
       };
     });
-  }, [searchQuery]);
+  }, [searchQuery, selectedTafsir]);
 
   const handleSearch = () => {
     if (!searchQuery.trim()) {
@@ -220,9 +275,59 @@ export default function QuranSearch() {
                         <p className="text-3xl font-arabic text-gray-900 leading-loose text-right mb-3">
                           {result.text}
                         </p>
-                        <p className="text-gray-600 text-base border-t pt-3 border-emerald-200">
+                        <p className="text-gray-600 text-base border-t pt-3 mb-3 border-emerald-200">
                           {result.translation}
                         </p>
+
+                        {/* عرض التفسير المحدد */}
+                        {selectedTafsir !== 'all' && (
+                          <div className="bg-white rounded-lg p-4 border-r-4 border-blue-500 mt-3">
+                            <p className="text-blue-600 font-bold text-sm mb-2">
+                              📖 {TAFSIR_OPTIONS.find(t => t.id === selectedTafsir)?.name}
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                              {selectedTafsir === 'saadi' && result.tafsir_saadi}
+                              {selectedTafsir === 'kathir' && result.tafsir_kathir}
+                              {selectedTafsir === 'tabari' && result.tafsir_tabari}
+                            </p>
+                          </div>
+                        )}
+
+                        {/* عرض جميع التفاسير */}
+                        {selectedTafsir === 'all' && (
+                          <div className="space-y-2 mt-3">
+                            {result.tafsir_saadi && (
+                              <details className="bg-white rounded-lg p-3 border-r-4 border-emerald-500">
+                                <summary className="cursor-pointer text-emerald-600 font-bold text-sm">
+                                  📖 تفسير السعدي
+                                </summary>
+                                <p className="text-gray-700 mt-2 leading-relaxed text-sm">
+                                  {result.tafsir_saadi}
+                                </p>
+                              </details>
+                            )}
+                            {result.tafsir_kathir && (
+                              <details className="bg-white rounded-lg p-3 border-r-4 border-blue-500">
+                                <summary className="cursor-pointer text-blue-600 font-bold text-sm">
+                                  📖 تفسير ابن كثير
+                                </summary>
+                                <p className="text-gray-700 mt-2 leading-relaxed text-sm">
+                                  {result.tafsir_kathir}
+                                </p>
+                              </details>
+                            )}
+                            {result.tafsir_tabari && (
+                              <details className="bg-white rounded-lg p-3 border-r-4 border-purple-500">
+                                <summary className="cursor-pointer text-purple-600 font-bold text-sm">
+                                  📖 تفسير الطبري
+                                </summary>
+                                <p className="text-gray-700 mt-2 leading-relaxed text-sm">
+                                  {result.tafsir_tabari}
+                                </p>
+                              </details>
+                            )}
+                          </div>
+                        )}
                       </div>
 
                       {/* معلومات إضافية */}
