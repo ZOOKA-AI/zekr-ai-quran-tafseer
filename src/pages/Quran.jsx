@@ -4,11 +4,12 @@ import { createPageUrl } from '@/utils';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Search, MessageSquare, Share2, Copy, BookMarked, Mic, Award } from 'lucide-react';
+import { Search, MessageSquare, Share2, Copy, BookMarked, Mic, Award, Settings } from 'lucide-react';
 import { toast } from 'sonner';
 import SurahCard from '../components/quran/SurahCard';
 import VoiceAssistant from '../components/assistant/VoiceAssistant';
 import AdvancedSearch from '../components/advanced/AdvancedSearch';
+import VerseOfTheDay from '../components/daily/VersOfTheDay';
 import { trackSearch, trackNavigation } from '../components/system/ActionTracker';
 
 import { ALL_SURAHS } from '../components/quran/QuranData';
@@ -252,6 +253,11 @@ export default function QuranPage() {
           </Card>
         </div>
 
+        {/* Verse of the Day */}
+        <div className="mb-8">
+          <VerseOfTheDay />
+        </div>
+
         {/* Voice Assistant */}
         <div className="mb-8">
           <VoiceAssistant />
@@ -287,11 +293,11 @@ export default function QuranPage() {
             </Button>
           </Link>
 
-          <Link to={createPageUrl('Achievements')} className="w-full">
+          <Link to={createPageUrl('Settings')} className="w-full">
             <Button className="w-full h-20 md:h-16 bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold shadow-xl border-2 border-purple-400 transition-all hover:scale-105">
               <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
-                <Award className="w-6 h-6 md:w-5 md:h-5" />
-                <span className="text-sm md:text-base">الإنجازات</span>
+                <Settings className="w-6 h-6 md:w-5 md:h-5" />
+                <span className="text-sm md:text-base">الإعدادات</span>
               </div>
             </Button>
           </Link>

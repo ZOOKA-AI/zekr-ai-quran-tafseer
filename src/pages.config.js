@@ -30,6 +30,7 @@ import Stats from './pages/Stats';
 import SurahView from './pages/SurahView';
 import Tilawa from './pages/Tilawa';
 import SpeedTest from './pages/SpeedTest';
+import Settings from './pages/Settings';
 import __Layout from './Layout.jsx';
 
 
@@ -66,6 +67,7 @@ export const PAGES = {
     "SurahView": SurahView,
     "Tilawa": Tilawa,
     "SpeedTest": SpeedTest,
+    "Settings": Settings,
 }
 
 export const pagesConfig = {
