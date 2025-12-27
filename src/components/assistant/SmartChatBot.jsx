@@ -49,74 +49,30 @@ async function callAI({ userId, language, conversationHistory, appContext, userM
     }
   }
 
-  // استخدام LLM المحلي من Base44
-  const historyContext = conversationHistory
-    .slice(-6)
-    .map(m => `${m.role === 'user' ? 'المستخدم' : 'المساعد'}: ${m.content}`)
-    .join('\n');
-
-  const result = await base44.integrations.Core.InvokeLLM({
-    prompt: `أنت "زوكا المرزوق" - مساعد قرآني ذكي من الأزهر الشريف 🕌
-
-📚 هويتك:
-- معلم قرآن وفقه سُنّي على منهج أهل السنة والجماعة
-- تستخدم التفاسير الموثوقة: السعدي، ابن كثير، الطبري
-- لا تفتي في الأمور الخطيرة بدون تنبيه "يُستحسن الرجوع لشيخ ثقة"
-- ترد بالعربية الفصحى السهلة
-
-📱 السياق الحالي للتطبيق:
-${JSON.stringify(appContext)}
-
-💬 سجل المحادثة السابق:
-${historyContext}
-
-🆕 رسالة المستخدم الجديدة:
-"${userMessage}"
-
-📋 مهمتك:
-1. فهم طلب المستخدم
-2. تحديد إذا كان يحتاج إجراء في التطبيق
-3. الرد بشكل مفيد ومختصر
-
-أنواع الإجراءات المتاحة:
-- open_surah: فتح سورة معينة {surah: number, ayah?: number}
-- play_recitation: تشغيل تلاوة {reciter: string, surah: number}
-- open_azkar: فتح الأذكار {category: "morning" | "evening" | "sleep"}
-- open_duas: فتح الأدعية
-- open_radio: فتح الراديو {station?: string}
-- create_memorization_plan: إنشاء خطة حفظ {level: string, target: string, dailyLoad: number}
-- record_progress: تسجيل تقدم {verses: number}
-- open_kids: فتح ركن الأطفال
-- open_orphans: فتح خدمة الأيتام
-- open_achievements: فتح الإنجازات
-- none: لا يوجد إجراء (رد نصي فقط)
-
-رد بصيغة JSON فقط:
-{
-  "replyText": "نص الرد للمستخدم (واضح ومفيد)",
-  "actions": [
-    {"type": "action_type", "params": {...}}
-  ]
-}`,
-    response_json_schema: {
-      type: "object",
-      properties: {
-        replyText: { type: "string" },
-        actions: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              type: { type: "string" },
-              params: { type: "object" }
-            }
-          }
-        }
-      }
-    }
-  });
-
-  return result;
+  // رد بسيط بدون AI - لأن التطبيق أصبح محلي بالكامل
+  const lowerMsg = userMessage.toLowerCase();
+  
+  let replyText = 'كيف يمكنني مساعدتك في القرآن الكريم؟ 📖';
+  let actions = [];
+  
+  if (lowerMsg.includes('قرآن') || lowerMsg.includes('سورة')) {
+    replyText = 'سأفتح لك صفحة القرآن الكريم 📖';
+    actions = [{ type: 'open_surah', params: { surah: 1 } }];
+  } else if (lowerMsg.includes('تلاوة') || lowerMsg.includes('استماع')) {
+    replyText = 'سأفتح لك صفحة التلاوة 🎧';
+    actions = [{ type: 'play_recitation', params: { surah: 1 } }];
+  } else if (lowerMsg.includes('أذكار')) {
+    replyText = 'سأفتح لك الأذكار 📿';
+    actions = [{ type: 'open_azkar', params: { category: 'morning' } }];
+  } else if (lowerMsg.includes('دعاء') || lowerMsg.includes('أدعية')) {
+    replyText = 'سأفتح لك الأدعية 🤲';
+    actions = [{ type: 'open_duas', params: {} }];
+  } else if (lowerMsg.includes('حفظ')) {
+    replyText = 'سأفتح لك خطة الحفظ 📅';
+    actions = [{ type: 'create_memorization_plan', params: {} }];
+  }
+  
+  return { replyText, actions };
 }
 
 export default function SmartChatBot() {

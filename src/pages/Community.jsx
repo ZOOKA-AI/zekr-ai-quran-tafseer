@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Heart, MessageCircle, Star, Plus, Filter } from 'lucide-react';
+import { Heart, MessageCircle, Star, Plus } from 'lucide-react';
 import { toast } from 'sonner';
-import { offlineStorage } from '../components/utils/offlineStorage';
 
 export default function CommunityPage() {
   const [showAddStory, setShowAddStory] = useState(false);
   const [filterCategory, setFilterCategory] = useState('all');
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
+  const [stories, setStories] = useState([]);
   const [newStory, setNewStory] = useState({
     title: '',
     content: '',
@@ -22,84 +20,78 @@ export default function CommunityPage() {
   });
   const [selectedStory, setSelectedStory] = useState(null);
   const [newComment, setNewComment] = useState('');
+  const [comments, setComments] = useState({});
 
-  const queryClient = useQueryClient();
+  useEffect(() => {
+    const saved = localStorage.getItem('stories');
+    if (saved) setStories(JSON.parse(saved));
+    
+    const savedComments = localStorage.getItem('comments');
+    if (savedComments) setComments(JSON.parse(savedComments));
+  }, []);
 
-  const { data: stories = [] } = useQuery({
-    queryKey: ['stories', filterCategory, showFeaturedOnly],
-    queryFn: async () => {
-      const allStories = await base44.entities.Story.list('-created_date', 50);
-      let filtered = allStories;
-      
-      if (filterCategory !== 'all') {
-        filtered = filtered.filter(s => s.category === filterCategory);
-      }
-      
-      if (showFeaturedOnly) {
-        filtered = filtered.filter(s => s.is_featured);
-      }
-      
-      return filtered;
-    },
-    initialData: [],
-    staleTime: 5 * 60 * 1000
-  });
+  const saveStories = (newStories) => {
+    setStories(newStories);
+    localStorage.setItem('stories', JSON.stringify(newStories));
+  };
 
-  const { data: comments = [] } = useQuery({
-    queryKey: ['comments', selectedStory?.id],
-    queryFn: () => selectedStory ? base44.entities.Comment.filter({ story_id: selectedStory.id }, '-created_date', 50) : [],
-    enabled: !!selectedStory
-  });
-
-  const createStoryMutation = useMutation({
-    mutationFn: (data) => base44.entities.Story.create(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['stories']);
-      toast.success('تم نشر قصتك بنجاح! 🎉');
-      setShowAddStory(false);
-      setNewStory({ title: '', content: '', category: 'قرآن', author_name: '' });
-    }
-  });
-
-  const likeStoryMutation = useMutation({
-    mutationFn: ({ id, currentLikes }) => 
-      base44.entities.Story.update(id, { likes_count: currentLikes + 1 }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['stories']);
-      toast.success('❤️ تم الإعجاب');
-    }
-  });
-
-  const addCommentMutation = useMutation({
-    mutationFn: (data) => base44.entities.Comment.create(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['comments']);
-      setNewComment('');
-      toast.success('تم إضافة تعليقك 💬');
-    }
-  });
+  const saveComments = (newComments) => {
+    setComments(newComments);
+    localStorage.setItem('comments', JSON.stringify(newComments));
+  };
 
   const handleSubmitStory = () => {
     if (!newStory.title || !newStory.content || !newStory.author_name) {
       toast.error('الرجاء ملء جميع الحقول');
       return;
     }
-    createStoryMutation.mutate(newStory);
+    
+    const story = {
+      ...newStory,
+      id: Date.now().toString(),
+      created_date: new Date().toISOString(),
+      likes_count: 0,
+      comments_count: 0,
+      is_featured: false
+    };
+    
+    saveStories([story, ...stories]);
+    toast.success('تم نشر قصتك بنجاح! 🎉');
+    setShowAddStory(false);
+    setNewStory({ title: '', content: '', category: 'قرآن', author_name: '' });
   };
 
   const handleLikeStory = (story) => {
-    likeStoryMutation.mutate({ id: story.id, currentLikes: story.likes_count || 0 });
+    const updated = stories.map(s => 
+      s.id === story.id ? { ...s, likes_count: (s.likes_count || 0) + 1 } : s
+    );
+    saveStories(updated);
+    toast.success('❤️ تم الإعجاب');
   };
 
   const handleAddComment = () => {
     if (!newComment.trim() || !selectedStory) return;
     
     const userName = prompt('اسمك (اختياري)') || 'مستخدم';
-    addCommentMutation.mutate({
+    const comment = {
+      id: Date.now().toString(),
       story_id: selectedStory.id,
       content: newComment,
-      author_name: userName
-    });
+      author_name: userName,
+      created_date: new Date().toISOString()
+    };
+    
+    const storyComments = comments[selectedStory.id] || [];
+    const newComments = { ...comments, [selectedStory.id]: [comment, ...storyComments] };
+    saveComments(newComments);
+    
+    const updated = stories.map(s => 
+      s.id === selectedStory.id ? { ...s, comments_count: (s.comments_count || 0) + 1 } : s
+    );
+    saveStories(updated);
+    
+    setNewComment('');
+    toast.success('تم إضافة تعليقك 💬');
   };
 
   return (
@@ -206,7 +198,10 @@ export default function CommunityPage() {
 
         {/* Stories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {stories.map((story) => (
+          {stories
+            .filter(s => filterCategory === 'all' || s.category === filterCategory)
+            .filter(s => !showFeaturedOnly || s.is_featured)
+            .map((story) => (
             <Card key={story.id} className="p-6 hover:shadow-2xl transition-all border-2 border-gray-200 hover:border-purple-400">
               {story.is_featured && (
                 <div className="flex items-center gap-2 mb-3">
@@ -282,8 +277,8 @@ export default function CommunityPage() {
 
                 {/* Comments List */}
                 <div className="space-y-3">
-                  <h4 className="font-bold text-lg">التعليقات ({comments.length})</h4>
-                  {comments.map((comment) => (
+                  <h4 className="font-bold text-lg">التعليقات ({(comments[selectedStory?.id] || []).length})</h4>
+                  {(comments[selectedStory?.id] || []).map((comment) => (
                     <div key={comment.id} className="bg-gray-50 rounded-lg p-4">
                       <p className="text-gray-800 mb-2">{comment.content}</p>
                       <div className="flex justify-between items-center text-sm text-gray-500">
@@ -292,7 +287,7 @@ export default function CommunityPage() {
                       </div>
                     </div>
                   ))}
-                  {comments.length === 0 && (
+                  {(comments[selectedStory?.id] || []).length === 0 && (
                     <p className="text-gray-500 text-center py-4">لا توجد تعليقات بعد</p>
                   )}
                 </div>
