@@ -61,10 +61,9 @@ export default function Layout({ children, currentPageName }) {
   const allNavItems = [...mainNavItems, ...moreNavItems, ...devNavItems];
 
   return (
-    <div className="min-h-screen relative overflow-hidden" dir="rtl">
-      <div className="fixed inset-0 z-0 bg-gradient-to-br from-cyan-50 via-white to-emerald-50" />
+    <div className="min-h-screen bg-white" dir="rtl">
       <Toaster position="top-center" richColors />
-      <div className="relative z-10">
+      <div className="relative">
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap');
@@ -92,7 +91,7 @@ export default function Layout({ children, currentPageName }) {
       `}</style>
 
       {/* Navigation */}
-      <nav className="bg-white/5 backdrop-blur-md border-b border-white/10 shadow-lg sticky top-0 z-50">
+      <nav className="bg-emerald-600 border-b border-emerald-700 shadow-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4">
           {/* Desktop - الرئيسية فقط */}
           <div className="hidden md:flex items-center justify-center h-16 gap-2">
@@ -104,8 +103,8 @@ export default function Layout({ children, currentPageName }) {
                   <button
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
                       isActive
-                        ? 'bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-cyan-500/20 text-gray-900 shadow-md border border-purple-400/30'
-                        : 'text-gray-900 hover:bg-white/20'
+                        ? 'bg-white text-emerald-700 font-bold'
+                        : 'text-white hover:bg-emerald-700'
                     }`}
                   >
                     <Icon className="w-5 h-5" />
@@ -190,16 +189,7 @@ export default function Layout({ children, currentPageName }) {
       <InstallPrompt />
 
       {/* Footer */}
-      <footer className="relative mt-16 overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920cdfd512838f4a35374d8/ad390f8ea_21da07e84f2006654e384d2924c664b1.jpg)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        />
-        <div className="absolute inset-0 bg-black/60" />
+      <footer className="relative mt-16 bg-gray-900">
         <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
           <div className="text-center">
             <p className="text-2xl mb-4 font-arabic text-white" style={{textShadow: '0 0 20px rgba(251,191,36,0.6)'}}>﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</p>

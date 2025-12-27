@@ -39,78 +39,9 @@ export default function TilawaPage() {
 
 
   return (
-    <div className="min-h-screen relative overflow-hidden" dir="rtl">
-      {/* Kaaba Background */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920cdfd512838f4a35374d8/ad390f8ea_21da07e84f2006654e384d2924c664b1.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'brightness(1.6) contrast(1.3) saturate(1.2)'
-        }}
-      />
-      <div className="absolute inset-0 bg-black/5" />
+    <div className="min-h-screen bg-white" dir="rtl">
       
-      <style jsx>{`
-        @keyframes glow {
-          0%, 100% { box-shadow: 0 0 30px rgba(147, 51, 234, 0.5), 0 0 60px rgba(59, 130, 246, 0.3); }
-          50% { box-shadow: 0 0 40px rgba(147, 51, 234, 0.7), 0 0 80px rgba(59, 130, 246, 0.5); }
-        }
-        @keyframes pulse-ring {
-          0% { transform: scale(0.95); opacity: 1; }
-          100% { transform: scale(1.3); opacity: 0; }
-        }
-        @keyframes barcode-slide {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotateY(0deg); }
-          50% { transform: translateY(-20px) rotateY(180deg); }
-        }
-        .glow-button { animation: glow 2s ease-in-out infinite; }
-        .pulse-ring { animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .barcode-line {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 120px;
-          background: linear-gradient(to right, 
-            transparent 0%,
-            rgba(147, 51, 234, 0.1) 10%,
-            rgba(59, 130, 246, 0.2) 20%,
-            transparent 25%,
-            rgba(6, 182, 212, 0.15) 30%,
-            transparent 35%,
-            rgba(147, 51, 234, 0.25) 40%,
-            transparent 45%,
-            rgba(59, 130, 246, 0.1) 50%,
-            transparent 55%,
-            rgba(6, 182, 212, 0.2) 60%,
-            transparent 65%,
-            rgba(147, 51, 234, 0.15) 70%,
-            transparent 75%,
-            rgba(59, 130, 246, 0.1) 80%,
-            transparent 90%
-          );
-          background-size: 200% 100%;
-          animation: barcode-slide 3s linear infinite;
-          border-top: 2px solid rgba(147, 51, 234, 0.4);
-        }
-      `}</style>
-
-
-
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
-        {/* Decorative 3D Crystal Orbs */}
-        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-gradient-to-br from-cyan-400/30 to-blue-600/30 backdrop-blur-sm border-2 border-white/20 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateY(20deg)', animationDelay: '0s'}}></div>
-        <div className="absolute top-40 right-20 w-24 h-24 rounded-full bg-gradient-to-br from-amber-400/40 to-orange-600/40 backdrop-blur-sm border-2 border-white/30 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateY(-20deg)', animationDelay: '1s'}}></div>
-        <div className="absolute bottom-40 left-1/4 w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400/30 to-teal-600/30 backdrop-blur-sm border-2 border-white/20 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateX(20deg)', animationDelay: '2s'}}></div>
-        <div className="absolute top-1/3 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-purple-400/30 to-pink-600/30 backdrop-blur-sm border-2 border-white/25 shadow-2xl animate-float" style={{transform: 'perspective(1000px) rotateY(30deg)', animationDelay: '1.5s'}}></div>
-        
+      <div className="min-h-screen flex items-center justify-center p-6">
         <div className="max-w-2xl w-full">
           {/* Title */}
           <div className="text-center mb-8">
@@ -143,9 +74,6 @@ export default function TilawaPage() {
           <AdvancedPlayer surah={selectedSurah} verses={sampleVerses} />
         </div>
       </div>
-
-      {/* Animated Barcode at Bottom */}
-      <div className="barcode-line"></div>
     </div>
   );
 }

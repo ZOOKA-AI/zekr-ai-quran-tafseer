@@ -61,25 +61,9 @@ export default function QuranPage() {
   }, [searchQuery]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100" dir="rtl">
-      <style jsx>{`
-        @keyframes glow {
-          0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.5), 0 0 40px rgba(16, 185, 129, 0.3); }
-          50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.7), 0 0 60px rgba(16, 185, 129, 0.5); }
-        }
-        .glow-green { animation: glow 2s ease-in-out infinite; }
-      `}</style>
-      
-      {/* Header with Kaaba Image */}
-      <div className="relative bg-gradient-to-br from-emerald-500 via-green-500 to-emerald-600 text-white shadow-2xl overflow-hidden">
-        {/* Kaaba Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-40"
-          style={{
-            backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920cdfd512838f4a35374d8/ad390f8ea_21da07e84f2006654e384d2924c664b1.jpg)'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-600/80 via-green-600/70 to-emerald-700/80" />
+    <div className="min-h-screen bg-white" dir="rtl">
+      {/* Header */}
+      <div className="bg-emerald-600 text-white shadow-md">
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
           <div className="text-center">
