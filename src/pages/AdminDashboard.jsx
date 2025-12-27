@@ -19,22 +19,10 @@ export default function AdminDashboard() {
   }, []);
 
   const checkAdminAccess = async () => {
-    try {
-      const currentUser = await base44.auth.me();
-      
-      // فقط الأدمن يدخل
-      if (currentUser.role !== 'admin') {
-        toast.error('⛔ غير مصرح لك بالدخول - أدمن فقط');
-        navigate(createPageUrl('Home'));
-        return;
-      }
-      
-      setUser(currentUser);
-      setLoading(false);
-    } catch (error) {
-      toast.error('⛔ يجب تسجيل الدخول أولاً');
-      navigate(createPageUrl('Home'));
-    }
+    // التطبيق مفتوح - لوحة الأدمن متاحة للجميع للمراقبة فقط
+    setUser({ full_name: 'زائر', role: 'viewer' });
+    setLoading(false);
+    toast.info('📊 وضع المراقبة - للاطلاع فقط');
   };
 
   // البيانات
@@ -70,9 +58,7 @@ export default function AdminDashboard() {
     );
   }
 
-  if (!user || user.role !== 'admin') {
-    return null;
-  }
+  // السماح بالمراقبة للجميع
 
   const stats = {
     totalOrphans: orphans.length,

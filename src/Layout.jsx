@@ -12,21 +12,10 @@ import { Toaster } from 'sonner';
 import { base44 } from '@/api/base44Client';
 
 export default function Layout({ children, currentPageName }) {
-  const [isAdmin, setIsAdmin] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    checkAdmin();
-  }, []);
-
-  const checkAdmin = async () => {
-    try {
-      const user = await base44.auth.me();
-      setIsAdmin(user.role === 'admin');
-    } catch {
-      setIsAdmin(false);
-    }
-  };
+  
+  // لا حاجة لتسجيل دخول - التطبيق مفتوح للجميع
+  const isAdmin = false;
 
   const mainNavItems = [
     { name: 'الرئيسية', path: 'Home', icon: Home },
@@ -55,9 +44,6 @@ export default function Layout({ children, currentPageName }) {
   ];
 
   const allNavItems = [...mainNavItems, ...moreNavItems, ...devNavItems];
-  if (isAdmin) {
-    allNavItems.push({ name: '🔐 الأدمن', path: 'AdminDashboard', icon: User });
-  }
 
   return (
     <div className="min-h-screen relative overflow-hidden" dir="rtl">

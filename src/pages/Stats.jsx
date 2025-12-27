@@ -20,60 +20,29 @@ export default function StatsPage() {
   }, []);
 
   const loadStats = async () => {
-    // تحميل من التخزين المحلي أولاً (يعمل بدون نت)
+    // تحميل من التخزين المحلي - لا حاجة لحساب
     const localStats = offlineStorage.loadStats();
     setStats(localStats);
-
-    // محاولة المزامنة مع السيرفر إذا كان متصل
-    try {
-      const user = await base44.auth.me();
-      const serverStats = {
-        versesRead: user.verses_read || 0,
-        suwarsCompleted: user.suwars_completed || 0,
-        totalMinutes: user.reading_minutes || 0,
-        streak: user.reading_streak || 0,
-        lastRead: user.last_read_date || null
-      };
-      setStats(serverStats);
-      offlineStorage.saveStats(serverStats);
-    } catch (error) {
-      // نستخدم البيانات المحلية - النظام يعمل بدون نت
-      toast.info('📱 وضع بدون اتصال - البيانات محلية');
-    }
   };
 
   const incrementVerses = async () => {
     const newCount = stats.versesRead + 1;
     const newStats = { ...stats, versesRead: newCount };
     
-    // حفظ محلي فوري
+    // حفظ محلي فقط - بدون حساب
     setStats(newStats);
     offlineStorage.saveStats(newStats);
     toast.success('✅ تم تحديث عدد الآيات!');
-    
-    // محاولة المزامنة مع السيرفر
-    try {
-      await base44.auth.updateMe({ verses_read: newCount });
-    } catch (error) {
-      // لا مشكلة - محفوظ محلياً
-    }
   };
 
   const incrementStreak = async () => {
     const newStreak = stats.streak + 1;
     const newStats = { ...stats, streak: newStreak };
     
-    // حفظ محلي فوري
+    // حفظ محلي فقط
     setStats(newStats);
     offlineStorage.saveStats(newStats);
     toast.success('🔥 استمر في التقدم!');
-    
-    // محاولة المزامنة
-    try {
-      await base44.auth.updateMe({ reading_streak: newStreak });
-    } catch (error) {
-      // محفوظ محلياً
-    }
   };
 
   return (

@@ -12,6 +12,8 @@ import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import securityManager from '../security/SecurityManager';
+import antiSpam from '../security/AntiSpam';
 
 // نقطة مركزية للتكامل مع API خارجي (Zooka AI / zaka.ai)
 const AI_CONFIG = {
@@ -205,6 +207,12 @@ export default function SmartChatBot() {
     if (!inputText.trim() || isLoading) return;
 
     const userMessage = inputText.trim();
+    
+    // حماية من السبام
+    if (!antiSpam.checkSubmission('chatbot', 2000)) {
+      return;
+    }
+    
     setInputText('');
     
     // إضافة رسالة المستخدم
@@ -219,14 +227,14 @@ export default function SmartChatBot() {
     try {
       // استدعاء الذكاء الاصطناعي
       const response = await callAI({
-        userId: 'current_user',
+        userId: securityManager.generateFingerprint(),
         language: 'ar',
         conversationHistory: messages,
         appContext: {
           currentPage: window.location.pathname,
           timestamp: new Date().toISOString()
         },
-        userMessage
+        userMessage: securityManager.sanitizeInput(userMessage)
       });
 
       // إضافة رد المساعد
