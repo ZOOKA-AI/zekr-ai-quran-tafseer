@@ -104,22 +104,20 @@ export default function AchievementsPage() {
     }
   };
 
-  const testUnlock = async (achievementId) => {
+  const testUnlock = (achievementId) => {
     const newAchievements = achievements.map(a => 
       a.id === achievementId ? { ...a, unlocked: true, progress: a.target } : a
     );
     
-    // حفظ فوري محلياً
+    const achievement = newAchievements.find(a => a.id === achievementId);
+    
+    // حفظ فوري محلياً - بدون انتظار
     setAchievements(newAchievements);
     offlineStorage.saveAchievements(newAchievements);
-    toast.success('🎉 إنجاز جديد مفتوح!');
-    
-    // محاولة المزامنة
-    try {
-      await base44.auth.updateMe({ achievements: newAchievements });
-    } catch (error) {
-      // محفوظ محلياً
-    }
+    toast.success(`🎉 تم فتح: ${achievement.title}!`, {
+      duration: 3000,
+      description: `+100 نقطة ${achievement.reward}`
+    });
   };
 
   return (

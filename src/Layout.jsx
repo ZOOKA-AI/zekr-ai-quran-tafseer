@@ -9,6 +9,7 @@ import ThemeToggle from '@/components/ui/theme-toggle';
 import SystemStatus from '@/components/system/SystemStatus';
 import AutoUpdate from '@/components/system/AutoUpdate';
 import PerformanceMonitor from '@/components/system/PerformanceMonitor';
+import QuickTestButtons from '@/components/system/QuickTestReport';
 import { Toaster } from 'sonner';
 import { base44 } from '@/api/base44Client';
 
@@ -65,6 +66,7 @@ export default function Layout({ children, currentPageName }) {
         <DailyReminders />
         <SmartChatBot />
         <PerformanceMonitor />
+        <QuickTestButtons />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap');
         
