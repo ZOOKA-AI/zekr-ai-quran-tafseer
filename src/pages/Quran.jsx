@@ -50,15 +50,15 @@ export default function QuranPage() {
     toast.success('تم نسخ رابط التطبيق! 📋');
   };
 
-  // تحسين البحث - memo للأداء
-  const filteredSurahs = React.useMemo(() => 
-    ALL_SURAHS.filter(surah => 
-      searchQuery === '' || 
-      surah.name.includes(searchQuery) || 
-      surah.transliteration.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      surah.number.toString().includes(searchQuery)
-    ), [searchQuery]
-  );
+  const filteredSurahs = React.useMemo(() => {
+    if (!searchQuery) return ALL_SURAHS;
+    const q = searchQuery.toLowerCase();
+    return ALL_SURAHS.filter(s => 
+      s.name.includes(searchQuery) || 
+      s.transliteration.toLowerCase().includes(q) ||
+      s.number.toString() === searchQuery
+    );
+  }, [searchQuery]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100" dir="rtl">

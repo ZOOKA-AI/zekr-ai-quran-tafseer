@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users, Menu, X } from 'lucide-react';
 import { Toaster } from 'sonner';
-import AutoUpdater from '@/components/system/AutoUpdater';
 
 export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -44,7 +43,6 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <div className="min-h-screen relative overflow-hidden" dir="rtl">
-      <AutoUpdater />
       <div className="fixed inset-0 z-0 bg-gradient-to-br from-cyan-50 via-white to-emerald-50" />
       <Toaster position="top-center" richColors />
       <div className="relative z-10">
