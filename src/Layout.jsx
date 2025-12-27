@@ -20,6 +20,7 @@ export default function Layout({ children, currentPageName }) {
 
   const moreNavItems = [
     { name: '💬 المجتمع', path: 'Community', icon: Users },
+    { name: '📥 التحميلات', path: 'OfflineDownloads', icon: Volume2 },
     { name: 'الأطفال', path: 'Kids', icon: Users },
     { name: 'الإحصائيات', path: 'Stats', icon: Clock },
     { name: 'الإنجازات', path: 'Achievements', icon: Sparkles },

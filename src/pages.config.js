@@ -32,6 +32,7 @@ import Tilawa from './pages/Tilawa';
 import SpeedTest from './pages/SpeedTest';
 import Settings from './pages/Settings';
 import Community from './pages/Community';
+import OfflineDownloads from './pages/OfflineDownloads';
 import __Layout from './Layout.jsx';
 
 
@@ -70,6 +71,7 @@ export const PAGES = {
     "SpeedTest": SpeedTest,
     "Settings": Settings,
     "Community": Community,
+    "OfflineDownloads": OfflineDownloads,
 }
 
 export const pagesConfig = {
