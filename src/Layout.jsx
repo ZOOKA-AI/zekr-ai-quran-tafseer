@@ -67,26 +67,48 @@ export default function Layout({ children, currentPageName }) {
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap');
-        
+
         * {
           font-family: 'Cairo', sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
-        
+
         .font-arabic {
           font-family: 'Amiri', serif;
           line-height: 2.5;
         }
-        
-        .font-urdu {
-          font-family: 'Noto Nastaliq Urdu', serif;
-        }
-        
+
         :root {
           --emerald-50: #ecfdf5;
           --emerald-600: #059669;
           --emerald-700: #047857;
           --emerald-800: #065f46;
           --amber-300: #fcd34d;
+        }
+
+        /* تسريع الأزرار والتنقل */
+        button, a {
+          transition: all 0.15s ease !important;
+          -webkit-tap-highlight-color: transparent;
+        }
+
+        button:active, a:active {
+          transform: scale(0.97);
+        }
+
+        /* تحسين الأداء */
+        * {
+          will-change: auto;
+        }
+
+        img {
+          content-visibility: auto;
+        }
+
+        /* إزالة التأخير في اللمس */
+        * {
+          touch-action: manipulation;
         }
       `}</style>
 

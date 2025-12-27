@@ -40,30 +40,29 @@ export default function TilawaPage() {
 
   return (
     <div className="min-h-screen bg-white" dir="rtl">
-      
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <div className="max-w-2xl w-full">
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="max-w-xl w-full">
           {/* Title */}
-          <div className="text-center mb-8">
-            <h1 className="text-6xl font-bold text-gray-900 mb-4 font-arabic drop-shadow-2xl">
+          <div className="text-center mb-6">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 font-arabic">
               ﴿ وَرَتِّلِ ٱلْقُرْءَانَ تَرْتِيلًا ﴾
             </h1>
-            <p className="text-lg text-gray-900 font-bold drop-shadow-lg">مشغل تلاوة متقدم • اختر القارئ وسرعة التلاوة</p>
+            <p className="text-base text-gray-900 font-bold">مشغل تلاوة متقدم</p>
           </div>
 
           {/* Surah Selection */}
-          <Card className="bg-white/90 backdrop-blur-xl border-2 border-emerald-400/60 shadow-2xl mb-6 p-6">
-            <label className="block text-gray-900 text-lg font-bold mb-3 text-center">
+          <Card className="bg-white border border-emerald-300 shadow-md mb-4 p-4">
+            <label className="block text-gray-900 text-base font-bold mb-2 text-center">
               📖 اختر السورة
             </label>
             <Select value={selectedSurah.toString()} onValueChange={(v) => setSelectedSurah(Number(v))}>
-              <SelectTrigger className="h-12 text-lg bg-white border-2 border-emerald-300 text-gray-900">
+              <SelectTrigger className="h-11 text-base bg-white border border-emerald-300 text-gray-900">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-white border-emerald-300">
                 {ALL_SURAHS.map(surah => (
-                  <SelectItem key={surah.number} value={surah.number.toString()} className="text-gray-900 text-lg">
-                    {surah.name} - {surah.verses} آية
+                  <SelectItem key={surah.number} value={surah.number.toString()} className="text-gray-900">
+                    {surah.name} - {surah.verses_count} آية
                   </SelectItem>
                 ))}
               </SelectContent>
