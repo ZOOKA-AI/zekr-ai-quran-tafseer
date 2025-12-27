@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import SurahCard from '../components/quran/SurahCard';
 import VoiceAssistant from '../components/assistant/VoiceAssistant';
 import AdvancedSearch from '../components/advanced/AdvancedSearch';
+import QuranSearch from '../components/search/QuranSearch';
 import VerseOfTheDay from '../components/daily/VersOfTheDay';
 import { trackSearch, trackNavigation } from '../components/system/ActionTracker';
 
@@ -310,7 +311,7 @@ export default function QuranPage() {
         {/* Advanced Search */}
         {showAdvancedSearch && (
           <div className="mb-8">
-            <AdvancedSearch onSearch={handleAdvancedSearch} />
+            <QuranSearch />
           </div>
         )}
 
