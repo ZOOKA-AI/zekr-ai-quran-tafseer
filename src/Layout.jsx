@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users, Menu, X } from 'lucide-react';
 import { Toaster } from 'sonner';
-import FastLoader from '@/components/system/FastLoader';
 import AutoUpdater from '@/components/system/AutoUpdater';
 
 export default function Layout({ children, currentPageName }) {

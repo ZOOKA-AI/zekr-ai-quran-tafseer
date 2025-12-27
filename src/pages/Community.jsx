@@ -25,10 +25,10 @@ export default function CommunityPage() {
 
   const queryClient = useQueryClient();
 
-  const { data: stories = [], isLoading } = useQuery({
+  const { data: stories = [] } = useQuery({
     queryKey: ['stories', filterCategory, showFeaturedOnly],
     queryFn: async () => {
-      const allStories = await base44.entities.Story.list('-created_date', 100);
+      const allStories = await base44.entities.Story.list('-created_date', 50);
       let filtered = allStories;
       
       if (filterCategory !== 'all') {
@@ -41,7 +41,8 @@ export default function CommunityPage() {
       
       return filtered;
     },
-    initialData: offlineStorage.load('community_stories', [])
+    initialData: [],
+    staleTime: 5 * 60 * 1000
   });
 
   const { data: comments = [] } = useQuery({
