@@ -91,12 +91,19 @@ export default function VerseOfTheDay() {
     toast.success('تم نسخ الآية!');
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
     if (!verse) return;
     const text = `🌟 آية اليوم من تطبيق ذكر 🌟\n\n${verse.text}\n\n📖 ${verse.tafsir}\n\n(${verse.reference})`;
     
     if (navigator.share) {
-      navigator.share({ title: 'ذكر - آية اليوم', text });
+      try {
+        await navigator.share({ title: 'ذكر - آية اليوم', text });
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          navigator.clipboard.writeText(text);
+          toast.success('تم نسخ الآية للمشاركة!');
+        }
+      }
     } else {
       navigator.clipboard.writeText(text);
       toast.success('تم نسخ الآية للمشاركة!');
