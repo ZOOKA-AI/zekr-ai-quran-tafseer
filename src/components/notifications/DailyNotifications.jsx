@@ -37,16 +37,24 @@ export default function DailyNotifications() {
       return;
     }
 
-    const result = await Notification.requestPermission();
-    setPermission(result);
-    
-    if (result === 'granted') {
-      setEnabled(true);
-      localStorage.setItem('notifications_enabled', 'true');
-      scheduleNotifications();
-      toast.success('تم تفعيل الإشعارات!');
-    } else {
-      toast.error('لم يتم منح الإذن للإشعارات');
+    try {
+      const result = await Notification.requestPermission();
+      setPermission(result);
+      
+      if (result === 'granted') {
+        setEnabled(true);
+        localStorage.setItem('notifications_enabled', 'true');
+        scheduleNotifications();
+        toast.success('✅ تم تفعيل الإشعارات بنجاح!');
+        // إشعار تجريبي فوري
+        setTimeout(() => testNotification(), 500);
+      } else if (result === 'denied') {
+        toast.error('⚠️ تم رفض الإشعارات. افتح إعدادات المتصفح لتفعيلها يدوياً');
+      } else {
+        toast.info('تم إلغاء طلب الإشعارات');
+      }
+    } catch (error) {
+      toast.error('حدث خطأ في طلب أذونات الإشعارات');
     }
   };
 
@@ -122,32 +130,58 @@ export default function DailyNotifications() {
           </div>
         </div>
 
+        {permission === 'denied' && (
+          <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 mb-4">
+            <p className="text-red-800 font-bold mb-2">⚠️ الإشعارات محظورة</p>
+            <p className="text-red-700 text-sm mb-3">
+              تم رفض أذونات الإشعارات. لتفعيلها:
+            </p>
+            <ol className="text-sm text-red-700 space-y-1 mr-4">
+              <li>1. اضغط على أيقونة القفل 🔒 في شريط العنوان</li>
+              <li>2. اختر "إعدادات الموقع"</li>
+              <li>3. غيّر الإشعارات من "محظور" إلى "سماح"</li>
+              <li>4. أعد تحميل الصفحة</li>
+            </ol>
+          </div>
+        )}
+
         {permission === 'granted' && enabled ? (
           <div className="space-y-2">
+            <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 mb-2">
+              <p className="text-green-800 font-bold text-center">
+                ✅ الإشعارات مفعّلة
+              </p>
+            </div>
+            
+            <Button
+              onClick={testNotification}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+            >
+              🔔 اختبار الإشعار الآن
+            </Button>
+            
             <Button
               onClick={disableNotifications}
-              className="w-full bg-red-500 hover:bg-red-600 text-white"
+              variant="outline"
+              className="w-full border-red-300 text-red-600 hover:bg-red-50"
             >
               <BellOff className="w-5 h-5 ml-2" />
               إيقاف الإشعارات
             </Button>
-            
-            <Button
-              onClick={testNotification}
-              variant="outline"
-              className="w-full"
-            >
-              اختبار الإشعار
-            </Button>
           </div>
-        ) : (
-          <Button
-            onClick={requestPermission}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
-          >
-            <Bell className="w-5 h-5 ml-2" />
-            تفعيل الإشعارات
-          </Button>
+        ) : permission !== 'denied' && (
+          <div>
+            <Button
+              onClick={requestPermission}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-lg py-6"
+            >
+              <Bell className="w-6 h-6 ml-2" />
+              تفعيل الإشعارات الآن
+            </Button>
+            <p className="text-xs text-gray-600 text-center mt-2">
+              سيظهر لك طلب إذن من المتصفح - اضغط "سماح"
+            </p>
+          </div>
         )}
       </div>
     </Card>
