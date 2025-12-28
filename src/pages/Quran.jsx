@@ -28,15 +28,22 @@ export default function QuranPage() {
     trackSearch(`بحث متقدم: ${params.query}`);
   };
 
-  const handleShare = () => {
+  const handleShare = async () => {
     const appUrl = window.location.origin;
     const shareText = '🕌 ذكر - القرآن الكريم والتفسير والفقه - مجاني بالكامل لوجه الله تعالى\n\nصدقة جارية - شارك الأجر معنا 🤲\n\n' + appUrl;
     
     if (navigator.share) {
-      navigator.share({
-        title: 'ذكر - القرآن الكريم والتفسير',
-        text: shareText,
-      });
+      try {
+        await navigator.share({
+          title: 'ذكر - القرآن الكريم والتفسير',
+          text: shareText,
+        });
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          navigator.clipboard.writeText(shareText);
+          toast.success('تم نسخ الرابط! شاركه مع من تحب لتنال الأجر 🌟');
+        }
+      }
     } else {
       navigator.clipboard.writeText(shareText);
       toast.success('تم نسخ الرابط! شاركه مع من تحب لتنال الأجر 🌟');
