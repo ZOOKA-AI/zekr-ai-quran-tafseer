@@ -136,25 +136,25 @@ export default function VerseOfTheDay() {
         <div className="flex gap-2 justify-center flex-wrap">
           <Button
             onClick={handleSpeak}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white"
+            className="bg-white hover:bg-gray-50 text-emerald-700 border border-emerald-300"
           >
-            <Volume2 className="w-4 h-4 ml-2" />
+            <Volume2 className="w-4 h-4 ml-1" />
             {isSpeaking ? 'إيقاف' : 'استمع'}
           </Button>
           
           <Button
             onClick={handleCopy}
-            className="bg-amber-500 hover:bg-amber-600 text-white"
+            className="bg-white hover:bg-gray-50 text-amber-700 border border-amber-300"
           >
-            <Copy className="w-4 h-4 ml-2" />
+            <Copy className="w-4 h-4 ml-1" />
             نسخ
           </Button>
           
           <Button
             onClick={handleShare}
-            className="bg-blue-500 hover:bg-blue-600 text-white"
+            className="bg-white hover:bg-gray-50 text-blue-700 border border-blue-300"
           >
-            <Share2 className="w-4 h-4 ml-2" />
+            <Share2 className="w-4 h-4 ml-1" />
             مشاركة
           </Button>
         </div>
