@@ -99,15 +99,17 @@ export default function QuranSearch() {
     
     return SAMPLE_VERSES.filter(verse => {
       // البحث في نص الآية
-      const matchesText = verse.text.includes(searchQuery) || 
-                         verse.text.toLowerCase().includes(query) ||
-                         verse.translation.toLowerCase().includes(query);
+      const text = verse.text || '';
+      const translation = verse.translation || '';
+      const matchesText = text.includes(searchQuery) || 
+                         text.toLowerCase().includes(query) ||
+                         translation.toLowerCase().includes(query);
       
       // البحث في التفاسير
       const matchesTafsir = 
-        (selectedTafsir === 'all' || selectedTafsir === 'saadi') && verse.tafsir_saadi?.includes(searchQuery) ||
-        (selectedTafsir === 'all' || selectedTafsir === 'kathir') && verse.tafsir_kathir?.includes(searchQuery) ||
-        (selectedTafsir === 'all' || selectedTafsir === 'tabari') && verse.tafsir_tabari?.includes(searchQuery);
+        (selectedTafsir === 'all' || selectedTafsir === 'saadi') && (verse.tafsir_saadi || '').includes(searchQuery) ||
+        (selectedTafsir === 'all' || selectedTafsir === 'kathir') && (verse.tafsir_kathir || '').includes(searchQuery) ||
+        (selectedTafsir === 'all' || selectedTafsir === 'tabari') && (verse.tafsir_tabari || '').includes(searchQuery);
       
       return matchesText || matchesTafsir;
     }).map(verse => {
