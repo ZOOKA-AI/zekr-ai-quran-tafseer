@@ -6,24 +6,34 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
 const SurahCard = ({ surah }) => {
+  if (!surah) return null;
+  
+  const number = surah.number || 1;
+  const name = surah.name || '';
+  const transliteration = surah.transliteration || '';
+  const arabicName = surah.arabic_name || '';
+  const versesCount = surah.verses_count || surah.verses || 0;
+  const revelationPlace = (surah.revelation_place || 'Makkah') === 'Makkah' ? 'مكية' : 'مدنية';
+  const juzStart = surah.juz_start || 1;
+  
   return (
-    <Link to={createPageUrl(`SurahView?surah=${surah.number}`)}>
+    <Link to={createPageUrl(`SurahView?surah=${number}`)}>
       <Card className="bg-white hover:bg-gray-50 transition-all border border-emerald-200 hover:border-emerald-400">
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center">
-                <span className="text-white font-bold text-base">{surah.number}</span>
+                <span className="text-white font-bold text-base">{number}</span>
               </div>
               <div>
                 <h3 className="text-base font-bold text-gray-900">
-                  {surah.name || ''}
+                  {name}
                 </h3>
-                <p className="text-xs text-gray-600">{surah.transliteration || ''}</p>
+                <p className="text-xs text-gray-600">{transliteration}</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-xl font-arabic text-emerald-700">{surah.arabic_name}</p>
+              <p className="text-xl font-arabic text-emerald-700">{arabicName}</p>
             </div>
           </div>
           
@@ -31,14 +41,14 @@ const SurahCard = ({ surah }) => {
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="border-emerald-200 text-emerald-700 text-xs py-0">
                 <BookOpen className="w-3 h-3 mr-1" />
-                {surah.verses_count || surah.verses || 0}
+                {versesCount}
               </Badge>
               <Badge variant="outline" className="border-amber-200 text-amber-700 text-xs py-0">
                 <MapPin className="w-3 h-3 mr-1" />
-                {surah.revelation_place === 'Makkah' ? 'مكية' : 'مدنية'}
+                {revelationPlace}
               </Badge>
             </div>
-            <p className="text-xs text-gray-500">ج{surah.juz_start || 1}</p>
+            <p className="text-xs text-gray-500">ج{juzStart}</p>
           </div>
         </div>
       </Card>
