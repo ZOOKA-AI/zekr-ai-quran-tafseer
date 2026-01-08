@@ -58,13 +58,14 @@ export default function QuranPage() {
   };
 
   const filteredSurahs = React.useMemo(() => {
-    if (!searchQuery) return ALL_SURAHS;
-    const q = searchQuery.toLowerCase();
-    return ALL_SURAHS.filter(s => 
-      s.name?.includes(searchQuery) || 
-      s.transliteration?.toLowerCase().includes(q) ||
-      s.number?.toString() === searchQuery
-    );
+    if (!searchQuery || !searchQuery.trim()) return ALL_SURAHS;
+    const q = (searchQuery || '').toLowerCase().trim();
+    return ALL_SURAHS.filter(s => {
+      const name = s.name || '';
+      const transliteration = (s.transliteration || '').toLowerCase();
+      const number = (s.number || '').toString();
+      return name.includes(searchQuery) || transliteration.includes(q) || number === searchQuery;
+    });
   }, [searchQuery]);
 
   return (
