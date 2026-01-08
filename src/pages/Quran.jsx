@@ -165,19 +165,19 @@ export default function QuranPage() {
                 <p className="text-gray-900 mb-4 text-base font-bold">
                   شارك التطبيق واربح الأجر
                 </p>
-                <div className="flex gap-3 justify-center flex-wrap">
+                <div className="flex gap-2 justify-center flex-wrap">
                   <Button
                     onClick={handleShare}
-                    className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white font-bold px-6 py-3 shadow-lg"
+                    className="bg-white hover:bg-gray-50 text-emerald-700 border-2 border-emerald-300 font-bold px-4 py-2"
                   >
-                    <Share2 className="w-5 h-5 ml-2" />
+                    <Share2 className="w-4 h-4 ml-1" />
                     مشاركة
                   </Button>
                   <Button
                     onClick={handleCopyLink}
-                    className="bg-amber-400 hover:bg-amber-500 text-emerald-900 font-bold px-6 py-3 shadow-lg"
+                    className="bg-white hover:bg-gray-50 text-amber-700 border-2 border-amber-300 font-bold px-4 py-2"
                   >
-                    <Copy className="w-5 h-5 ml-2" />
+                    <Copy className="w-4 h-4 ml-1" />
                     نسخ الرابط
                   </Button>
                 </div>
@@ -192,32 +192,32 @@ export default function QuranPage() {
         </div>
 
         {/* Quick Action Buttons */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
           <Button
             onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
-            className="h-14 bg-emerald-500 hover:bg-emerald-600 text-white font-bold shadow-md active:scale-95"
+            className="h-10 bg-white hover:bg-gray-50 text-emerald-700 border border-emerald-300 font-bold"
           >
-            <Search className="w-5 h-5 ml-1" />
+            <Search className="w-4 h-4 ml-1" />
             <span className="text-sm">بحث</span>
           </Button>
 
           <Link to={createPageUrl('Bookmarks')} className="w-full">
-            <Button className="w-full h-14 bg-amber-500 hover:bg-amber-600 text-white font-bold shadow-md active:scale-95">
-              <BookMarked className="w-5 h-5 ml-1" />
+            <Button className="w-full h-10 bg-white hover:bg-gray-50 text-amber-700 border border-amber-300 font-bold">
+              <BookMarked className="w-4 h-4 ml-1" />
               <span className="text-sm">المفضلة</span>
             </Button>
           </Link>
 
           <Link to={createPageUrl('Reciters')} className="w-full">
-            <Button className="w-full h-14 bg-blue-500 hover:bg-blue-600 text-white font-bold shadow-md active:scale-95">
-              <Mic className="w-5 h-5 ml-1" />
+            <Button className="w-full h-10 bg-white hover:bg-gray-50 text-blue-700 border border-blue-300 font-bold">
+              <Mic className="w-4 h-4 ml-1" />
               <span className="text-sm">المقرئين</span>
             </Button>
           </Link>
 
           <Link to={createPageUrl('Settings')} className="w-full">
-            <Button className="w-full h-14 bg-purple-500 hover:bg-purple-600 text-white font-bold shadow-md active:scale-95">
-              <Settings className="w-5 h-5 ml-1" />
+            <Button className="w-full h-10 bg-white hover:bg-gray-50 text-purple-700 border border-purple-300 font-bold">
+              <Settings className="w-4 h-4 ml-1" />
               <span className="text-sm">إعدادات</span>
             </Button>
           </Link>
@@ -230,35 +230,35 @@ export default function QuranPage() {
         )}
 
         {/* Search Bar */}
-        <div className="mb-6">
+        <div className="mb-4">
           <div className="relative max-w-xl mx-auto">
-            <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500" />
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-500" />
             <Input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="ابحث عن سورة..."
-              className="pr-12 h-12 text-base font-bold border-2 border-emerald-300 focus:border-emerald-500 rounded-lg shadow-md bg-white"
+              className="pr-10 h-10 text-sm font-bold border border-emerald-300 focus:border-emerald-500 rounded-lg bg-white"
             />
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-          <Card className="bg-white rounded-lg p-4 shadow-md border border-emerald-200 text-center">
-            <p className="text-3xl font-bold text-emerald-600 mb-1">114</p>
-            <p className="text-gray-800 font-bold text-sm">سورة</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+          <Card className="bg-white rounded-lg p-3 shadow-sm border border-emerald-200 text-center">
+            <p className="text-2xl font-bold text-emerald-600 mb-0.5">114</p>
+            <p className="text-gray-800 font-bold text-xs">سورة</p>
           </Card>
-          <Card className="bg-white rounded-lg p-4 shadow-md border border-amber-200 text-center">
-            <p className="text-3xl font-bold text-amber-600 mb-1">30</p>
-            <p className="text-gray-800 font-bold text-sm">جزء</p>
+          <Card className="bg-white rounded-lg p-3 shadow-sm border border-amber-200 text-center">
+            <p className="text-2xl font-bold text-amber-600 mb-0.5">30</p>
+            <p className="text-gray-800 font-bold text-xs">جزء</p>
           </Card>
-          <Card className="bg-white rounded-lg p-4 shadow-md border border-blue-200 text-center">
-            <p className="text-3xl font-bold text-blue-600 mb-1">6236</p>
-            <p className="text-gray-800 font-bold text-sm">آية</p>
+          <Card className="bg-white rounded-lg p-3 shadow-sm border border-blue-200 text-center">
+            <p className="text-2xl font-bold text-blue-600 mb-0.5">6236</p>
+            <p className="text-gray-800 font-bold text-xs">آية</p>
           </Card>
-          <Card className="bg-white rounded-lg p-4 shadow-md border border-purple-200 text-center">
-            <p className="text-3xl font-bold text-purple-600 mb-1">8</p>
-            <p className="text-gray-800 font-bold text-sm">قراء</p>
+          <Card className="bg-white rounded-lg p-3 shadow-sm border border-purple-200 text-center">
+            <p className="text-2xl font-bold text-purple-600 mb-0.5">8</p>
+            <p className="text-gray-800 font-bold text-xs">قراء</p>
           </Card>
         </div>
 

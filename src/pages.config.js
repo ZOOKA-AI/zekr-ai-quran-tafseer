@@ -5,6 +5,7 @@ import AdminPanel from './pages/AdminPanel';
 import Assistant from './pages/Assistant';
 import Bookmarks from './pages/Bookmarks';
 import Calligraphy from './pages/Calligraphy';
+import Community from './pages/Community';
 import CompleteCodeReference from './pages/CompleteCodeReference';
 import Dashboard from './pages/Dashboard';
 import Duaa from './pages/Duaa';
@@ -16,8 +17,10 @@ import NotificationDocs from './pages/NotificationDocs';
 import NotificationSettings from './pages/NotificationSettings';
 import Notifications from './pages/Notifications';
 import NotificationsDocs from './pages/NotificationsDocs';
+import OfflineDownloads from './pages/OfflineDownloads';
 import OrphansAdmin from './pages/OrphansAdmin';
 import OrphansService from './pages/OrphansService';
+import PWAInfo from './pages/PWAInfo';
 import PrayerTimes from './pages/PrayerTimes';
 import Profile from './pages/Profile';
 import ProjectChart from './pages/ProjectChart';
@@ -26,14 +29,11 @@ import Quran from './pages/Quran';
 import Radio from './pages/Radio';
 import RecitationPlayer from './pages/RecitationPlayer';
 import Reciters from './pages/Reciters';
+import Settings from './pages/Settings';
+import SpeedTest from './pages/SpeedTest';
 import Stats from './pages/Stats';
 import SurahView from './pages/SurahView';
 import Tilawa from './pages/Tilawa';
-import SpeedTest from './pages/SpeedTest';
-import Settings from './pages/Settings';
-import Community from './pages/Community';
-import OfflineDownloads from './pages/OfflineDownloads';
-import PWAInfo from './pages/PWAInfo';
 import __Layout from './Layout.jsx';
 
 
@@ -45,6 +45,7 @@ export const PAGES = {
     "Assistant": Assistant,
     "Bookmarks": Bookmarks,
     "Calligraphy": Calligraphy,
+    "Community": Community,
     "CompleteCodeReference": CompleteCodeReference,
     "Dashboard": Dashboard,
     "Duaa": Duaa,
@@ -56,8 +57,10 @@ export const PAGES = {
     "NotificationSettings": NotificationSettings,
     "Notifications": Notifications,
     "NotificationsDocs": NotificationsDocs,
+    "OfflineDownloads": OfflineDownloads,
     "OrphansAdmin": OrphansAdmin,
     "OrphansService": OrphansService,
+    "PWAInfo": PWAInfo,
     "PrayerTimes": PrayerTimes,
     "Profile": Profile,
     "ProjectChart": ProjectChart,
@@ -66,14 +69,11 @@ export const PAGES = {
     "Radio": Radio,
     "RecitationPlayer": RecitationPlayer,
     "Reciters": Reciters,
+    "Settings": Settings,
+    "SpeedTest": SpeedTest,
     "Stats": Stats,
     "SurahView": SurahView,
     "Tilawa": Tilawa,
-    "SpeedTest": SpeedTest,
-    "Settings": Settings,
-    "Community": Community,
-    "OfflineDownloads": OfflineDownloads,
-    "PWAInfo": PWAInfo,
 }
 
 export const pagesConfig = {
