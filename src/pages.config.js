@@ -83,6 +83,7 @@ import SpeedTest from './pages/SpeedTest';
 import Stats from './pages/Stats';
 import SurahView from './pages/SurahView';
 import Tilawa from './pages/Tilawa';
+import Favorites from './pages/Favorites';
 import __Layout from './Layout.jsx';
 
 
@@ -123,6 +124,7 @@ export const PAGES = {
     "Stats": Stats,
     "SurahView": SurahView,
     "Tilawa": Tilawa,
+    "Favorites": Favorites,
 }
 
 export const pagesConfig = {
