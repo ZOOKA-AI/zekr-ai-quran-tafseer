@@ -9,6 +9,7 @@ import { Play, Pause, SkipBack, SkipForward, Download, Volume2, Gauge, Heart, Cl
 import { toast } from 'sonner';
 import FastCache from '../performance/FastCache';
 import { FavoritesManager } from '../favorites/FavoritesManager';
+import ShareTilawaButton from '../social/ShareTilawaButton';
 
 const RECITERS = [
   { id: 'husary', name: 'محمود خليل الحصري', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.alafasy/' },
@@ -522,7 +523,7 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
         </Select>
       </div>
 
-      {/* زر التحميل */}
+      {/* زر التحميل والمشاركة */}
       <div className="space-y-3">
         <Button
           onClick={handleDownload}
@@ -532,6 +533,12 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
           <Download className="w-6 h-6 ml-2" />
           {isDownloading ? `جاري التحميل... ${downloadProgress}%` : downloaded ? 'تم التحميل ✓' : 'تحميل السورة للاستماع بدون نت'}
         </Button>
+        
+        <ShareTilawaButton 
+          surahNumber={surah} 
+          reciterName={RECITERS.find(r => r.id === selectedReciter)?.name || 'القارئ'}
+          surahName={`سورة رقم ${surah}`}
+        />
         
         {isDownloading && (
           <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">

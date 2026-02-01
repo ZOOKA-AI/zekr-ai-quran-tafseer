@@ -188,7 +188,6 @@ export default function CommunityPage() {
               <Button
                 onClick={handleSubmitStory}
                 className="w-full bg-purple-600 hover:bg-purple-700"
-                disabled={createStoryMutation.isLoading}
               >
                 نشر القصة
               </Button>
