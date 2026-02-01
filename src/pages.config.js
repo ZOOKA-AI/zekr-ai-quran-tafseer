@@ -58,6 +58,7 @@ import Community from './pages/Community';
 import CompleteCodeReference from './pages/CompleteCodeReference';
 import Dashboard from './pages/Dashboard';
 import Duaa from './pages/Duaa';
+import Favorites from './pages/Favorites';
 import Home from './pages/Home';
 import ImplementationChecklist from './pages/ImplementationChecklist';
 import Kids from './pages/Kids';
@@ -83,7 +84,6 @@ import SpeedTest from './pages/SpeedTest';
 import Stats from './pages/Stats';
 import SurahView from './pages/SurahView';
 import Tilawa from './pages/Tilawa';
-import Favorites from './pages/Favorites';
 import __Layout from './Layout.jsx';
 
 
@@ -99,6 +99,7 @@ export const PAGES = {
     "CompleteCodeReference": CompleteCodeReference,
     "Dashboard": Dashboard,
     "Duaa": Duaa,
+    "Favorites": Favorites,
     "Home": Home,
     "ImplementationChecklist": ImplementationChecklist,
     "Kids": Kids,
@@ -124,7 +125,6 @@ export const PAGES = {
     "Stats": Stats,
     "SurahView": SurahView,
     "Tilawa": Tilawa,
-    "Favorites": Favorites,
 }
 
 export const pagesConfig = {

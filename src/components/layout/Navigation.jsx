@@ -11,6 +11,7 @@ const mainNavItems = [
 ];
 
 const moreNavItems = [
+  { name: '💖 المفضلة', path: 'Favorites', icon: BookMarked },
   { name: '💬 المجتمع', path: 'Community', icon: Users },
   { name: '📥 التحميلات', path: 'OfflineDownloads', icon: Volume2 },
   { name: 'الأطفال', path: 'Kids', icon: Users },
