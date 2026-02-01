@@ -2,6 +2,7 @@ import React from 'react';
 import { Toaster } from 'sonner';
 import InstallPrompt from '@/components/pwa/InstallPrompt';
 import Navigation from '@/components/layout/Navigation';
+import Sidebar from '@/components/layout/Sidebar';
 import Footer from '@/components/layout/Footer';
 
 export default function Layout({ children, currentPageName }) {
@@ -28,13 +29,14 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div className="min-h-screen bg-white" dir="rtl">
       <Toaster position="top-center" richColors />
-      
+
+      <Sidebar />
       <Navigation currentPageName={currentPageName} />
-      
+
       <main>{children}</main>
 
       <InstallPrompt />
-      
+
       <Footer />
     </div>
   );
