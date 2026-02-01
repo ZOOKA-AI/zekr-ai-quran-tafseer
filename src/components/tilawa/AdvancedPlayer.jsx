@@ -5,19 +5,24 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Play, Pause, SkipBack, SkipForward, Download, Volume2, Gauge, Heart, Clock, BookOpen, StickyNote, Eye, Settings2 } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Play, Pause, SkipBack, SkipForward, Download, Volume2, Gauge, Heart, Clock, BookOpen, StickyNote, Eye, Settings2, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import FastCache from '../performance/FastCache';
 import { FavoritesManager } from '../favorites/FavoritesManager';
 import ShareTilawaButton from '../social/ShareTilawaButton';
 import SmartReaderSettings from './SmartReaderSettings';
+import { QARI_SYSTEM } from '@/components/audio/QarisDatabase';
 
-const RECITERS = [
-  { id: 'husary', name: 'محمود خليل الحصري', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.alafasy/' },
-  { id: 'sudais', name: 'عبد الرحمن السديس', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.abdurrahmaansudais/' },
-  { id: 'minshawi', name: 'محمد صديق المنشاوي', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.minshawi/' },
-  { id: 'alafasy', name: 'مشاري راشد العفاسي', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.alafasy/' },
-];
+// استخدام قاعدة البيانات الموسعة للمقرئين
+const RECITERS = QARI_SYSTEM.api.getVerifiedQaris().map(qari => ({
+  id: qari.id,
+  name: qari.name,
+  base: qari.audio_base,
+  style: qari.style,
+  verified: qari.verified,
+  description: qari.description
+}));
 
 const QUALITY_OPTIONS = [
   { id: '64', name: 'جودة منخفضة (64kbps)', size: '~500KB' },
@@ -123,9 +128,19 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
     if (!surah) return;
     
     const reciter = RECITERS.find(r => r.id === selectedReciter);
+    if (!reciter) return;
+    
     const verseNum = verseIndex + 1;
-    const baseUrl = reciter.url.replace('{quality}', selectedQuality);
-    const audioUrl = `${baseUrl}${surah.toString().padStart(3, '0')}${verseNum.toString().padStart(3, '0')}.mp3`;
+    const surahStr = surah.toString().padStart(3, '0');
+    
+    // استخدام الرابط الصحيح من قاعدة البيانات
+    let audioUrl;
+    if (reciter.base.includes('everyayah')) {
+      audioUrl = `${reciter.base}${surahStr}${verseNum.toString().padStart(3, '0')}.mp3`;
+    } else {
+      // mp3quran يستخدم صيغة مختلفة - السورة فقط
+      audioUrl = `${reciter.base}${surahStr}.mp3`;
+    }
     
     // تحقق من الكاش
     const cached = FastCache.get(`audio_${surah}_${verseNum}_${selectedReciter}_${selectedQuality}`);
@@ -399,20 +414,31 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
       {/* اختيار القارئ */}
       <div className="mb-6">
         <label className="block text-white text-lg font-bold mb-3 text-center">
-          🎤 اختر القارئ
+          🎤 اختر القارئ ({RECITERS.length} قارئ متاح)
         </label>
         <Select value={selectedReciter} onValueChange={setSelectedReciter}>
           <SelectTrigger className="h-12 text-lg bg-white/90 border-2 border-emerald-300 text-gray-900">
-            <SelectValue />
+            <SelectValue placeholder="اختر قارئاً..." />
           </SelectTrigger>
-          <SelectContent className="bg-white border-emerald-300">
-            {RECITERS.map(reciter => (
-              <SelectItem key={reciter.id} value={reciter.id} className="text-gray-900 text-base">
-                {reciter.name}
-              </SelectItem>
-            ))}
+          <SelectContent className="bg-white border-emerald-300 max-h-80">
+            <ScrollArea className="h-72">
+              {RECITERS.map(reciter => (
+                <SelectItem key={reciter.id} value={reciter.id} className="text-gray-900 text-base py-3">
+                  <div className="flex items-center gap-2">
+                    {reciter.verified && <CheckCircle className="w-4 h-4 text-green-600" />}
+                    <span>{reciter.name}</span>
+                    {reciter.style && <span className="text-xs text-gray-500">({reciter.style})</span>}
+                  </div>
+                </SelectItem>
+              ))}
+            </ScrollArea>
           </SelectContent>
         </Select>
+        {RECITERS.find(r => r.id === selectedReciter)?.description && (
+          <p className="text-emerald-200 text-sm mt-2 text-center">
+            {RECITERS.find(r => r.id === selectedReciter)?.description}
+          </p>
+        )}
       </div>
 
       {/* عرض الآية الحالية */}
