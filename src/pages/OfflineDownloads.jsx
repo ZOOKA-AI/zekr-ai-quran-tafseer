@@ -46,11 +46,8 @@ export default function OfflineDownloads() {
   });
 
   const testAndPlayAudio = async (qari) => {
-    const url = QARI_SYSTEM.api.generateSurahUrl(qari.id, 1);
-    if (!url) {
-      toast.error('رابط الصوت غير متاح');
-      return;
-    }
+    // Islamic.network API - الآية الأولى من الفاتحة = رقم 1
+    const url = `${qari.audio_base}1.mp3`;
     
     if (playingAudio === qari.id) {
       audioRef?.pause();
@@ -62,7 +59,7 @@ export default function OfflineDownloads() {
       const audio = new Audio(url);
       audio.onended = () => setPlayingAudio(null);
       audio.onerror = () => {
-        toast.error('خطأ في تشغيل الصوت');
+        toast.error('خطأ في تشغيل الصوت - جرب قارئ آخر');
         setPlayingAudio(null);
       };
       await audio.play();

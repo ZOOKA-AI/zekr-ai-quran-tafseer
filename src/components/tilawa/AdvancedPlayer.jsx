@@ -124,6 +124,12 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
     toast.success(`⏰ تم ضبط المؤقت على ${timerDuration} دقيقة`);
   };
 
+  // حساب رقم الآية العالمي (من 1 إلى 6236)
+  const getGlobalAyahNumber = (surahNum, verseNum) => {
+    const surahStartVerses = [0,1,8,294,493,669,789,954,1160,1235,1364,1473,1596,1707,1750,1802,1901,2029,2140,2250,2348,2483,2561,2679,2743,2820,3047,3140,3228,3297,3357,3417,3490,3563,3617,3671,3779,3861,3949,4024,4109,4163,4216,4269,4326,4362,4397,4432,4503,4561,4609,4654,4714,4763,4812,4890,4987,5016,5038,5060,5073,5084,5095,5106,5124,5136,5148,5166,5218,5270,5314,5358,5386,5414,5434,5462,5518,5568,5608,5648,5688,5717,5746,5782,5807,5829,5851,5870,5896,5926,5946,5966,5981,5992,6000,6008,6016,6024,6029,6037,6048,6059,6067,6075,6080,6084,6088,6092,6098,6104,6107,6110,6114,6117,6120,6123,6127,6130,6137,6144,6151,6158,6165,6172,6179,6186,6193,6200,6207,6214,6221,6228,6235];
+    return surahStartVerses[surahNum] + verseNum;
+  };
+
   const loadVerse = (verseIndex) => {
     if (!surah) return;
     
@@ -131,16 +137,10 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
     if (!reciter) return;
     
     const verseNum = verseIndex + 1;
-    const surahStr = surah.toString().padStart(3, '0');
     
-    // استخدام الرابط الصحيح من قاعدة البيانات
-    let audioUrl;
-    if (reciter.base.includes('everyayah')) {
-      audioUrl = `${reciter.base}${surahStr}${verseNum.toString().padStart(3, '0')}.mp3`;
-    } else {
-      // mp3quran يستخدم صيغة مختلفة - السورة فقط
-      audioUrl = `${reciter.base}${surahStr}.mp3`;
-    }
+    // Islamic.network API يستخدم رقم الآية العالمي (1-6236)
+    const globalAyahNum = getGlobalAyahNumber(surah, verseNum);
+    const audioUrl = `${reciter.base}${globalAyahNum}.mp3`;
     
     // تحقق من الكاش
     const cached = FastCache.get(`audio_${surah}_${verseNum}_${selectedReciter}_${selectedQuality}`);
