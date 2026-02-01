@@ -3,9 +3,12 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Play, Pause, SkipBack, SkipForward, Download, Volume2, Gauge } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Play, Pause, SkipBack, SkipForward, Download, Volume2, Gauge, Heart, Clock, BookOpen, StickyNote, Eye } from 'lucide-react';
 import { toast } from 'sonner';
 import FastCache from '../performance/FastCache';
+import { FavoritesManager } from '../favorites/FavoritesManager';
 
 const RECITERS = [
   { id: 'husary', name: 'محمود خليل الحصري', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.alafasy/' },
@@ -31,7 +34,21 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   
+  // ميزات جديدة
+  const [startVerse, setStartVerse] = useState(1);
+  const [endVerse, setEndVerse] = useState(verses.length);
+  const [showTimer, setShowTimer] = useState(false);
+  const [timerDuration, setTimerDuration] = useState(15);
+  const [timeRemaining, setTimeRemaining] = useState(0);
+  const [verseNotes, setVerseNotes] = useState({});
+  const [currentNote, setCurrentNote] = useState('');
+  const [showTranslation, setShowTranslation] = useState(true);
+  const [showTafsir, setShowTafsir] = useState(false);
+  const [repeatCount, setRepeatCount] = useState(1);
+  const [currentRepeat, setCurrentRepeat] = useState(0);
+  
   const audioRef = useRef(null);
+  const timerRef = useRef(null);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -39,6 +56,48 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
       audioRef.current.volume = volume[0] / 100;
     }
   }, [playbackRate, volume]);
+
+  // مؤقت التلاوة
+  useEffect(() => {
+    if (showTimer && timeRemaining > 0 && isPlaying) {
+      timerRef.current = setInterval(() => {
+        setTimeRemaining(prev => {
+          if (prev <= 1) {
+            handlePlayPause();
+            toast.info('⏰ انتهى وقت التلاوة');
+            setShowTimer(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timerRef.current);
+  }, [showTimer, timeRemaining, isPlaying]);
+
+  // حفظ الملاحظات
+  useEffect(() => {
+    const saved = localStorage.getItem('verse_notes');
+    if (saved) {
+      setVerseNotes(JSON.parse(saved));
+    }
+  }, []);
+
+  const saveNote = () => {
+    if (!currentNote.trim()) return;
+    const key = `${surah}_${currentVerse + 1}`;
+    const updated = { ...verseNotes, [key]: currentNote };
+    setVerseNotes(updated);
+    localStorage.setItem('verse_notes', JSON.stringify(updated));
+    toast.success('💾 تم حفظ الملاحظة');
+    setCurrentNote('');
+  };
+
+  const startTimer = () => {
+    setTimeRemaining(timerDuration * 60);
+    setShowTimer(true);
+    toast.success(`⏰ تم ضبط المؤقت على ${timerDuration} دقيقة`);
+  };
 
   const loadVerse = (verseIndex) => {
     if (!surah) return;
@@ -74,16 +133,27 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
   };
 
   const handleNext = () => {
-    if (currentVerse < verses.length - 1) {
+    const maxVerse = Math.min(endVerse - 1, verses.length - 1);
+    if (currentVerse < maxVerse) {
       loadVerse(currentVerse + 1);
       if (isPlaying) {
         setTimeout(() => audioRef.current.play(), 100);
       }
+    } else if (currentRepeat < repeatCount - 1) {
+      setCurrentRepeat(currentRepeat + 1);
+      loadVerse(startVerse - 1);
+      if (isPlaying) {
+        setTimeout(() => audioRef.current.play(), 100);
+      }
+    } else {
+      setIsPlaying(false);
+      setCurrentRepeat(0);
     }
   };
 
   const handlePrevious = () => {
-    if (currentVerse > 0) {
+    const minVerse = startVerse - 1;
+    if (currentVerse > minVerse) {
       loadVerse(currentVerse - 1);
       if (isPlaying) {
         setTimeout(() => audioRef.current.play(), 100);
@@ -165,9 +235,80 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
     };
   }, [currentVerse, verses]);
 
+  const noteKey = `${surah}_${currentVerse + 1}`;
+  const currentVerseNote = verseNotes[noteKey] || '';
+
   return (
     <Card className="bg-gradient-to-br from-emerald-900/95 via-green-900/90 to-emerald-900/95 backdrop-blur-xl border-2 border-emerald-400/60 shadow-2xl p-8">
       <audio ref={audioRef} />
+      
+      {/* المؤقت */}
+      {showTimer && timeRemaining > 0 && (
+        <div className="bg-amber-500 text-white rounded-lg p-4 mb-6 text-center">
+          <Clock className="w-6 h-6 inline-block ml-2" />
+          <span className="text-2xl font-bold">
+            {Math.floor(timeRemaining / 60)}:{(timeRemaining % 60).toString().padStart(2, '0')}
+          </span>
+          <p className="text-sm mt-1">الوقت المتبقي</p>
+        </div>
+      )}
+
+      {/* اختيار نطاق الآيات */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <div>
+          <label className="block text-white text-sm font-bold mb-2">من آية</label>
+          <Input
+            type="number"
+            min="1"
+            max={verses.length}
+            value={startVerse}
+            onChange={(e) => setStartVerse(Number(e.target.value))}
+            className="bg-white/90 border-emerald-300 text-gray-900"
+          />
+        </div>
+        <div>
+          <label className="block text-white text-sm font-bold mb-2">إلى آية</label>
+          <Input
+            type="number"
+            min={startVerse}
+            max={verses.length}
+            value={endVerse}
+            onChange={(e) => setEndVerse(Number(e.target.value))}
+            className="bg-white/90 border-emerald-300 text-gray-900"
+          />
+        </div>
+      </div>
+
+      {/* المؤقت والتكرار */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <div>
+          <label className="block text-white text-sm font-bold mb-2">مؤقت (دقائق)</label>
+          <div className="flex gap-2">
+            <Input
+              type="number"
+              min="1"
+              max="120"
+              value={timerDuration}
+              onChange={(e) => setTimerDuration(Number(e.target.value))}
+              className="bg-white/90 border-emerald-300 text-gray-900"
+            />
+            <Button onClick={startTimer} className="bg-amber-500 hover:bg-amber-600">
+              <Clock className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+        <div>
+          <label className="block text-white text-sm font-bold mb-2">عدد التكرار</label>
+          <Input
+            type="number"
+            min="1"
+            max="10"
+            value={repeatCount}
+            onChange={(e) => setRepeatCount(Number(e.target.value))}
+            className="bg-white/90 border-emerald-300 text-gray-900"
+          />
+        </div>
+      </div>
       
       {/* اختيار القارئ */}
       <div className="mb-6">
@@ -191,15 +332,78 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
       {/* عرض الآية الحالية */}
       {verses.length > 0 && (
         <div className="bg-gradient-to-br from-white via-emerald-50 to-white rounded-2xl p-8 mb-6 shadow-xl border-2 border-emerald-300">
-          <div className="text-center mb-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex gap-2">
+              <Button
+                onClick={() => setShowTranslation(!showTranslation)}
+                variant={showTranslation ? 'default' : 'outline'}
+                size="sm"
+                className={showTranslation ? 'bg-emerald-600' : ''}
+              >
+                <Eye className="w-4 h-4 ml-1" />
+                ترجمة
+              </Button>
+              <Button
+                onClick={() => setShowTafsir(!showTafsir)}
+                variant={showTafsir ? 'default' : 'outline'}
+                size="sm"
+                className={showTafsir ? 'bg-blue-600' : ''}
+              >
+                <BookOpen className="w-4 h-4 ml-1" />
+                تفسير
+              </Button>
+            </div>
             <div className="inline-block bg-emerald-600 text-white px-6 py-2 rounded-full font-bold shadow-lg">
               الآية {currentVerse + 1} من {verses.length}
             </div>
+            <Button
+              onClick={() => {
+                FavoritesManager.saveVerse({
+                  surah,
+                  verse: currentVerse + 1,
+                  text: verses[currentVerse]?.text,
+                  note: currentVerseNote
+                });
+              }}
+              variant="ghost"
+              size="icon"
+              className="text-red-500 hover:text-red-600"
+            >
+              <Heart className="w-5 h-5" />
+            </Button>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-inner">
-            <p className="text-4xl font-arabic text-gray-900 leading-loose text-center mb-4">
+          
+          <div className="bg-white rounded-xl p-6 shadow-inner space-y-4">
+            <p className="text-4xl font-arabic text-gray-900 leading-loose text-center">
               {verses[currentVerse]?.text || 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'}
             </p>
+            
+            {showTranslation && (
+              <div className="border-t pt-4 border-emerald-200">
+                <p className="text-gray-600 text-center leading-relaxed">
+                  {verses[currentVerse]?.translation || 'In the name of Allah, the Entirely Merciful, the Especially Merciful'}
+                </p>
+              </div>
+            )}
+            
+            {showTafsir && (
+              <div className="bg-blue-50 rounded-lg p-4 border-r-4 border-blue-500">
+                <h4 className="text-blue-800 font-bold mb-2">📖 تفسير مختصر</h4>
+                <p className="text-gray-700 leading-relaxed text-sm">
+                  {verses[currentVerse]?.tafsir || 'افتتح الله تعالى كتابه العزيز بالبسملة، فهي مفتاح كل خير وبركة.'}
+                </p>
+              </div>
+            )}
+            
+            {currentVerseNote && (
+              <div className="bg-amber-50 rounded-lg p-4 border-r-4 border-amber-500">
+                <div className="flex items-start gap-2">
+                  <StickyNote className="w-5 h-5 text-amber-600 flex-shrink-0 mt-1" />
+                  <p className="text-gray-700 leading-relaxed text-sm">{currentVerseNote}</p>
+                </div>
+              </div>
+            )}
+            
             {isPlaying && (
               <div className="flex justify-center">
                 <div className="flex gap-2">
@@ -210,6 +414,26 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* إضافة ملاحظة */}
+          <div className="mt-4">
+            <div className="flex gap-2">
+              <Textarea
+                value={currentNote}
+                onChange={(e) => setCurrentNote(e.target.value)}
+                placeholder="أضف ملاحظة على هذه الآية..."
+                className="flex-1 bg-white border-emerald-300"
+                rows={2}
+              />
+              <Button
+                onClick={saveNote}
+                className="bg-amber-500 hover:bg-amber-600"
+                disabled={!currentNote.trim()}
+              >
+                <StickyNote className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
       )}

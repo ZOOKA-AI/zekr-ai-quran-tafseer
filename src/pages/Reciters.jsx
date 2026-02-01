@@ -16,6 +16,9 @@ const RECITERS = [
     era: "classic",
     famous: true,
     birthYear: 1882,
+    country: "مصر",
+    style: "ترتيل",
+    famousTilawa: "سورة الفاتحة، سورة يس",
     icon: Mic
   },
   {
@@ -25,6 +28,9 @@ const RECITERS = [
     era: "classic",
     famous: true,
     birthYear: 1927,
+    country: "مصر",
+    style: "ترتيل ومرتل",
+    famousTilawa: "سورة الكهف، سورة يوسف، سورة الرحمن",
     icon: BookOpen
   },
   {
