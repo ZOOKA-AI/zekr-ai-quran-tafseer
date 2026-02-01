@@ -93,27 +93,31 @@ export default function QuranSearch() {
 
   // البحث في الآيات والتفاسير
   const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) return [];
+    if (!searchQuery || !searchQuery.trim()) return [];
 
     const query = searchQuery.trim().toLowerCase();
     
     return SAMPLE_VERSES.filter(verse => {
-      // البحث في نص الآية
-      const text = verse.text || '';
-      const translation = verse.translation || '';
+      // البحث في نص الآية - مع حماية من undefined
+      const text = (verse?.text || '').toString();
+      const translation = (verse?.translation || '').toString();
       const matchesText = text.includes(searchQuery) || 
                          text.toLowerCase().includes(query) ||
                          translation.toLowerCase().includes(query);
       
-      // البحث في التفاسير
+      // البحث في التفاسير - مع حماية من undefined
+      const tafsirSaadi = (verse?.tafsir_saadi || '').toString();
+      const tafsirKathir = (verse?.tafsir_kathir || '').toString();
+      const tafsirTabari = (verse?.tafsir_tabari || '').toString();
+      
       const matchesTafsir = 
-        (selectedTafsir === 'all' || selectedTafsir === 'saadi') && (verse.tafsir_saadi || '').includes(searchQuery) ||
-        (selectedTafsir === 'all' || selectedTafsir === 'kathir') && (verse.tafsir_kathir || '').includes(searchQuery) ||
-        (selectedTafsir === 'all' || selectedTafsir === 'tabari') && (verse.tafsir_tabari || '').includes(searchQuery);
+        (selectedTafsir === 'all' || selectedTafsir === 'saadi') && tafsirSaadi.includes(searchQuery) ||
+        (selectedTafsir === 'all' || selectedTafsir === 'kathir') && tafsirKathir.includes(searchQuery) ||
+        (selectedTafsir === 'all' || selectedTafsir === 'tabari') && tafsirTabari.includes(searchQuery);
       
       return matchesText || matchesTafsir;
     }).map(verse => {
-      const surahData = ALL_SURAHS.find(s => s.number === verse.surah);
+      const surahData = ALL_SURAHS?.find(s => s?.number === verse?.surah);
       return {
         ...verse,
         surahName: surahData?.name || '',
