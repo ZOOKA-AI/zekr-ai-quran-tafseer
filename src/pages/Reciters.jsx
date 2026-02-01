@@ -16,9 +16,6 @@ const RECITERS = [
     era: "classic",
     famous: true,
     birthYear: 1882,
-    country: "مصر",
-    style: "ترتيل",
-    famousTilawa: "سورة الفاتحة، سورة يس",
     icon: Mic
   },
   {
@@ -28,9 +25,6 @@ const RECITERS = [
     era: "classic",
     famous: true,
     birthYear: 1927,
-    country: "مصر",
-    style: "ترتيل ومرتل",
-    famousTilawa: "سورة الكهف، سورة يوسف، سورة الرحمن",
     icon: BookOpen
   },
   {
@@ -40,9 +34,6 @@ const RECITERS = [
     era: "classic",
     famous: true,
     birthYear: 1905,
-    country: "مصر",
-    style: "تحقيق",
-    famousTilawa: "سورة البقرة، سورة الكهف",
     icon: BookOpen
   },
   {
@@ -52,9 +43,6 @@ const RECITERS = [
     era: "classic",
     famous: true,
     birthYear: 1917,
-    country: "مصر",
-    style: "ترتيل ومرتل",
-    famousTilawa: "القرآن كاملاً مرتلاً",
     icon: Mic
   },
   {
@@ -64,9 +52,6 @@ const RECITERS = [
     era: "classic",
     famous: true,
     birthYear: 1920,
-    country: "مصر",
-    style: "تحقيق",
-    famousTilawa: "سورة الرحمن، سورة القيامة",
     icon: BookOpen
   },
   {
@@ -76,9 +61,6 @@ const RECITERS = [
     era: "classic",
     famous: false,
     birthYear: 1922,
-    country: "مصر",
-    style: "ترتيل",
-    famousTilawa: "سورة المؤمنون",
     icon: Users
   },
   {
@@ -88,9 +70,6 @@ const RECITERS = [
     era: "modern",
     famous: true,
     birthYear: 1968,
-    country: "السعودية",
-    style: "ترتيل",
-    famousTilawa: "سورة الملك، سورة الواقعة",
     icon: Star
   },
   {
@@ -100,9 +79,6 @@ const RECITERS = [
     era: "modern",
     famous: true,
     birthYear: 1964,
-    country: "مصر",
-    style: "حدر وترتيل",
-    famousTilawa: "سورة الكهف، سورة الفتح",
     icon: Star
   },
   {
@@ -112,9 +88,6 @@ const RECITERS = [
     era: "classic",
     famous: true,
     birthYear: 1926,
-    country: "مصر",
-    style: "ترتيل",
-    famousTilawa: "سورة يوسف، سورة النور",
     icon: BookOpen
   },
   {
@@ -124,9 +97,6 @@ const RECITERS = [
     era: "modern",
     famous: false,
     birthYear: 1975,
-    country: "السعودية",
-    style: "ترتيل",
-    famousTilawa: "سورة البقرة",
     icon: Users
   },
   {
@@ -136,9 +106,6 @@ const RECITERS = [
     era: "modern",
     famous: false,
     birthYear: 1970,
-    country: "الإمارات",
-    style: "ترتيل",
-    famousTilawa: "سورة الكهف",
     icon: Users
   },
   {
@@ -148,9 +115,6 @@ const RECITERS = [
     era: "classic",
     famous: false,
     birthYear: 1900,
-    country: "مصر",
-    style: "ترتيل",
-    famousTilawa: "سورة الفتح",
     icon: BookOpen
   },
   {
@@ -160,9 +124,6 @@ const RECITERS = [
     era: "classic",
     famous: true,
     birthYear: 1929,
-    country: "مصر",
-    style: "ترتيل",
-    famousTilawa: "سورة مريم، سورة طه",
     icon: Star
   }
 ];
@@ -268,44 +229,20 @@ export default function RecitersPage() {
                   <Icon className="w-16 h-16 text-amber-400" />
                 </div>
                 <div className="p-6">
-                 <h3 className="text-2xl font-bold text-amber-400 mb-3">
-                   {reciter.name}
-                 </h3>
-                 <p className="text-gray-300 leading-relaxed mb-4 text-sm">
-                   {reciter.description}
-                 </p>
-
-                 {/* معلومات إضافية */}
-                 <div className="space-y-2 mb-4">
-                   {reciter.country && (
-                     <div className="flex items-center gap-2 text-sm">
-                       <Badge variant="outline" className="bg-blue-500/20 text-blue-300 border-blue-500/30">
-                         🌍 {reciter.country}
-                       </Badge>
-                     </div>
-                   )}
-                   {reciter.style && (
-                     <div className="flex items-center gap-2 text-sm">
-                       <Badge variant="outline" className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-                         🎵 أسلوب: {reciter.style}
-                       </Badge>
-                     </div>
-                   )}
-                   {reciter.famousTilawa && (
-                     <div className="text-xs text-gray-400 mt-2">
-                       <span className="font-bold text-amber-400">أشهر تلاواته:</span> {reciter.famousTilawa}
-                     </div>
-                   )}
-                 </div>
-
-                 <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                   <span className="text-gray-400 text-sm">📅 {reciter.birthYear}</span>
-                   {reciter.famous && (
-                     <Badge className="bg-amber-400 text-emerald-900 hover:bg-amber-500">
-                       ⭐ مشهور
-                     </Badge>
-                   )}
-                 </div>
+                  <h3 className="text-2xl font-bold text-amber-400 mb-3">
+                    {reciter.name}
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed mb-4 text-sm">
+                    {reciter.description}
+                  </p>
+                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                    <span className="text-gray-400 text-sm">{reciter.birthYear}</span>
+                    {reciter.famous && (
+                      <Badge className="bg-amber-400 text-emerald-900 hover:bg-amber-500">
+                        مشهور
+                      </Badge>
+                    )}
+                  </div>
                   <Button
                     onClick={() => {
                       toast.success(`🎧 جاري الانتقال لصفحة التلاوة`);

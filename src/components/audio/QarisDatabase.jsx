@@ -1,7 +1,7 @@
-// =================== قاعدة بيانات المقرئين العالمية الموسعة ===================
+// =================== قاعدة بيانات المقرئين العالمية ===================
 
 export const QARI_SYSTEM = {
-    version: "3.0.0",
+    version: "2.0.0",
     lastUpdate: new Date().toISOString(),
     autoUpdate: true,
     
@@ -9,16 +9,10 @@ export const QARI_SYSTEM = {
     sources: [
         "https://everyayah.com/data/",
         "https://server8.mp3quran.net/",
-        "https://server6.mp3quran.net/",
-        "https://server7.mp3quran.net/",
-        "https://server9.mp3quran.net/",
-        "https://server10.mp3quran.net/",
-        "https://server11.mp3quran.net/",
-        "https://server12.mp3quran.net/",
         "https://download.quranicaudio.com/"
     ],
     
-    // التصنيف الجغرافي للمقرئين - روابط مُحدَّثة وتعمل 100%
+    // التصنيف الجغرافي للمقرئين
     qaris: {
         // 🇪🇬 المقرئين المصريين
         egyptian: [
@@ -26,48 +20,30 @@ export const QARI_SYSTEM = {
                 id: "husary",
                 name: "محمود خليل الحصري",
                 country: "EG",
-                style: "ترتيل",
+                style: "حدر",
                 rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.husary/",
-                audio_type: "ayah",
-                verified: true,
-                description: "من أعظم قراء القرآن الكريم"
+                audio_base: "https://everyayah.com/data/Husary_128kbps/",
+                formats: ["64", "128", "192"]
             },
             {
                 id: "minshawy",
                 name: "محمد صديق المنشاوي",
                 country: "EG",
-                style: "مرتل",
+                style: "تحقيق",
                 rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.minshawi/",
-                audio_type: "ayah",
-                verified: true,
-                description: "صوت ملائكي"
+                audio_base: "https://everyayah.com/data/Minshawy_Murattal_128kbps/"
             },
             {
                 id: "abdulbaset",
                 name: "عبد الباسط عبد الصمد",
                 country: "EG",
-                style: "مرتل",
+                style: "ترتيل",
                 rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.abdulbasitmurattal/",
-                audio_type: "ayah",
-                verified: true,
-                description: "الصوت الذهبي"
-            },
-            {
-                id: "abdulbaset_mujawwad",
-                name: "عبد الباسط (مجود)",
-                country: "EG",
-                style: "تجويد",
-                rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/64/ar.abdulsamad/",
-                audio_type: "ayah",
-                verified: true
+                audio_base: "https://everyayah.com/data/Abdul_Basit_Murattal_128kbps/"
             }
         ],
         
-        // 🇸🇦 المقرئين السعوديين والخليجيين
+        // 🇸🇦 المقرئين السعوديين
         saudi: [
             {
                 id: "sudais",
@@ -75,22 +51,24 @@ export const QARI_SYSTEM = {
                 country: "SA",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.abdurrahmaansudais/",
-                audio_type: "ayah",
-                imam: "الحرم المكي",
-                verified: true,
-                description: "إمام الحرم المكي"
+                audio_base: "https://server8.mp3quran.net/sds/",
+                imam: "الحرم المكي"
+            },
+            {
+                id: "shuraim",
+                name: "سعود الشريم",
+                country: "SA",
+                style: "حدر",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/shur/"
             },
             {
                 id: "alafasy",
                 name: "مشاري العفاسي",
-                country: "KW",
+                country: "SA",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/",
-                audio_type: "ayah",
-                verified: true,
-                description: "صوت مميز ومؤثر"
+                audio_base: "https://everyayah.com/data/Alafasy_128kbps/"
             },
             {
                 id: "hudhaify",
@@ -98,75 +76,42 @@ export const QARI_SYSTEM = {
                 country: "SA",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.hudhaify/",
-                audio_type: "ayah",
-                imam: "المسجد النبوي",
-                verified: true
+                audio_base: "https://server8.mp3quran.net/hud/"
             },
             {
                 id: "maher",
                 name: "ماهر المعيقلي",
                 country: "SA",
-                style: "ترتيل",
+                style: "حدر",
                 rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.maaboralmueaqly/",
-                audio_type: "ayah",
-                imam: "الحرم المكي",
-                verified: true,
-                description: "من أجمل الأصوات"
-            },
-            {
-                id: "ghamdi",
-                name: "سعد الغامدي",
-                country: "SA",
-                style: "ترتيل",
-                rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.saaboralmueaqly/",
-                audio_type: "ayah",
-                verified: true
-            },
-            {
-                id: "ayoub",
-                name: "محمد أيوب",
-                country: "SA",
-                style: "ترتيل",
-                rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/",
-                audio_type: "ayah",
-                imam: "المسجد النبوي",
-                verified: true
+                audio_base: "https://server8.mp3quran.net/maher/"
             }
         ],
         
         // 🌍 المقرئين العالميين
         international: [
             {
-                id: "hani_rifai",
-                name: "هاني الرفاعي",
-                country: "SA",
-                style: "ترتيل",
+                id: "bukhatir",
+                name: "أبو بكر الشاطري",
+                country: "YE",
+                style: "تحقيق",
                 rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.haboralmueaqly/",
-                audio_type: "ayah",
-                verified: true
+                audio_base: "https://server8.mp3quran.net/bkt/"
             },
             {
-                id: "shuraim",
-                name: "سعود الشريم",
+                id: "jibril",
+                name: "محمد أيوب",
                 country: "SA",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://cdn.islamic.network/quran/audio/128/ar.saaboralmueaqly/",
-                audio_type: "ayah",
-                imam: "الحرم المكي",
-                verified: true
+                audio_base: "https://server8.mp3quran.net/ayb/"
             }
         ]
     },
     
     // نظام ذاكرة التخزين الذكي
     audioCache: {
-        maxSize: 1000 * 1024 * 1024, // 1GB
+        maxSize: 500 * 1024 * 1024, // 500MB
         currentSize: 0,
         cacheMap: new Map(),
         
@@ -237,10 +182,6 @@ export const QARI_SYSTEM = {
             return all;
         },
         
-        getVerifiedQaris: function() {
-            return this.getAllQaris().filter(qari => qari.verified === true);
-        },
-        
         getQarisByCountry: function(countryCode) {
             return this.getAllQaris().filter(qari => qari.country === countryCode);
         },
@@ -249,26 +190,12 @@ export const QARI_SYSTEM = {
             return this.getAllQaris().filter(qari => qari.style === style);
         },
         
-        getQarisByRating: function(minRating = 5) {
-            return this.getAllQaris().filter(qari => qari.rating >= minRating);
-        },
-        
         searchQari: function(query) {
             const all = this.getAllQaris();
-            const q = query.toLowerCase();
             return all.filter(qari => 
-                qari.name.toLowerCase().includes(q) || 
-                qari.id.toLowerCase().includes(q) ||
-                (qari.description && qari.description.toLowerCase().includes(q))
+                qari.name.includes(query) || 
+                qari.id.includes(query)
             );
-        },
-        
-        generateSurahUrl: function(qariId, surah) {
-            const qari = this.getAllQaris().find(q => q.id === qariId);
-            if (!qari) return null;
-            
-            const surahStr = surah.toString().padStart(3, '0');
-            return qari.audio_base + surahStr + '.mp3';
         },
         
         generateAudioUrl: function(qariId, surah, ayah, quality = '128') {
@@ -278,33 +205,7 @@ export const QARI_SYSTEM = {
             const surahStr = surah.toString().padStart(3, '0');
             const ayahStr = ayah.toString().padStart(3, '0');
             
-            // بعض المصادر تستخدم صيغة مختلفة
-            if (qari.audio_base.includes('everyayah')) {
-                return qari.audio_base + surahStr + ayahStr + '.mp3';
-            }
-            
-            return qari.audio_base + surahStr + '.mp3';
-        },
-        
-        testAudioUrl: async function(url) {
-            try {
-                const response = await fetch(url, { method: 'HEAD', mode: 'no-cors' });
-                return response.ok || response.type === 'opaque';
-            } catch {
-                return false;
-            }
-        },
-        
-        getStats: function() {
-            const all = this.getAllQaris();
-            const verified = this.getVerifiedQaris();
-            return {
-                total: all.length,
-                verified: verified.length,
-                egyptian: QARI_SYSTEM.qaris.egyptian.length,
-                saudi: QARI_SYSTEM.qaris.saudi.length,
-                international: QARI_SYSTEM.qaris.international.length
-            };
+            return qari.audio_base + surahStr + ayahStr + '.mp3';
         }
     }
 };

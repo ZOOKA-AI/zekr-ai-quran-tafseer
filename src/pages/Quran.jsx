@@ -31,12 +31,12 @@ export default function QuranPage() {
   const handleShare = async () => {
     const appUrl = window.location.origin;
     const shareText = '🕌 ذكر - القرآن الكريم والتفسير والفقه - مجاني بالكامل لوجه الله تعالى\n\nصدقة جارية - شارك الأجر معنا 🤲\n\n' + appUrl;
-
+    
     if (navigator.share) {
       try {
         await navigator.share({
           title: 'ذكر - القرآن الكريم والتفسير',
-          text: shareText
+          text: shareText,
         });
       } catch (err) {
         if (err.name !== 'AbortError') {
@@ -60,7 +60,7 @@ export default function QuranPage() {
   const filteredSurahs = React.useMemo(() => {
     if (!searchQuery || !searchQuery.trim()) return ALL_SURAHS;
     const q = (searchQuery || '').toLowerCase().trim();
-    return ALL_SURAHS.filter((s) => {
+    return ALL_SURAHS.filter(s => {
       const name = s.name || '';
       const transliteration = (s.transliteration || '').toLowerCase();
       const number = (s.number || '').toString();
@@ -89,7 +89,7 @@ export default function QuranPage() {
                     <h3 className="text-sm font-bold text-gray-900">معلم ذكي</h3>
                   </div>
                   
-                  <div className="bg-gradient-to-br p-3 opacity-25 rounded-lg from-emerald-50 to-emerald-100 border border-emerald-200">
+                  <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-3 rounded-lg border border-emerald-200">
                     <div className="text-2xl mb-1">📖</div>
                     <h3 className="text-sm font-bold text-gray-900">تفسير</h3>
                   </div>
@@ -169,15 +169,15 @@ export default function QuranPage() {
                 <div className="flex gap-2 justify-center flex-wrap">
                   <Button
                     onClick={handleShare}
-                    className="bg-white hover:bg-gray-50 text-emerald-700 border-2 border-emerald-300 font-bold px-4 py-2">
-
+                    className="bg-white hover:bg-gray-50 text-emerald-700 border-2 border-emerald-300 font-bold px-4 py-2"
+                  >
                     <Share2 className="w-4 h-4 ml-1" />
                     مشاركة
                   </Button>
                   <Button
                     onClick={handleCopyLink}
-                    className="bg-white hover:bg-gray-50 text-amber-700 border-2 border-amber-300 font-bold px-4 py-2">
-
+                    className="bg-white hover:bg-gray-50 text-amber-700 border-2 border-amber-300 font-bold px-4 py-2"
+                  >
                     <Copy className="w-4 h-4 ml-1" />
                     نسخ الرابط
                   </Button>
@@ -196,8 +196,8 @@ export default function QuranPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
           <Button
             onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
-            className="h-10 bg-white hover:bg-gray-50 text-emerald-700 border border-emerald-300 font-bold">
-
+            className="h-10 bg-white hover:bg-gray-50 text-emerald-700 border border-emerald-300 font-bold"
+          >
             <Search className="w-4 h-4 ml-1" />
             <span className="text-sm">بحث</span>
           </Button>
@@ -224,11 +224,11 @@ export default function QuranPage() {
           </Link>
         </div>
 
-        {showAdvancedSearch &&
-        <div className="mb-6">
+        {showAdvancedSearch && (
+          <div className="mb-6">
             <QuranSearch />
           </div>
-        }
+        )}
 
         {/* Search Bar */}
         <div className="mb-4">
@@ -238,8 +238,8 @@ export default function QuranPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="ابحث عن سورة..."
-              className="pr-10 h-10 text-sm font-bold border border-emerald-300 focus:border-emerald-500 rounded-lg bg-white" />
-
+              className="pr-10 h-10 text-sm font-bold border border-emerald-300 focus:border-emerald-500 rounded-lg bg-white"
+            />
           </div>
         </div>
 
@@ -258,24 +258,24 @@ export default function QuranPage() {
             <p className="text-gray-800 font-bold text-xs">آية</p>
           </Card>
           <Card className="bg-white rounded-lg p-3 shadow-sm border border-purple-200 text-center">
-            <p className="text-2xl font-bold text-purple-600 mb-0.5">40+</p>
-            <p className="text-gray-800 font-bold text-xs">قارئ</p>
+            <p className="text-2xl font-bold text-purple-600 mb-0.5">8</p>
+            <p className="text-gray-800 font-bold text-xs">قراء</p>
           </Card>
         </div>
 
         {/* Surahs Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredSurahs.map((surah) =>
-          <SurahCard key={surah.number} surah={surah} />
-          )}
+          {filteredSurahs.map(surah => (
+            <SurahCard key={surah.number} surah={surah} />
+          ))}
         </div>
 
-        {filteredSurahs.length === 0 &&
-        <div className="text-center py-16">
+        {filteredSurahs.length === 0 && (
+          <div className="text-center py-16">
             <p className="text-gray-700 text-2xl font-bold">لم يتم العثور على نتائج</p>
           </div>
-        }
+        )}
       </div>
-    </div>);
-
+    </div>
+  );
 }
