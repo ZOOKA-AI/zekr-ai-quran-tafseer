@@ -85,6 +85,38 @@ export const QARI_SYSTEM = {
                 style: "حدر",
                 rating: 5,
                 audio_base: "https://server8.mp3quran.net/maher/"
+            },
+            {
+                id: "shatr",
+                name: "محمود علي البنا",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/mab/"
+            },
+            {
+                id: "banah",
+                name: "سامي الدعيجي",
+                country: "SA",
+                style: "تحقيق",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/sde/"
+            },
+            {
+                id: "shams",
+                name: "محمود خليل الحصري (جودة عالية)",
+                country: "EG",
+                style: "حدر",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/hus/"
+            },
+            {
+                id: "noor",
+                name: "عبد الله البعيجان",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/abb/"
             }
         ],
         
@@ -105,6 +137,54 @@ export const QARI_SYSTEM = {
                 style: "ترتيل",
                 rating: 5,
                 audio_base: "https://server8.mp3quran.net/ayb/"
+            },
+            {
+                id: "khushmad",
+                name: "أحمد الحذيفي",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/ahd/"
+            },
+            {
+                id: "khalil",
+                name: "خليل الحصري",
+                country: "EG",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/khh/"
+            },
+            {
+                id: "saad",
+                name: "سعد الغامدي",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/sgg/"
+            },
+            {
+                id: "paquistan",
+                name: "قاري عبد الباسط",
+                country: "PK",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://everyayah.com/data/Abdul_Basit_Murattal_192kbps/"
+            },
+            {
+                id: "indonesia",
+                name: "أحمد الجلبان",
+                country: "ID",
+                style: "حدر",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/ajl/"
+            },
+            {
+                id: "qatar",
+                name: "الشيخ محمد الكرتي",
+                country: "QA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/mkrt/"
             }
         ]
     },
