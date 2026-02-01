@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
   Menu, Download, Wifi, WifiOff, Music, BookOpen, Users, BarChart3, Settings, Home, Radio,
-  Heart, Award, MessageSquare, Mic, Moon, Sun, Clock, Sparkles, BookMarked, X, ChevronDown, ChevronUp
+  Heart, Award, MessageSquare, Mic, Moon, Sun, Clock, Sparkles, BookMarked, X, ChevronDown, ChevronUp,
+  Bell, Volume2, Palette
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -22,6 +23,13 @@ const SECTIONS = {
       { name: 'التلاوة المتقدمة', icon: Music, path: 'Tilawa', color: 'blue', emoji: '🎧' },
       { name: 'المقرئين', icon: Mic, path: 'Reciters', color: 'purple', emoji: '🎤' },
       { name: 'خطة الحفظ', icon: BookMarked, path: 'MemorizationPlan', color: 'amber', emoji: '📚' },
+    ]
+  },
+  audio: {
+    title: '🎵 الصوتيات',
+    items: [
+      { name: 'الراديو والمبتهلين', icon: Radio, path: 'Radio', color: 'purple', emoji: '📻' },
+      { name: 'المؤذن', icon: Bell, path: 'Radio', color: 'amber', emoji: '🕌' },
     ]
   },
   worship: {
@@ -68,7 +76,6 @@ const SECTIONS = {
   media: {
     title: '📻 الوسائط',
     items: [
-      { name: 'الإذاعة', icon: Radio, path: 'Radio', color: 'red', emoji: '📻' },
       { name: 'الخط العربي', icon: Sparkles, path: 'Calligraphy', color: 'indigo', emoji: '✍️' },
     ]
   },
@@ -124,19 +131,36 @@ export default function Sidebar() {
   const SidebarContent = () => (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="p-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xl font-bold">🕌 ذكر</h2>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="text-white hover:bg-white/20 md:hidden"
-            onClick={() => setIsOpen(false)}
-          >
-            <X className="w-5 h-5" />
-          </Button>
+      <div className="p-4 bg-gradient-to-br from-emerald-800 via-teal-700 to-cyan-800 text-white relative overflow-hidden">
+        {/* Stars decoration */}
+        <div className="absolute inset-0">
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 2}s`,
+                opacity: 0.6
+              }}
+            />
+          ))}
         </div>
-        <p className="text-sm opacity-90">القرآن الكريم والتفسير</p>
+        <div className="relative z-10">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-xl font-bold">🕌 ذِكْر</h2>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-white hover:bg-white/20 md:hidden"
+              onClick={() => setIsOpen(false)}
+            >
+              <X className="w-5 h-5" />
+            </Button>
+          </div>
+          <p className="text-sm opacity-90">القرآن الكريم • التفسير • الابتهالات</p>
+        </div>
       </div>
 
       {/* Connection Status */}

@@ -1,46 +1,82 @@
 import React, { useState, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Radio as RadioIcon, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
+import { Radio as RadioIcon, Play, Pause, Volume2, VolumeX, Music, Mic, Bell } from 'lucide-react';
 import { toast } from 'sonner';
+import SpiritualBackground from '@/components/layout/SpiritualBackground';
+import AdhanPlayer from '@/components/adhan/AdhanPlayer';
+import MubtahileenLibrary from '@/components/ibtihaal/MubtahileenLibrary';
 
+// محطات الراديو المحدثة
 const RADIO_STATIONS = [
   {
+    id: 'quran_egypt',
     name: 'إذاعة القرآن الكريم - مصر',
     url: 'https://n0a.radiojar.com/8s5u5tpdtwzuv?rj-ttl=5&rj-tok=AAABfVqHTbMAGYyZ0h4o1yjKfQ',
     country: '🇪🇬',
-    description: 'القرآن الكريم 24/7'
+    category: 'quran',
+    description: 'القرآن الكريم 24/7',
+    featured: true
   },
   {
-    name: 'إذاعة القرآن الكريم - السعودية',
-    url: 'https://qurango.net/radio/tarateel',
+    id: 'quran_saudi',
+    name: 'إذاعة القرآن - السعودية',
+    url: 'https://stream.radiojar.com/4wqre23fytzuv',
     country: '🇸🇦',
-    description: 'إذاعة القرآن الكريم من المملكة'
+    category: 'quran',
+    description: 'من المملكة العربية السعودية'
   },
   {
-    name: 'راديو الحرم - مكة المكرمة',
+    id: 'makkah_live',
+    name: 'بث مباشر - الحرم المكي',
     url: 'https://qurango.net/radio/tarateel',
     country: '🕋',
-    description: 'البث المباشر من الحرم المكي'
+    category: 'haram',
+    description: 'صوت الحرم المكي الشريف',
+    featured: true
   },
   {
-    name: 'راديو المسجد النبوي',
+    id: 'madinah_live',
+    name: 'بث مباشر - المسجد النبوي',
     url: 'https://qurango.net/radio/tarateel',
     country: '🕌',
-    description: 'البث المباشر من المسجد النبوي'
+    category: 'haram',
+    description: 'صوت المسجد النبوي الشريف'
   },
   {
-    name: 'إذاعة نداء الإسلام',
-    url: 'https://qurango.net/radio/nidaaislam',
-    country: '🌙',
-    description: 'محاضرات وخطب دينية'
-  },
-  {
+    id: 'tafseer',
     name: 'راديو التفسير',
     url: 'https://qurango.net/radio/tafseer',
     country: '📖',
-    description: 'تفسير القرآن الكريم'
+    category: 'tafseer',
+    description: 'شروحات وتفسير القرآن'
+  },
+  {
+    id: 'nidaa',
+    name: 'إذاعة نداء الإسلام',
+    url: 'https://qurango.net/radio/nidaaislam',
+    country: '🌙',
+    category: 'lectures',
+    description: 'محاضرات وخطب دينية'
+  },
+  {
+    id: 'tilawa',
+    name: 'راديو التلاوات',
+    url: 'https://qurango.net/radio/tilawa',
+    country: '🎧',
+    category: 'quran',
+    description: 'تلاوات خاشعة متنوعة'
+  },
+  {
+    id: 'azhari',
+    name: 'صوت الأزهر الشريف',
+    url: 'https://stream.radiojar.com/cqw3bxv8hruv',
+    country: '🇪🇬',
+    category: 'lectures',
+    description: 'من الأزهر الشريف'
   }
 ];
 
@@ -49,6 +85,7 @@ export default function RadioPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState([70]);
   const [isMuted, setIsMuted] = useState(false);
+  const [activeTab, setActiveTab] = useState('radio');
   const audioRef = useRef(null);
 
   const handlePlayPause = async (station) => {
@@ -57,7 +94,7 @@ export default function RadioPage() {
         audioRef.current = new Audio();
       }
 
-      if (selectedStation?.url === station.url && isPlaying) {
+      if (selectedStation?.id === station.id && isPlaying) {
         audioRef.current.pause();
         setIsPlaying(false);
         toast.info('⏸️ تم إيقاف البث');
@@ -67,11 +104,10 @@ export default function RadioPage() {
         await audioRef.current.play();
         setSelectedStation(station);
         setIsPlaying(true);
-        toast.success(`📻 جاري بث ${station.name}`);
+        toast.success(`📻 ${station.name}`);
       }
     } catch (err) {
-      console.error('Play error:', err);
-      toast.error('❌ تعذر التشغيل - تحقق من الاتصال بالإنترنت');
+      toast.error('تعذر التشغيل - تحقق من الاتصال');
     }
   };
 
@@ -82,152 +118,166 @@ export default function RadioPage() {
     }
   };
 
-  const toggleMute = () => {
-    if (audioRef.current) {
-      audioRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
   return (
-    <div className="min-h-screen relative overflow-hidden" dir="rtl">
-      {/* Background */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1920)',
-          filter: 'brightness(0.3)'
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/80 via-blue-900/80 to-cyan-900/80" />
-
-      <div className="relative z-10 min-h-screen p-6">
-        <div className="max-w-5xl mx-auto">
+    <SpiritualBackground backgroundId="ramadan_moon">
+      <div className="min-h-screen p-4 md:p-8" dir="rtl">
+        <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-4">
               <RadioIcon className="w-12 h-12 text-amber-400 animate-pulse" />
-              <h1 className="text-6xl font-bold text-gray-900 font-arabic drop-shadow-xl">
+              <h1 className="text-4xl md:text-5xl font-bold text-white">
                 الراديو الإسلامي
               </h1>
             </div>
-            <p className="text-gray-900 text-xl font-arabic font-bold drop-shadow-lg">استمع للقرآن الكريم والمحاضرات الدينية</p>
+            <p className="text-purple-300 text-lg">استمع للقرآن والابتهالات والأذان</p>
           </div>
 
-          {/* Current Playing */}
-          {selectedStation && (
-            <Card className="bg-gradient-to-br from-gray-900/90 to-purple-900/70 backdrop-blur-2xl border-2 border-amber-400/50 shadow-2xl mb-8">
-              <div className="p-8">
-                <div className="text-center mb-6">
-                  <div className="text-6xl mb-4">{selectedStation.country}</div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2 font-arabic">{selectedStation.name}</h2>
-                  <p className="text-gray-800 font-arabic font-semibold">{selectedStation.description}</p>
-                </div>
+          {/* Tabs */}
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <TabsList className="w-full bg-slate-800/50 border border-slate-700 p-1 flex justify-center gap-1">
+              <TabsTrigger value="radio" className="data-[state=active]:bg-purple-600 gap-2">
+                <RadioIcon className="w-4 h-4" /> الإذاعات
+              </TabsTrigger>
+              <TabsTrigger value="adhan" className="data-[state=active]:bg-purple-600 gap-2">
+                <Bell className="w-4 h-4" /> المؤذن
+              </TabsTrigger>
+              <TabsTrigger value="ibtihaal" className="data-[state=active]:bg-purple-600 gap-2">
+                <Music className="w-4 h-4" /> المبتهلين
+              </TabsTrigger>
+            </TabsList>
 
-                <div className="flex items-center justify-center gap-6 mb-6">
-                  <Button
-                    onClick={() => handlePlayPause(selectedStation)}
-                    className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700"
-                  >
-                    {isPlaying ? (
-                      <Pause className="w-12 h-12 text-white" />
-                    ) : (
-                      <Play className="w-12 h-12 text-white mr-2" />
-                    )}
-                  </Button>
-                </div>
-
-                {/* Volume Control */}
-                <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+            {/* Radio Stations Tab */}
+            <TabsContent value="radio">
+              {/* Now Playing */}
+              {selectedStation && isPlaying && (
+                <Card className="bg-gradient-to-br from-emerald-900/80 to-teal-900/80 border-2 border-emerald-500/50 p-6 mb-6">
                   <div className="flex items-center gap-4">
-                    <Button 
-                     onClick={toggleMute}
-                     variant="ghost"
-                     size="icon"
-                     className="text-white hover:text-purple-300 hover:bg-white/10 transition-colors"
-                    >
-                     {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
-                    </Button>
+                    <div className="text-5xl animate-pulse">{selectedStation.country}</div>
                     <div className="flex-1">
-                      <Slider
-                        value={volume}
-                        onValueChange={handleVolumeChange}
-                        max={100}
-                        step={1}
-                        className="cursor-pointer"
-                      />
+                      <h2 className="text-2xl font-bold text-white">{selectedStation.name}</h2>
+                      <p className="text-emerald-300">{selectedStation.description}</p>
                     </div>
-                    <span className="text-white font-bold text-lg w-12 text-center">
-                     {volume[0]}%
-                    </span>
+                    <Button
+                      onClick={() => handlePlayPause(selectedStation)}
+                      className="w-16 h-16 rounded-full bg-red-600 hover:bg-red-700"
+                    >
+                      <Pause className="w-8 h-8" />
+                    </Button>
                   </div>
+                  
+                  {/* Volume Control */}
+                  <div className="mt-4 flex items-center gap-4">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => {
+                        setIsMuted(!isMuted);
+                        if (audioRef.current) audioRef.current.muted = !isMuted;
+                      }}
+                      className="text-white"
+                    >
+                      {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                    </Button>
+                    <Slider
+                      value={volume}
+                      onValueChange={handleVolumeChange}
+                      max={100}
+                      className="flex-1"
+                    />
+                    <span className="text-white w-12 text-center">{volume[0]}%</span>
+                  </div>
+                </Card>
+              )}
+
+              {/* Featured Stations */}
+              <div className="mb-8">
+                <h3 className="text-xl font-bold text-amber-400 mb-4">⭐ المحطات المميزة</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {RADIO_STATIONS.filter(s => s.featured).map(station => (
+                    <Card
+                      key={station.id}
+                      onClick={() => handlePlayPause(station)}
+                      className={`cursor-pointer p-6 transition-all ${
+                        selectedStation?.id === station.id && isPlaying
+                          ? 'bg-emerald-800/60 border-emerald-400 scale-105'
+                          : 'bg-slate-800/60 border-slate-600/50 hover:bg-slate-700/60 hover:scale-102'
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="text-5xl">{station.country}</div>
+                        <div className="flex-1">
+                          <h4 className="text-xl font-bold text-white">{station.name}</h4>
+                          <p className="text-gray-400">{station.description}</p>
+                        </div>
+                        <Button
+                          size="icon"
+                          className={selectedStation?.id === station.id && isPlaying
+                            ? 'bg-red-600'
+                            : 'bg-emerald-600'
+                          }
+                        >
+                          {selectedStation?.id === station.id && isPlaying ? (
+                            <Pause className="w-5 h-5" />
+                          ) : (
+                            <Play className="w-5 h-5" />
+                          )}
+                        </Button>
+                      </div>
+                    </Card>
+                  ))}
                 </div>
               </div>
-            </Card>
-          )}
 
-          {/* Stations Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {RADIO_STATIONS.map((station, idx) => (
-              <Card
-                key={idx}
-                className={`cursor-pointer transition-all duration-200 hover:scale-105 ${
-                  selectedStation?.url === station.url && isPlaying
-                    ? 'bg-gradient-to-br from-emerald-600 to-green-600 border-4 border-amber-400 shadow-2xl'
-                    : 'bg-gray-800/70 backdrop-blur-xl border-2 border-purple-400/30 hover:border-purple-400/60'
-                }`}
-                onClick={() => handlePlayPause(station)}
-              >
-                <div className="p-6">
-                  <div className="text-center mb-4">
-                    <div className="text-5xl mb-3">{station.country}</div>
-                    <h3 className={`text-xl font-bold mb-2 font-arabic ${
-                      selectedStation?.url === station.url && isPlaying ? 'text-white' : 'text-gray-200'
-                    }`}>
-                      {station.name}
-                    </h3>
-                    <p className={`text-sm font-arabic ${
-                      selectedStation?.url === station.url && isPlaying ? 'text-amber-200' : 'text-gray-400'
-                    }`}>
-                      {station.description}
-                    </p>
-                  </div>
-
-                  <Button
-                    className={`w-full ${
-                      selectedStation?.url === station.url && isPlaying
-                        ? 'bg-white text-emerald-600 hover:bg-gray-100'
-                        : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white'
+              {/* All Stations */}
+              <h3 className="text-xl font-bold text-white mb-4">📻 جميع المحطات</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {RADIO_STATIONS.map(station => (
+                  <Card
+                    key={station.id}
+                    onClick={() => handlePlayPause(station)}
+                    className={`cursor-pointer p-4 transition-all ${
+                      selectedStation?.id === station.id && isPlaying
+                        ? 'bg-emerald-800/60 border-emerald-400'
+                        : 'bg-slate-800/50 border-slate-700/50 hover:bg-slate-700/50'
                     }`}
                   >
-                    {selectedStation?.url === station.url && isPlaying ? (
-                      <>
-                        <Pause className="w-5 h-5 ml-2" />
-                        إيقاف
-                      </>
-                    ) : (
-                      <>
-                        <Play className="w-5 h-5 ml-2" />
-                        تشغيل
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </Card>
-            ))}
-          </div>
+                    <div className="flex items-center gap-3">
+                      <div className="text-3xl">{station.country}</div>
+                      <div className="flex-1">
+                        <h4 className="text-white font-bold text-sm">{station.name}</h4>
+                        <p className="text-gray-400 text-xs">{station.description}</p>
+                      </div>
+                      {selectedStation?.id === station.id && isPlaying ? (
+                        <Badge className="bg-emerald-600">يعمل</Badge>
+                      ) : (
+                        <Play className="w-5 h-5 text-gray-400" />
+                      )}
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
 
-          {/* Footer Info */}
-          <Card className="bg-gradient-to-r from-amber-600/30 to-orange-600/30 border-2 border-amber-400/50 mt-8">
-            <div className="p-6 text-center">
-              <p className="text-amber-200 text-lg font-arabic leading-relaxed">
-                📻 استمع للقرآن الكريم والمحاضرات الدينية من أفضل الإذاعات الإسلامية<br/>
-                اللهم اجعلنا من أهل القرآن وخاصته
-              </p>
-            </div>
+            {/* Adhan Tab */}
+            <TabsContent value="adhan">
+              <AdhanPlayer />
+            </TabsContent>
+
+            {/* Ibtihaal Tab */}
+            <TabsContent value="ibtihaal">
+              <MubtahileenLibrary />
+            </TabsContent>
+          </Tabs>
+
+          {/* Footer */}
+          <Card className="mt-8 bg-gradient-to-r from-amber-900/30 to-orange-900/30 border-amber-500/30 p-6 text-center">
+            <p className="text-amber-200">
+              🤲 اللهم اجعلنا من أهل القرآن وخاصته
+            </p>
           </Card>
         </div>
       </div>
-    </div>
+    </SpiritualBackground>
   );
 }
