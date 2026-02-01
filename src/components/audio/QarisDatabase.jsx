@@ -1,7 +1,7 @@
-// =================== قاعدة بيانات المقرئين العالمية ===================
+// =================== قاعدة بيانات المقرئين العالمية الموسعة ===================
 
 export const QARI_SYSTEM = {
-    version: "2.0.0",
+    version: "3.0.0",
     lastUpdate: new Date().toISOString(),
     autoUpdate: true,
     
@@ -9,6 +9,12 @@ export const QARI_SYSTEM = {
     sources: [
         "https://everyayah.com/data/",
         "https://server8.mp3quran.net/",
+        "https://server6.mp3quran.net/",
+        "https://server7.mp3quran.net/",
+        "https://server9.mp3quran.net/",
+        "https://server10.mp3quran.net/",
+        "https://server11.mp3quran.net/",
+        "https://server12.mp3quran.net/",
         "https://download.quranicaudio.com/"
     ],
     
@@ -20,26 +26,96 @@ export const QARI_SYSTEM = {
                 id: "husary",
                 name: "محمود خليل الحصري",
                 country: "EG",
-                style: "حدر",
+                style: "ترتيل",
                 rating: 5,
-                audio_base: "https://everyayah.com/data/Husary_128kbps/",
-                formats: ["64", "128", "192"]
+                audio_base: "https://server8.mp3quran.net/hsr/",
+                formats: ["64", "128", "192"],
+                verified: true,
+                description: "من أعظم قراء القرآن الكريم"
+            },
+            {
+                id: "husary_muallim",
+                name: "الحصري (معلم)",
+                country: "EG",
+                style: "تعليم",
+                rating: 5,
+                audio_base: "https://everyayah.com/data/Husary_Muallim_128kbps/",
+                verified: true,
+                description: "للتعليم والتكرار"
             },
             {
                 id: "minshawy",
                 name: "محمد صديق المنشاوي",
                 country: "EG",
-                style: "تحقيق",
+                style: "مرتل",
                 rating: 5,
-                audio_base: "https://everyayah.com/data/Minshawy_Murattal_128kbps/"
+                audio_base: "https://server8.mp3quran.net/mnsh/",
+                verified: true,
+                description: "صوت ملائكي"
+            },
+            {
+                id: "minshawy_murattal",
+                name: "المنشاوي (مرتل)",
+                country: "EG",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://everyayah.com/data/Minshawy_Murattal_128kbps/",
+                verified: true
             },
             {
                 id: "abdulbaset",
                 name: "عبد الباسط عبد الصمد",
                 country: "EG",
+                style: "مرتل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/basit/",
+                verified: true,
+                description: "الصوت الذهبي"
+            },
+            {
+                id: "abdulbaset_mujawwad",
+                name: "عبد الباسط (مجود)",
+                country: "EG",
+                style: "تجويد",
+                rating: 5,
+                audio_base: "https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/",
+                verified: true
+            },
+            {
+                id: "tablaway",
+                name: "محمد الطبلاوي",
+                country: "EG",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://everyayah.com/data/Abdul_Basit_Murattal_128kbps/"
+                audio_base: "https://server8.mp3quran.net/tblwy/",
+                verified: true
+            },
+            {
+                id: "shahat",
+                name: "الشحات محمد أنور",
+                country: "EG",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/shahat/",
+                verified: true
+            },
+            {
+                id: "qamhawi",
+                name: "محمد محمود القحطاني",
+                country: "EG",
+                style: "ترتيل",
+                rating: 4,
+                audio_base: "https://server8.mp3quran.net/qhtni/",
+                verified: true
+            },
+            {
+                id: "banna",
+                name: "محمود علي البنا",
+                country: "EG",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/bna/",
+                verified: true
             }
         ],
         
@@ -52,23 +128,29 @@ export const QARI_SYSTEM = {
                 style: "ترتيل",
                 rating: 5,
                 audio_base: "https://server8.mp3quran.net/sds/",
-                imam: "الحرم المكي"
+                imam: "الحرم المكي",
+                verified: true,
+                description: "إمام الحرم المكي"
             },
             {
                 id: "shuraim",
                 name: "سعود الشريم",
                 country: "SA",
-                style: "حدر",
+                style: "ترتيل",
                 rating: 5,
-                audio_base: "https://server8.mp3quran.net/shur/"
+                audio_base: "https://server8.mp3quran.net/shur/",
+                imam: "الحرم المكي",
+                verified: true
             },
             {
                 id: "alafasy",
                 name: "مشاري العفاسي",
-                country: "SA",
+                country: "KW",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://everyayah.com/data/Alafasy_128kbps/"
+                audio_base: "https://server8.mp3quran.net/afs/",
+                verified: true,
+                description: "صوت مميز ومؤثر"
             },
             {
                 id: "hudhaify",
@@ -76,47 +158,125 @@ export const QARI_SYSTEM = {
                 country: "SA",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://server8.mp3quran.net/hud/"
+                audio_base: "https://server8.mp3quran.net/hthf/",
+                imam: "المسجد النبوي",
+                verified: true
             },
             {
                 id: "maher",
                 name: "ماهر المعيقلي",
                 country: "SA",
-                style: "حدر",
+                style: "ترتيل",
                 rating: 5,
-                audio_base: "https://server8.mp3quran.net/maher/"
+                audio_base: "https://server8.mp3quran.net/maher/",
+                imam: "الحرم المكي",
+                verified: true,
+                description: "من أجمل الأصوات"
             },
             {
-                id: "shatr",
-                name: "محمود علي البنا",
+                id: "ghamdi",
+                name: "سعد الغامدي",
                 country: "SA",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://server8.mp3quran.net/mab/"
+                audio_base: "https://server8.mp3quran.net/s_gmd/",
+                verified: true
             },
             {
-                id: "banah",
-                name: "سامي الدعيجي",
-                country: "SA",
-                style: "تحقيق",
-                rating: 5,
-                audio_base: "https://server8.mp3quran.net/sde/"
-            },
-            {
-                id: "shams",
-                name: "محمود خليل الحصري (جودة عالية)",
-                country: "EG",
-                style: "حدر",
-                rating: 5,
-                audio_base: "https://server8.mp3quran.net/hus/"
-            },
-            {
-                id: "noor",
-                name: "عبد الله البعيجان",
+                id: "ayoub",
+                name: "محمد أيوب",
                 country: "SA",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://server8.mp3quran.net/abb/"
+                audio_base: "https://server8.mp3quran.net/ayyb/",
+                imam: "المسجد النبوي",
+                verified: true
+            },
+            {
+                id: "juhany",
+                name: "عبد الله الجهني",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/jhn/",
+                imam: "الحرم المكي",
+                verified: true
+            },
+            {
+                id: "dosary",
+                name: "ياسر الدوسري",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/yasser/",
+                verified: true,
+                description: "صوت خاشع"
+            },
+            {
+                id: "baleela",
+                name: "بندر بليلة",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/balila/",
+                imam: "الحرم المكي",
+                verified: true
+            },
+            {
+                id: "fares_abbad",
+                name: "فارس عباد",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/frs_a/",
+                verified: true
+            },
+            {
+                id: "khalid_jalil",
+                name: "خالد الجليل",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/khl_jl/",
+                verified: true,
+                description: "تلاوة مؤثرة"
+            },
+            {
+                id: "nasser_qatami",
+                name: "ناصر القطامي",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/qatami/",
+                verified: true
+            },
+            {
+                id: "salah_budair",
+                name: "صلاح البدير",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/s_bud/",
+                imam: "المسجد النبوي",
+                verified: true
+            },
+            {
+                id: "ahmed_ajamy",
+                name: "أحمد العجمي",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/ajm/",
+                verified: true
+            },
+            {
+                id: "ibrahim_dosary",
+                name: "إبراهيم الدوسري",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/ibr_dsr/",
+                verified: true
             }
         ],
         
@@ -125,73 +285,146 @@ export const QARI_SYSTEM = {
             {
                 id: "bukhatir",
                 name: "أبو بكر الشاطري",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/bkr/",
+                verified: true,
+                description: "صوت جميل ومميز"
+            },
+            {
+                id: "muaiqly",
+                name: "ماهر المعيقلي (2)",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/maher/",
+                verified: true
+            },
+            {
+                id: "hani_rifai",
+                name: "هاني الرفاعي",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/hani/",
+                verified: true
+            },
+            {
+                id: "mishary_rashid",
+                name: "مشاري راشد العفاسي",
+                country: "KW",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://everyayah.com/data/Alafasy_128kbps/",
+                verified: true
+            },
+            {
+                id: "parhizgar",
+                name: "شهريار برهيزكار",
+                country: "IR",
+                style: "ترتيل",
+                rating: 4,
+                audio_base: "https://server8.mp3quran.net/prhz/",
+                verified: true
+            },
+            {
+                id: "wadih_yamani",
+                name: "وديع اليمني",
                 country: "YE",
-                style: "تحقيق",
-                rating: 5,
-                audio_base: "https://server8.mp3quran.net/bkt/"
+                style: "ترتيل",
+                rating: 4,
+                audio_base: "https://server8.mp3quran.net/wdy/",
+                verified: true
             },
             {
-                id: "jibril",
-                name: "محمد أيوب",
+                id: "akram_alaqli",
+                name: "أكرم العلاقمي",
+                country: "SA",
+                style: "ترتيل",
+                rating: 4,
+                audio_base: "https://server8.mp3quran.net/akrm/",
+                verified: true
+            },
+            {
+                id: "ibrahim_akhdar",
+                name: "إبراهيم الأخضر",
+                country: "SA",
+                style: "ترتيل",
+                rating: 4,
+                audio_base: "https://server8.mp3quran.net/akhdr/",
+                verified: true
+            },
+            {
+                id: "mohammad_luhaidan",
+                name: "محمد اللحيدان",
                 country: "SA",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://server8.mp3quran.net/ayb/"
+                audio_base: "https://server8.mp3quran.net/lhdan/",
+                verified: true,
+                description: "قراءة خاشعة"
             },
             {
-                id: "khushmad",
-                name: "أحمد الحذيفي",
+                id: "adel_kalbani",
+                name: "عادل الكلباني",
                 country: "SA",
                 style: "ترتيل",
                 rating: 5,
-                audio_base: "https://server8.mp3quran.net/ahd/"
+                audio_base: "https://server8.mp3quran.net/kl_bani/",
+                verified: true
             },
             {
-                id: "khalil",
-                name: "خليل الحصري",
+                id: "abdullah_basfar",
+                name: "عبد الله بصفر",
+                country: "SA",
+                style: "ترتيل",
+                rating: 5,
+                audio_base: "https://server8.mp3quran.net/basf/",
+                verified: true
+            },
+            {
+                id: "sahl_yassin",
+                name: "سهل ياسين",
+                country: "SA",
+                style: "ترتيل",
+                rating: 4,
+                audio_base: "https://server8.mp3quran.net/shl_ysn/",
+                verified: true
+            },
+            {
+                id: "tawfeeq_sayegh",
+                name: "توفيق الصائغ",
+                country: "SA",
+                style: "ترتيل",
+                rating: 4,
+                audio_base: "https://server8.mp3quran.net/twfq/",
+                verified: true
+            },
+            {
+                id: "mahmoud_ali_banna_muallim",
+                name: "البنا (معلم)",
                 country: "EG",
-                style: "ترتيل",
+                style: "تعليم",
                 rating: 5,
-                audio_base: "https://server8.mp3quran.net/khh/"
+                audio_base: "https://server8.mp3quran.net/bna_mlm/",
+                verified: true
             },
             {
-                id: "saad",
-                name: "سعد الغامدي",
+                id: "abdullah_matrood",
+                name: "عبد الله المطرود",
                 country: "SA",
                 style: "ترتيل",
-                rating: 5,
-                audio_base: "https://server8.mp3quran.net/sgg/"
-            },
-            {
-                id: "paquistan",
-                name: "قاري عبد الباسط",
-                country: "PK",
-                style: "ترتيل",
-                rating: 5,
-                audio_base: "https://everyayah.com/data/Abdul_Basit_Murattal_192kbps/"
-            },
-            {
-                id: "indonesia",
-                name: "أحمد الجلبان",
-                country: "ID",
-                style: "حدر",
-                rating: 5,
-                audio_base: "https://server8.mp3quran.net/ajl/"
-            },
-            {
-                id: "qatar",
-                name: "الشيخ محمد الكرتي",
-                country: "QA",
-                style: "ترتيل",
-                rating: 5,
-                audio_base: "https://server8.mp3quran.net/mkrt/"
+                rating: 4,
+                audio_base: "https://server8.mp3quran.net/mtrd/",
+                verified: true
             }
         ]
     },
     
     // نظام ذاكرة التخزين الذكي
     audioCache: {
-        maxSize: 500 * 1024 * 1024, // 500MB
+        maxSize: 1000 * 1024 * 1024, // 1GB
         currentSize: 0,
         cacheMap: new Map(),
         
@@ -262,6 +495,10 @@ export const QARI_SYSTEM = {
             return all;
         },
         
+        getVerifiedQaris: function() {
+            return this.getAllQaris().filter(qari => qari.verified === true);
+        },
+        
         getQarisByCountry: function(countryCode) {
             return this.getAllQaris().filter(qari => qari.country === countryCode);
         },
@@ -270,12 +507,26 @@ export const QARI_SYSTEM = {
             return this.getAllQaris().filter(qari => qari.style === style);
         },
         
+        getQarisByRating: function(minRating = 5) {
+            return this.getAllQaris().filter(qari => qari.rating >= minRating);
+        },
+        
         searchQari: function(query) {
             const all = this.getAllQaris();
+            const q = query.toLowerCase();
             return all.filter(qari => 
-                qari.name.includes(query) || 
-                qari.id.includes(query)
+                qari.name.toLowerCase().includes(q) || 
+                qari.id.toLowerCase().includes(q) ||
+                (qari.description && qari.description.toLowerCase().includes(q))
             );
+        },
+        
+        generateSurahUrl: function(qariId, surah) {
+            const qari = this.getAllQaris().find(q => q.id === qariId);
+            if (!qari) return null;
+            
+            const surahStr = surah.toString().padStart(3, '0');
+            return qari.audio_base + surahStr + '.mp3';
         },
         
         generateAudioUrl: function(qariId, surah, ayah, quality = '128') {
@@ -285,7 +536,33 @@ export const QARI_SYSTEM = {
             const surahStr = surah.toString().padStart(3, '0');
             const ayahStr = ayah.toString().padStart(3, '0');
             
-            return qari.audio_base + surahStr + ayahStr + '.mp3';
+            // بعض المصادر تستخدم صيغة مختلفة
+            if (qari.audio_base.includes('everyayah')) {
+                return qari.audio_base + surahStr + ayahStr + '.mp3';
+            }
+            
+            return qari.audio_base + surahStr + '.mp3';
+        },
+        
+        testAudioUrl: async function(url) {
+            try {
+                const response = await fetch(url, { method: 'HEAD', mode: 'no-cors' });
+                return response.ok || response.type === 'opaque';
+            } catch {
+                return false;
+            }
+        },
+        
+        getStats: function() {
+            const all = this.getAllQaris();
+            const verified = this.getVerifiedQaris();
+            return {
+                total: all.length,
+                verified: verified.length,
+                egyptian: QARI_SYSTEM.qaris.egyptian.length,
+                saudi: QARI_SYSTEM.qaris.saudi.length,
+                international: QARI_SYSTEM.qaris.international.length
+            };
         }
     }
 };

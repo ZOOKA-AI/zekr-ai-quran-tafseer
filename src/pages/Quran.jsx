@@ -258,8 +258,8 @@ export default function QuranPage() {
             <p className="text-gray-800 font-bold text-xs">آية</p>
           </Card>
           <Card className="bg-white rounded-lg p-3 shadow-sm border border-purple-200 text-center">
-            <p className="text-2xl font-bold text-purple-600 mb-0.5">8</p>
-            <p className="text-gray-800 font-bold text-xs">قراء</p>
+            <p className="text-2xl font-bold text-purple-600 mb-0.5">40+</p>
+            <p className="text-gray-800 font-bold text-xs">قارئ</p>
           </Card>
         </div>
 
