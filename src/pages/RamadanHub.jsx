@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import RamadanCalendar from '../components/ramadan/RamadanCalendar';
-import RamadanContent from '../components/ramadan/RamadanContent';
-import KhatmahTracker from '../components/ramadan/KhatmahTracker';
+import RamadanCalendar from '../components/ramadan/RamadanCalendar.jsx';
+import RamadanContent from '../components/ramadan/RamadanContent.jsx';
+import KhatmahTracker from '../components/ramadan/KhatmahTracker.jsx';
 
 export default function RamadanHubPage() {
   return (
