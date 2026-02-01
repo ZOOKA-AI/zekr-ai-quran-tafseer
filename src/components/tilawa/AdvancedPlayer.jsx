@@ -5,7 +5,7 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Play, Pause, SkipBack, SkipForward, Download, Volume2, Gauge, Heart, Clock, BookOpen, StickyNote, Eye } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, Download, Volume2, Gauge, Heart, Clock, BookOpen, StickyNote, Eye, Settings2 } from 'lucide-react';
 import { toast } from 'sonner';
 import FastCache from '../performance/FastCache';
 import { FavoritesManager } from '../favorites/FavoritesManager';
@@ -48,16 +48,34 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
   const [showTafsir, setShowTafsir] = useState(false);
   const [repeatCount, setRepeatCount] = useState(1);
   const [currentRepeat, setCurrentRepeat] = useState(0);
+  const [showSmartSettings, setShowSmartSettings] = useState(false);
+  const [smartSettings, setSmartSettings] = useState({
+    playback_speed: 1,
+    recitation_style: 'ترتيل',
+    ayah_by_ayah_mode: false,
+    repeat_count: 1,
+    auto_scroll: true,
+    pause_between_ayahs: 0
+  });
+  const [ayahRepeat, setAyahRepeat] = useState(0);
   
   const audioRef = useRef(null);
   const timerRef = useRef(null);
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.playbackRate = playbackRate[0];
+      audioRef.current.playbackRate = smartSettings.playback_speed;
       audioRef.current.volume = volume[0] / 100;
     }
-  }, [playbackRate, volume]);
+  }, [smartSettings.playback_speed, volume]);
+
+  useEffect(() => {
+    const key = `playback_settings_${selectedReciter}_${surah}`;
+    const saved = localStorage.getItem(key);
+    if (saved) {
+      setSmartSettings(JSON.parse(saved));
+    }
+  }, [selectedReciter, surah]);
 
   // مؤقت التلاوة
   useEffect(() => {
@@ -215,7 +233,24 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleEnded = () => {
+    const handleEnded = async () => {
+      if (smartSettings.ayah_by_ayah_mode) {
+        if (ayahRepeat < smartSettings.repeat_count - 1) {
+          setAyahRepeat(prev => prev + 1);
+          if (smartSettings.pause_between_ayahs > 0) {
+            await new Promise(resolve => setTimeout(resolve, smartSettings.pause_between_ayahs * 1000));
+          }
+          audio.play().catch(console.error);
+          return;
+        } else {
+          setAyahRepeat(0);
+          audio.pause();
+          setIsPlaying(false);
+          toast.success(`تمت الآية ${currentVerse + 1} - اضغط تشغيل للآية التالية`);
+          return;
+        }
+      }
+      
       if (currentVerse < verses.length - 1) {
         handleNext();
       } else {
@@ -235,12 +270,61 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('error', handleError);
     };
-  }, [currentVerse, verses]);
+  }, [currentVerse, verses, smartSettings, ayahRepeat]);
 
   const noteKey = `${surah}_${currentVerse + 1}`;
   const currentVerseNote = verseNotes[noteKey] || '';
 
   return (
+    <div className="space-y-6">
+      {/* القارئ الذكي */}
+      <div>
+        <Button
+          onClick={() => setShowSmartSettings(!showSmartSettings)}
+          className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white h-14 text-lg shadow-xl"
+        >
+          <Settings2 className="w-6 h-6 ml-2" />
+          {showSmartSettings ? 'إخفاء القارئ الذكي ⬆️' : 'فتح القارئ الذكي ⬇️'}
+        </Button>
+      </div>
+
+      {showSmartSettings && (
+        <SmartReaderSettings
+          settings={smartSettings}
+          onSettingsChange={setSmartSettings}
+          reciterId={selectedReciter}
+          surahNumber={surah}
+        />
+      )}
+
+      {/* معلومات الوضع الحالي */}
+      {smartSettings.ayah_by_ayah_mode && (
+        <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-300 p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-3xl">🎯</span>
+            <div>
+              <h3 className="text-xl font-bold text-indigo-900">وضع آية بآية نشط</h3>
+              <p className="text-sm text-indigo-700">التعلم والحفظ المركز</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="bg-white rounded-lg p-3 border border-indigo-200">
+              <p className="text-gray-600">التكرار الحالي</p>
+              <p className="text-2xl font-bold text-indigo-900">{ayahRepeat + 1} / {smartSettings.repeat_count}</p>
+            </div>
+            <div className="bg-white rounded-lg p-3 border border-indigo-200">
+              <p className="text-gray-600">السرعة</p>
+              <p className="text-2xl font-bold text-indigo-900">{smartSettings.playback_speed}x</p>
+            </div>
+          </div>
+          {smartSettings.pause_between_ayahs > 0 && (
+            <div className="mt-3 bg-white rounded-lg p-3 border border-indigo-200 text-center">
+              <p className="text-sm text-gray-600">التوقف بين التكرار: <span className="font-bold text-indigo-900">{smartSettings.pause_between_ayahs}ث</span></p>
+            </div>
+          )}
+        </Card>
+      )}
+
     <Card className="bg-gradient-to-br from-emerald-900/95 via-green-900/90 to-emerald-900/95 backdrop-blur-xl border-2 border-emerald-400/60 shadow-2xl p-8">
       <audio ref={audioRef} />
       
@@ -557,5 +641,6 @@ export default function AdvancedPlayer({ surah, verses = [] }) {
         )}
       </div>
     </Card>
+    </div>
   );
 }
