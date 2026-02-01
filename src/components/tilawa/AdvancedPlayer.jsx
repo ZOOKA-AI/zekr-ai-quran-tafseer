@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import FastCache from '../performance/FastCache';
 import { FavoritesManager } from '../favorites/FavoritesManager';
 import ShareTilawaButton from '../social/ShareTilawaButton';
+import SmartReaderSettings from './SmartReaderSettings';
 
 const RECITERS = [
   { id: 'husary', name: 'محمود خليل الحصري', url: 'https://cdn.islamic.network/quran/audio/{quality}/ar.alafasy/' },
