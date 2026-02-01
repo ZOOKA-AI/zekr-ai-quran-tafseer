@@ -86,6 +86,7 @@ import SpeedTest from './pages/SpeedTest';
 import Stats from './pages/Stats';
 import SurahView from './pages/SurahView';
 import Tilawa from './pages/Tilawa';
+import RamadanHub from './pages/RamadanHub';
 import __Layout from './Layout.jsx';
 
 
@@ -129,6 +130,7 @@ export const PAGES = {
     "Stats": Stats,
     "SurahView": SurahView,
     "Tilawa": Tilawa,
+    "RamadanHub": RamadanHub,
 }
 
 export const pagesConfig = {
