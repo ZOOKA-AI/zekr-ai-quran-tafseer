@@ -59,6 +59,7 @@ import CompleteCodeReference from './pages/CompleteCodeReference';
 import Dashboard from './pages/Dashboard';
 import Duaa from './pages/Duaa';
 import Favorites from './pages/Favorites';
+import Forums from './pages/Forums';
 import Home from './pages/Home';
 import ImplementationChecklist from './pages/ImplementationChecklist';
 import Kids from './pages/Kids';
@@ -80,12 +81,11 @@ import Radio from './pages/Radio';
 import RecitationPlayer from './pages/RecitationPlayer';
 import Reciters from './pages/Reciters';
 import Settings from './pages/Settings';
+import SharedTilawat from './pages/SharedTilawat';
 import SpeedTest from './pages/SpeedTest';
 import Stats from './pages/Stats';
 import SurahView from './pages/SurahView';
 import Tilawa from './pages/Tilawa';
-import Forums from './pages/Forums';
-import SharedTilawat from './pages/SharedTilawat';
 import __Layout from './Layout.jsx';
 
 
@@ -102,6 +102,7 @@ export const PAGES = {
     "Dashboard": Dashboard,
     "Duaa": Duaa,
     "Favorites": Favorites,
+    "Forums": Forums,
     "Home": Home,
     "ImplementationChecklist": ImplementationChecklist,
     "Kids": Kids,
@@ -123,12 +124,11 @@ export const PAGES = {
     "RecitationPlayer": RecitationPlayer,
     "Reciters": Reciters,
     "Settings": Settings,
+    "SharedTilawat": SharedTilawat,
     "SpeedTest": SpeedTest,
     "Stats": Stats,
     "SurahView": SurahView,
     "Tilawa": Tilawa,
-    "Forums": Forums,
-    "SharedTilawat": SharedTilawat,
 }
 
 export const pagesConfig = {
