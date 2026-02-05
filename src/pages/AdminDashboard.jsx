@@ -19,17 +19,48 @@ export default function AdminDashboard() {
   }, []);
 
   const checkAdminAccess = async () => {
-    // التطبيق مفتوح - لوحة الأدمن متاحة للجميع للمراقبة فقط
-    setUser({ full_name: 'زائر', role: 'viewer' });
-    setLoading(false);
-    toast.info('📊 وضع المراقبة - للاطلاع فقط');
+    try {
+      const currentUser = await base44.auth.me();
+      
+      // فقط الأدمن يدخل
+      if (currentUser.role !== 'admin') {
+        toast.error('⛔ غير مصرح لك بالدخول - أدمن فقط');
+        navigate(createPageUrl('Home'));
+        return;
+      }
+      
+      setUser(currentUser);
+      setLoading(false);
+    } catch (error) {
+      toast.error('⛔ يجب تسجيل الدخول أولاً');
+      navigate(createPageUrl('Home'));
+    }
   };
 
-  // البيانات - معطلة للسرعة
-  const orphans = [];
-  const donations = [];
-  const systemLogs = [];
-  const bookmarks = [];
+  // البيانات
+  const { data: orphans = [] } = useQuery({
+    queryKey: ['orphans'],
+    queryFn: () => base44.entities.Orphan.list(),
+    enabled: !!user
+  });
+
+  const { data: donations = [] } = useQuery({
+    queryKey: ['donations'],
+    queryFn: () => base44.entities.Donation.list(),
+    enabled: !!user
+  });
+
+  const { data: systemLogs = [] } = useQuery({
+    queryKey: ['system-logs'],
+    queryFn: () => base44.entities.SystemLog.list('-created_date', 50),
+    enabled: !!user
+  });
+
+  const { data: bookmarks = [] } = useQuery({
+    queryKey: ['bookmarks'],
+    queryFn: () => base44.entities.Bookmark.list(),
+    enabled: !!user
+  });
 
   if (loading) {
     return (
@@ -39,7 +70,9 @@ export default function AdminDashboard() {
     );
   }
 
-  // السماح بالمراقبة للجميع
+  if (!user || user.role !== 'admin') {
+    return null;
+  }
 
   const stats = {
     totalOrphans: orphans.length,
