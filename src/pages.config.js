@@ -47,72 +47,68 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Achievements from './pages/Achievements';
-import Adhkar from './pages/Adhkar';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminPanel from './pages/AdminPanel';
-import Assistant from './pages/Assistant';
+import Quran from './pages/Quran';
+import SurahView from './pages/SurahView';
 import Bookmarks from './pages/Bookmarks';
+import Profile from './pages/Profile';
+import PrayerTimes from './pages/PrayerTimes';
+import Assistant from './pages/Assistant';
+import Reciters from './pages/Reciters';
 import Calligraphy from './pages/Calligraphy';
-import CompleteCodeReference from './pages/CompleteCodeReference';
-import Dashboard from './pages/Dashboard';
-import Duaa from './pages/Duaa';
-import Home from './pages/Home';
-import ImplementationChecklist from './pages/ImplementationChecklist';
-import Kids from './pages/Kids';
-import MemorizationPlan from './pages/MemorizationPlan';
+import Notifications from './pages/Notifications';
 import NotificationDocs from './pages/NotificationDocs';
 import NotificationSettings from './pages/NotificationSettings';
-import Notifications from './pages/Notifications';
-import NotificationsDocs from './pages/NotificationsDocs';
-import OrphansAdmin from './pages/OrphansAdmin';
+import Tilawa from './pages/Tilawa';
+import Dashboard from './pages/Dashboard';
+import AdminPanel from './pages/AdminPanel';
+import Radio from './pages/Radio';
+import Duaa from './pages/Duaa';
+import Adhkar from './pages/Adhkar';
+import Stats from './pages/Stats';
+import MemorizationPlan from './pages/MemorizationPlan';
+import Achievements from './pages/Achievements';
+import Home from './pages/Home';
+import Kids from './pages/Kids';
 import OrphansService from './pages/OrphansService';
-import PrayerTimes from './pages/PrayerTimes';
-import Profile from './pages/Profile';
+import OrphansAdmin from './pages/OrphansAdmin';
+import AdminDashboard from './pages/AdminDashboard';
+import ImplementationChecklist from './pages/ImplementationChecklist';
 import ProjectChart from './pages/ProjectChart';
 import ProjectDocumentation from './pages/ProjectDocumentation';
-import Quran from './pages/Quran';
-import Radio from './pages/Radio';
-import RecitationPlayer from './pages/RecitationPlayer';
-import Reciters from './pages/Reciters';
-import Stats from './pages/Stats';
-import SurahView from './pages/SurahView';
-import Tilawa from './pages/Tilawa';
+import CompleteCodeReference from './pages/CompleteCodeReference';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Achievements": Achievements,
-    "Adhkar": Adhkar,
-    "AdminDashboard": AdminDashboard,
-    "AdminPanel": AdminPanel,
-    "Assistant": Assistant,
+    "Quran": Quran,
+    "SurahView": SurahView,
     "Bookmarks": Bookmarks,
+    "Profile": Profile,
+    "PrayerTimes": PrayerTimes,
+    "Assistant": Assistant,
+    "Reciters": Reciters,
     "Calligraphy": Calligraphy,
-    "CompleteCodeReference": CompleteCodeReference,
-    "Dashboard": Dashboard,
-    "Duaa": Duaa,
-    "Home": Home,
-    "ImplementationChecklist": ImplementationChecklist,
-    "Kids": Kids,
-    "MemorizationPlan": MemorizationPlan,
+    "Notifications": Notifications,
     "NotificationDocs": NotificationDocs,
     "NotificationSettings": NotificationSettings,
-    "Notifications": Notifications,
-    "NotificationsDocs": NotificationsDocs,
-    "OrphansAdmin": OrphansAdmin,
+    "Tilawa": Tilawa,
+    "Dashboard": Dashboard,
+    "AdminPanel": AdminPanel,
+    "Radio": Radio,
+    "Duaa": Duaa,
+    "Adhkar": Adhkar,
+    "Stats": Stats,
+    "MemorizationPlan": MemorizationPlan,
+    "Achievements": Achievements,
+    "Home": Home,
+    "Kids": Kids,
     "OrphansService": OrphansService,
-    "PrayerTimes": PrayerTimes,
-    "Profile": Profile,
+    "OrphansAdmin": OrphansAdmin,
+    "AdminDashboard": AdminDashboard,
+    "ImplementationChecklist": ImplementationChecklist,
     "ProjectChart": ProjectChart,
     "ProjectDocumentation": ProjectDocumentation,
-    "Quran": Quran,
-    "Radio": Radio,
-    "RecitationPlayer": RecitationPlayer,
-    "Reciters": Reciters,
-    "Stats": Stats,
-    "SurahView": SurahView,
-    "Tilawa": Tilawa,
+    "CompleteCodeReference": CompleteCodeReference,
 }
 
 export const pagesConfig = {
