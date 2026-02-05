@@ -4,34 +4,27 @@ import { createPageUrl } from '@/utils';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Search, MessageSquare, Share2, Copy } from 'lucide-react';
+import { Search, MessageSquare, Share2, Copy, BookMarked, Mic, Award } from 'lucide-react';
 import { toast } from 'sonner';
 import SurahCard from '../components/quran/SurahCard';
 import VoiceAssistant from '../components/assistant/VoiceAssistant';
+import AdvancedSearch from '../components/advanced/AdvancedSearch';
+import { trackSearch, trackNavigation } from '../components/system/ActionTracker';
 
-const SURAHS = [
-  { number: 1, name: 'الفاتحة', arabic_name: 'ٱلْفَاتِحَة', transliteration: 'Al-Fatihah', verses_count: 7, revelation_place: 'Makkah', juz_start: 1 },
-  { number: 2, name: 'البقرة', arabic_name: 'ٱلْبَقَرَة', transliteration: 'Al-Baqarah', verses_count: 286, revelation_place: 'Madinah', juz_start: 1 },
-  { number: 3, name: 'آل عمران', arabic_name: 'آل عِمْرَان', transliteration: 'Ali \'Imran', verses_count: 200, revelation_place: 'Madinah', juz_start: 3 },
-  { number: 4, name: 'النساء', arabic_name: 'ٱلنِّسَاء', transliteration: 'An-Nisa', verses_count: 176, revelation_place: 'Madinah', juz_start: 4 },
-  { number: 5, name: 'المائدة', arabic_name: 'ٱلْمَائِدَة', transliteration: 'Al-Ma\'idah', verses_count: 120, revelation_place: 'Madinah', juz_start: 6 },
-  { number: 6, name: 'الأنعام', arabic_name: 'ٱلْأَنْعَام', transliteration: 'Al-An\'am', verses_count: 165, revelation_place: 'Makkah', juz_start: 7 },
-  { number: 7, name: 'الأعراف', arabic_name: 'ٱلْأَعْرَاف', transliteration: 'Al-A\'raf', verses_count: 206, revelation_place: 'Makkah', juz_start: 8 },
-  { number: 8, name: 'الأنفال', arabic_name: 'ٱلْأَنْفَال', transliteration: 'Al-Anfal', verses_count: 75, revelation_place: 'Madinah', juz_start: 9 },
-  { number: 9, name: 'التوبة', arabic_name: 'ٱلتَّوْبَة', transliteration: 'At-Tawbah', verses_count: 129, revelation_place: 'Madinah', juz_start: 10 },
-  { number: 10, name: 'يونس', arabic_name: 'يُونُس', transliteration: 'Yunus', verses_count: 109, revelation_place: 'Makkah', juz_start: 11 },
-  { number: 11, name: 'هود', arabic_name: 'هُود', transliteration: 'Hud', verses_count: 123, revelation_place: 'Makkah', juz_start: 11 },
-  { number: 12, name: 'يوسف', arabic_name: 'يُوسُف', transliteration: 'Yusuf', verses_count: 111, revelation_place: 'Makkah', juz_start: 12 },
-  { number: 18, name: 'الكهف', arabic_name: 'ٱلْكَهْف', transliteration: 'Al-Kahf', verses_count: 110, revelation_place: 'Makkah', juz_start: 15 },
-  { number: 36, name: 'يس', arabic_name: 'يٓس', transliteration: 'Ya-Sin', verses_count: 83, revelation_place: 'Makkah', juz_start: 22 },
-  { number: 67, name: 'الملك', arabic_name: 'ٱلْمُلْك', transliteration: 'Al-Mulk', verses_count: 30, revelation_place: 'Makkah', juz_start: 29 },
-  { number: 112, name: 'الإخلاص', arabic_name: 'ٱلْإِخْلَاص', transliteration: 'Al-Ikhlas', verses_count: 4, revelation_place: 'Makkah', juz_start: 30 },
-  { number: 113, name: 'الفلق', arabic_name: 'ٱلْفَلَق', transliteration: 'Al-Falaq', verses_count: 5, revelation_place: 'Makkah', juz_start: 30 },
-  { number: 114, name: 'الناس', arabic_name: 'ٱلنَّاس', transliteration: 'An-Nas', verses_count: 6, revelation_place: 'Makkah', juz_start: 30 }
-];
+import { ALL_SURAHS } from '../components/quran/QuranData';
+
+const SURAHS = ALL_SURAHS;
 
 export default function QuranPage() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+
+  const handleAdvancedSearch = (params) => {
+    console.log('Advanced search:', params);
+    setSearchQuery(params.query);
+    toast.success('تم تطبيق البحث المتقدم');
+    trackSearch(`بحث متقدم: ${params.query}`);
+  };
 
   const handleShare = () => {
     const appUrl = window.location.origin;
@@ -46,6 +39,7 @@ export default function QuranPage() {
       navigator.clipboard.writeText(shareText);
       toast.success('تم نسخ الرابط! شاركه مع من تحب لتنال الأجر 🌟');
     }
+    trackNavigation('مشاركة التطبيق');
   };
 
   const handleCopyLink = () => {
@@ -83,12 +77,104 @@ export default function QuranPage() {
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
           <div className="text-center">
-            <div className="mb-6">
-              <div className="inline-block p-5 bg-white/20 rounded-3xl border-4 border-amber-400 shadow-2xl glow-green">
-                <svg className="w-16 h-16 text-amber-300" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                </svg>
-              </div>
+            {/* وصف شامل للتطبيق */}
+            <div className="mb-8">
+              <Card className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 max-w-5xl mx-auto shadow-2xl border-4 border-amber-400">
+                <div className="text-center mb-6">
+                  <div className="inline-block p-5 bg-gradient-to-br from-emerald-500 to-green-500 rounded-3xl shadow-2xl">
+                    <svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                    </svg>
+                  </div>
+                  <h2 className="text-4xl font-bold text-gray-900 mt-4 mb-2">🌟 زوكا المرزوق 🌟</h2>
+                  <p className="text-2xl font-bold text-emerald-600">تطبيق القرآن الكريم الذكي بتقنية AI</p>
+                </div>
+                
+                {/* الميزات الرئيسية */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border-2 border-purple-300">
+                    <div className="text-3xl mb-2">🤖</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">معلم ذكي للأطفال</h3>
+                    <p className="text-sm text-gray-700">زوكا المرزوق - معلم أزهري متخصص يعلم الأطفال القرآن والشريعة بطريقة ممتعة، يحكي قصص، يمزح ويحفز الأطفال على الحفظ!</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-4 rounded-xl border-2 border-emerald-300">
+                    <div className="text-3xl mb-2">📖</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">قراءة وتفسير</h3>
+                    <p className="text-sm text-gray-700">القرآن الكامل مع تفاسير السعدي وابن كثير والطبري، ترجمات متعددة، وأسباب النزول</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-xl border-2 border-amber-300">
+                    <div className="text-3xl mb-2">🎧</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">تلاوات مباركة</h3>
+                    <p className="text-sm text-gray-700">استمع لأشهر القراء (الحصري، عبد الباسط، المنشاوي، مشاري، السديس) مع التحكم الصوتي الذكي</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl border-2 border-blue-300">
+                    <div className="text-3xl mb-2">🎯</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">خطة حفظ ذكية</h3>
+                    <p className="text-sm text-gray-700">برامج حفظ مخصصة للمبتدئين والمتقدمين مع متابعة يومية وتحفيز مستمر</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-pink-50 to-pink-100 p-4 rounded-xl border-2 border-pink-300">
+                    <div className="text-3xl mb-2">🤲</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">أدعية وأذكار</h3>
+                    <p className="text-sm text-gray-700">أذكار الصباح والمساء، أدعية قرآنية ونبوية مع خاصية الاستماع الصوتي</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-cyan-50 to-cyan-100 p-4 rounded-xl border-2 border-cyan-300">
+                    <div className="text-3xl mb-2">📻</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">إذاعات قرآنية</h3>
+                    <p className="text-sm text-gray-700">بث مباشر لإذاعات القرآن الكريم من مكة والمدينة وكل الدول العربية</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-4 rounded-xl border-2 border-indigo-300">
+                    <div className="text-3xl mb-2">🏆</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">إنجازات وتحفيز</h3>
+                    <p className="text-sm text-gray-700">نظام نقاط وشارات تحفيزية، متابعة التقدم اليومي، وإحصائيات تفصيلية</p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-rose-50 to-rose-100 p-4 rounded-xl border-2 border-rose-300">
+                    <div className="text-3xl mb-2">📱</div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">يعمل بدون نت!</h3>
+                    <p className="text-sm text-gray-700">تخزين محلي ذكي - كل البيانات محفوظة، يعمل 100% بدون إنترنت مع مزامنة تلقائية</p>
+                  </div>
+                </div>
+
+                {/* منهج الأزهر الشريف */}
+                <div className="bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-2xl p-6 mb-6">
+                  <h3 className="text-2xl font-bold mb-3 text-center">📚 منهج الأزهر الشريف الكامل 📚</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+                      <p className="text-4xl mb-2">📖</p>
+                      <p className="font-bold text-lg">تعليم القرآن</p>
+                      <p className="text-sm">التجويد والترتيل</p>
+                    </div>
+                    <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+                      <p className="text-4xl mb-2">🕌</p>
+                      <p className="font-bold text-lg">أصول الدين</p>
+                      <p className="text-sm">العقيدة والتوحيد</p>
+                    </div>
+                    <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+                      <p className="text-4xl mb-2">⚖️</p>
+                      <p className="font-bold text-lg">الفقه والشريعة</p>
+                      <p className="text-sm">أحكام العبادات</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* التحديث الذاتي بالذكاء الاصطناعي */}
+                <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl p-6 text-center">
+                  <div className="text-5xl mb-3">🚀</div>
+                  <h3 className="text-2xl font-bold mb-2">تحديث تلقائي بالذكاء الاصطناعي</h3>
+                  <p className="text-lg">التطبيق يحدث نفسه تلقائياً ويتطور باستمرار لخدمتك بأفضل طريقة!</p>
+                  <div className="flex justify-center gap-4 mt-4 flex-wrap">
+                    <span className="bg-white/20 px-4 py-2 rounded-full text-sm font-bold">✅ تحديث ذاتي</span>
+                    <span className="bg-white/20 px-4 py-2 rounded-full text-sm font-bold">🤖 ذكاء اصطناعي</span>
+                    <span className="bg-white/20 px-4 py-2 rounded-full text-sm font-bold">📈 تطوير مستمر</span>
+                  </div>
+                </div>
+              </Card>
             </div>
             <h1 className="text-7xl font-bold mb-4 text-gray-900 font-arabic drop-shadow-xl">
               القرآن الكريم
@@ -170,6 +256,46 @@ export default function QuranPage() {
         <div className="mb-8">
           <VoiceAssistant />
         </div>
+
+        {/* Quick Action Buttons */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+          <Button
+            onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+            className="h-16 bg-white hover:bg-emerald-50 text-gray-900 font-bold shadow-lg border-2 border-emerald-300 hover:border-emerald-500 transition-all"
+          >
+            <Search className="w-5 h-5 ml-2" />
+            {showAdvancedSearch ? 'إخفاء' : 'بحث متقدم'}
+          </Button>
+
+          <Link to={createPageUrl('Bookmarks')}>
+            <Button className="w-full h-16 bg-white hover:bg-amber-50 text-gray-900 font-bold shadow-lg border-2 border-amber-300 hover:border-amber-500 transition-all">
+              <BookMarked className="w-5 h-5 ml-2" />
+              المفضلة
+            </Button>
+          </Link>
+
+          <Button
+            onClick={() => window.location.href = createPageUrl('Reciters')}
+            className="w-full h-16 bg-white hover:bg-blue-50 text-gray-900 font-bold shadow-lg border-2 border-blue-300 hover:border-blue-500 transition-all"
+          >
+            <Mic className="w-5 h-5 ml-2" />
+            المقرئين
+          </Button>
+
+          <Link to={createPageUrl('Achievements')}>
+            <Button className="w-full h-16 bg-white hover:bg-purple-50 text-gray-900 font-bold shadow-lg border-2 border-purple-300 hover:border-purple-500 transition-all">
+              <Award className="w-5 h-5 ml-2" />
+              الإنجازات
+            </Button>
+          </Link>
+        </div>
+
+        {/* Advanced Search */}
+        {showAdvancedSearch && (
+          <div className="mb-8">
+            <AdvancedSearch onSearch={handleAdvancedSearch} />
+          </div>
+        )}
 
         {/* Smart Assistant Banner */}
         <div className="mb-8">

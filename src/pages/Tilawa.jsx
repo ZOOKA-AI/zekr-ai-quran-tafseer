@@ -7,16 +7,21 @@ import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { toast } from 'sonner';
 import VoiceController from '../components/tilawa/VoiceController';
 import CameraScanner from '../components/tilawa/CameraScanner';
+import { trackListen } from '../components/system/ActionTracker';
 
 const RECITERS = {
-  husary: { name: "محمود خليل الحصري", baseUrl: "https://server13.mp3quran.net/husary/" },
-  abdulbasit: { name: "عبد الباسط عبد الصمد", baseUrl: "https://server7.mp3quran.net/basit/" },
-  minshawi: { name: "محمد صديق المنشاوي", baseUrl: "https://server10.mp3quran.net/minshawi/" },
-  mishary: { name: "مشاري راشد العفاسي", baseUrl: "https://server8.mp3quran.net/afs/" },
-  sudais: { name: "عبد الرحمن السديس", baseUrl: "https://server11.mp3quran.net/sds/" },
-  khalid: { name: "خالد الجليل", baseUrl: "https://server8.mp3quran.net/khalid_al_jalil/" },
-  tablawi: { name: "محمد محمود الطبلاوي", baseUrl: "https://server8.mp3quran.net/tablawi/" },
-  islam: { name: "إسلام صبحي", baseUrl: "https://server11.mp3quran.net/islam_sobhi/" }
+  husary: { name: "محمود خليل الحصري", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.husary/", description: "أول من سجل القرآن مرتلاً" },
+  abdulbasit: { name: "عبد الباسط عبد الصمد", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.abdulbasitmurattal/", description: "أشهر قراء العالم الإسلامي" },
+  minshawi: { name: "محمد صديق المنشاوي", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.minshawi/", description: "صاحب الصوت الشجي" },
+  mishary: { name: "مشاري راشد العفاسي", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/", description: "القارئ الكويتي الشهير" },
+  sudais: { name: "عبد الرحمن السديس", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.abdurrahmaansudais/", description: "إمام الحرم المكي" },
+  shatri: { name: "أبو بكر الشاطري", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.shaatree/", description: "القارئ اليمني المتميز" },
+  ajmy: { name: "أحمد العجمي", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.ahmedajamy/", description: "صوت مؤثر وخاشع" },
+  ghamdi: { name: "سعد الغامدي", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.saaborimf/", description: "من أشهر القراء السعوديين" },
+  tablawi: { name: "محمد محمود الطبلاوي", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.muhammadayyoub/", description: "القارئ المصري العظيم" },
+  jbreen: { name: "محمد جبريل", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.muhammadjibreel/", description: "صاحب الأداء القوي" },
+  islam_sobhi: { name: "إسلام صبحي", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.husary/", description: "القارئ الشاب المتميز" },
+  abdulrahman_mosad: { name: "عبدالرحمن مسعد", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.husarymujawwad/", description: "صوت رائع ومبدع" }
 };
 
 const SURAHS = [
@@ -51,37 +56,61 @@ export default function TilawaPage() {
     audioRef.current.volume = volume[0] / 100;
   }, [volume]);
 
-  const handlePlayPause = () => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio();
-    }
-
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-      toast.info('تم إيقاف التلاوة مؤقتاً');
-    } else {
-      const reciter = RECITERS[selectedReciter];
-      const surahStr = selectedSurah.toString().padStart(3, "0");
-      const url = `${reciter.baseUrl}${surahStr}.mp3`;
-      
-      audioRef.current.src = url;
-      audioRef.current.volume = volume[0] / 100;
-      audioRef.current.play()
-        .then(() => {
-          setIsPlaying(true);
-          const surah = SURAHS.find(s => s.number === selectedSurah);
-          toast.success(`🎧 بدأت تلاوة سورة ${surah?.name || selectedSurah}`);
-        })
-        .catch(err => {
-          toast.error('خطأ في تشغيل التلاوة');
-          console.error(err);
-        });
-
-      audioRef.current.onended = () => {
+  const handlePlayPause = async () => {
+    try {
+      if (isPlaying && audioRef.current) {
+        audioRef.current.pause();
         setIsPlaying(false);
-        toast.success('انتهت التلاوة');
+        toast.info('⏸️ تم إيقاف التلاوة مؤقتاً');
+        return;
+      }
+
+      // إنشاء Audio جديد في كل مرة لتجنب مشاكل التحميل
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+      }
+
+      const reciter = RECITERS[selectedReciter];
+      const url = `${reciter.baseUrl}${selectedSurah}.mp3`;
+      
+      toast.loading('🎧 جاري تحميل التلاوة...', { id: 'loading' });
+      console.log('Loading audio:', url);
+      
+      const audio = new Audio();
+      audio.crossOrigin = "anonymous";
+      audio.preload = "auto";
+      
+      audio.onloadeddata = () => {
+        toast.dismiss('loading');
+        const surah = SURAHS.find(s => s.number === selectedSurah);
+        toast.success(`🎧 بدأت تلاوة سورة ${surah?.name || selectedSurah}`);
+        trackListen(`استماع لسورة ${surah?.name} - القارئ ${reciter.name}`);
       };
+
+      audio.onended = () => {
+        setIsPlaying(false);
+        toast.success('✅ انتهت التلاوة');
+      };
+
+      audio.onerror = () => {
+        toast.dismiss('loading');
+        setIsPlaying(false);
+        toast.error('❌ تعذر تشغيل التلاوة - جرب قارئ آخر');
+      };
+
+      audio.src = url;
+      audio.volume = volume[0] / 100;
+      audioRef.current = audio;
+
+      await audio.play();
+      setIsPlaying(true);
+
+    } catch (err) {
+      console.error('Play error:', err);
+      toast.dismiss('loading');
+      setIsPlaying(false);
+      toast.error('❌ تعذر التشغيل - تحقق من الاتصال');
     }
   };
 
@@ -213,17 +242,20 @@ export default function TilawaPage() {
             <div className="p-8">
               {/* Reciter Selection */}
               <div className="mb-6">
-                <label className="block text-gray-900 text-lg font-bold mb-3 text-center">
+                <label className="block text-white text-lg font-bold mb-3 text-center">
                   🎤 اختر القارئ
                 </label>
                 <Select value={selectedReciter} onValueChange={setSelectedReciter}>
-                  <SelectTrigger className="h-12 text-lg bg-white/5 border border-white/20 text-white hover:bg-white/10 transition-all">
+                  <SelectTrigger className="h-12 text-lg bg-white/90 border-2 border-purple-300 text-gray-900 hover:bg-white transition-all">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-900/95 border-white/20">
+                  <SelectContent className="bg-white border-purple-300">
                     {Object.entries(RECITERS).map(([id, reciter]) => (
-                      <SelectItem key={id} value={id} className="text-white text-lg hover:bg-gradient-to-r hover:from-purple-600/50 hover:via-blue-600/50 hover:to-cyan-600/50">
-                        {reciter.name}
+                      <SelectItem key={id} value={id} className="text-gray-900 text-base hover:bg-purple-100">
+                        <div>
+                          <div className="font-bold">{reciter.name}</div>
+                          <div className="text-xs text-gray-600">{reciter.description}</div>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -232,16 +264,16 @@ export default function TilawaPage() {
 
               {/* Surah Selection */}
               <div className="mb-8">
-                <label className="block text-gray-900 text-lg font-bold mb-3 text-center">
+                <label className="block text-white text-lg font-bold mb-3 text-center">
                   📖 اختر السورة
                 </label>
                 <Select value={selectedSurah.toString()} onValueChange={(v) => setSelectedSurah(Number(v))}>
-                  <SelectTrigger className="h-12 text-lg bg-white/5 border border-white/20 text-white hover:bg-white/10 transition-all">
+                  <SelectTrigger className="h-12 text-lg bg-white/90 border-2 border-purple-300 text-gray-900 hover:bg-white transition-all">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-900/95 border-white/20">
+                  <SelectContent className="bg-white border-purple-300">
                     {SURAHS.map(surah => (
-                      <SelectItem key={surah.number} value={surah.number.toString()} className="text-white text-lg hover:bg-gradient-to-r hover:from-purple-600/50 hover:via-blue-600/50 hover:to-cyan-600/50">
+                      <SelectItem key={surah.number} value={surah.number.toString()} className="text-gray-900 text-lg hover:bg-purple-100">
                         {surah.name} - {surah.verses} آية
                       </SelectItem>
                     ))}
@@ -280,12 +312,14 @@ export default function TilawaPage() {
               {/* Volume Control */}
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
                 <div className="flex items-center gap-4 mb-2">
-                  <button 
+                  <Button 
                     onClick={toggleMute}
-                    className="text-purple-400 hover:text-purple-300 transition-colors"
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:text-purple-300 hover:bg-white/10 transition-colors"
                   >
                     {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
-                  </button>
+                  </Button>
                   <div className="flex-1">
                     <Slider
                       value={volume}
@@ -295,13 +329,13 @@ export default function TilawaPage() {
                       className="cursor-pointer"
                     />
                   </div>
-                  <span className="text-gray-900 font-bold text-lg w-12 text-center">
-                    {volume[0]}%
+                  <span className="text-white font-bold text-lg w-12 text-center">
+                   {volume[0]}%
                   </span>
-                </div>
-                <p className="text-center text-gray-900 font-semibold text-sm">
+                  </div>
+                  <p className="text-center text-white font-semibold text-sm">
                   🔊 مستوى الصوت
-                </p>
+                  </p>
               </div>
             </div>
           </Card>

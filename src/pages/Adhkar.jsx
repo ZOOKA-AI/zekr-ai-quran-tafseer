@@ -110,21 +110,40 @@ const SLEEP_ADHKAR = [
 ];
 
 export default function AdhkarPage() {
-  const [completedAdhkar, setCompletedAdhkar] = useState(new Set());
+  const [completedAdhkar, setCompletedAdhkar] = useState(() => {
+    try {
+      const saved = localStorage.getItem('adhkar_completed');
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
 
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
-    toast.success('تم النسخ! 📋');
+  const handleCopy = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success('✅ تم النسخ!');
+    } catch (err) {
+      toast.error('❌ تعذر النسخ');
+    }
   };
 
   const handleSpeak = (text) => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ar-SA';
-      utterance.rate = 0.7;
-      window.speechSynthesis.speak(utterance);
-      toast.success('يتم قراءة الذكر 🎤');
+    try {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ar-SA';
+        utterance.rate = 0.7;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+        toast.success('🔊 يتم قراءة الذكر...');
+      } else {
+        toast.error('المتصفح لا يدعم القراءة الصوتية');
+      }
+    } catch (err) {
+      toast.error('❌ خطأ في القراءة');
     }
   };
 
@@ -133,10 +152,14 @@ export default function AdhkarPage() {
     const newCompleted = new Set(completedAdhkar);
     if (newCompleted.has(key)) {
       newCompleted.delete(key);
+      toast.info('↩️ تم الإلغاء');
     } else {
       newCompleted.add(key);
+      toast.success('✅ تم!');
     }
     setCompletedAdhkar(newCompleted);
+    // حفظ محلياً
+    localStorage.setItem('adhkar_completed', JSON.stringify([...newCompleted]));
   };
 
   const renderAdhkarList = (adhkarList, type, icon) => (

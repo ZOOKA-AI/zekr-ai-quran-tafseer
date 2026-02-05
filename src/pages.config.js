@@ -15,6 +15,16 @@ import AdminPanel from './pages/AdminPanel';
 import Radio from './pages/Radio';
 import Duaa from './pages/Duaa';
 import Adhkar from './pages/Adhkar';
+import Stats from './pages/Stats';
+import MemorizationPlan from './pages/MemorizationPlan';
+import Achievements from './pages/Achievements';
+import Home from './pages/Home';
+import Kids from './pages/Kids';
+import OrphansService from './pages/OrphansService';
+import OrphansAdmin from './pages/OrphansAdmin';
+import AdminDashboard from './pages/AdminDashboard';
+import ImplementationChecklist from './pages/ImplementationChecklist';
+import ProjectChart from './pages/ProjectChart';
 import __Layout from './Layout.jsx';
 
 
@@ -36,6 +46,16 @@ export const PAGES = {
     "Radio": Radio,
     "Duaa": Duaa,
     "Adhkar": Adhkar,
+    "Stats": Stats,
+    "MemorizationPlan": MemorizationPlan,
+    "Achievements": Achievements,
+    "Home": Home,
+    "Kids": Kids,
+    "OrphansService": OrphansService,
+    "OrphansAdmin": OrphansAdmin,
+    "AdminDashboard": AdminDashboard,
+    "ImplementationChecklist": ImplementationChecklist,
+    "ProjectChart": ProjectChart,
 }
 
 export const pagesConfig = {

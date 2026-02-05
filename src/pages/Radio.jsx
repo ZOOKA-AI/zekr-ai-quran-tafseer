@@ -3,6 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Radio as RadioIcon, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
+import { toast } from 'sonner';
 
 const RADIO_STATIONS = [
   {
@@ -50,20 +51,27 @@ export default function RadioPage() {
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef(null);
 
-  const handlePlayPause = (station) => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio();
-    }
+  const handlePlayPause = async (station) => {
+    try {
+      if (!audioRef.current) {
+        audioRef.current = new Audio();
+      }
 
-    if (selectedStation?.url === station.url && isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.src = station.url;
-      audioRef.current.volume = volume[0] / 100;
-      audioRef.current.play();
-      setSelectedStation(station);
-      setIsPlaying(true);
+      if (selectedStation?.url === station.url && isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+        toast.info('⏸️ تم إيقاف البث');
+      } else {
+        audioRef.current.src = station.url;
+        audioRef.current.volume = volume[0] / 100;
+        await audioRef.current.play();
+        setSelectedStation(station);
+        setIsPlaying(true);
+        toast.success(`📻 جاري بث ${station.name}`);
+      }
+    } catch (err) {
+      console.error('Play error:', err);
+      toast.error('❌ تعذر التشغيل - تحقق من الاتصال بالإنترنت');
     }
   };
 
@@ -132,12 +140,14 @@ export default function RadioPage() {
                 {/* Volume Control */}
                 <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
                   <div className="flex items-center gap-4">
-                    <button 
-                      onClick={toggleMute}
-                      className="text-purple-400 hover:text-purple-300 transition-colors"
+                    <Button 
+                     onClick={toggleMute}
+                     variant="ghost"
+                     size="icon"
+                     className="text-white hover:text-purple-300 hover:bg-white/10 transition-colors"
                     >
-                      {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
-                    </button>
+                     {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+                    </Button>
                     <div className="flex-1">
                       <Slider
                         value={volume}
@@ -147,8 +157,8 @@ export default function RadioPage() {
                         className="cursor-pointer"
                       />
                     </div>
-                    <span className="text-gray-900 font-bold text-lg w-12 text-center">
-                      {volume[0]}%
+                    <span className="text-white font-bold text-lg w-12 text-center">
+                     {volume[0]}%
                     </span>
                   </div>
                 </div>
