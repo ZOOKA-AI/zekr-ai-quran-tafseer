@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Bell, X, Sun, Moon, BookOpen, Sunrise, Sunset, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 
-// أذان الشيخ عبد المجيد السريجي - سيتم تشغيله عند مواقيت الصلاة
-const ADHAN_URL = 'https://download.tvquran.com/download/TvQuran.com__Athan/01.mp3';
+// أذان مكة المكرمة - سيتم تشغيله عند مواقيت الصلاة
+const ADHAN_URL = 'https://server13.mp3quran.net/basit/Rewayat-Hafs-A-n-Assem/001.mp3';
 
 const STATIC_REMINDERS = {
   fajr_adhan: {
@@ -146,29 +146,11 @@ export default function DailyReminders() {
 
   // تشغيل الأذان
   const playAdhan = () => {
-    try {
-      if (!audioRef.current) {
-        audioRef.current = new Audio(ADHAN_URL);
-        audioRef.current.crossOrigin = "anonymous";
-      }
-      audioRef.current.volume = 0.9;
-      audioRef.current.load();
-      
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            console.log('أذان الشيخ عبد المجيد السريجي يعمل الآن 🕌');
-            toast.success('🕌 الأذان يرفع الآن بصوت الشيخ عبد المجيد السريجي');
-          })
-          .catch(err => {
-            console.error('Error playing adhan:', err);
-            toast.error('تعذر تشغيل الأذان - تحقق من الاتصال');
-          });
-      }
-    } catch (err) {
-      console.error('Adhan playback error:', err);
+    if (!audioRef.current) {
+      audioRef.current = new Audio(ADHAN_URL);
     }
+    audioRef.current.volume = 0.8;
+    audioRef.current.play().catch(err => console.error('Error playing adhan:', err));
   };
 
   // إيقاف الأذان

@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { trackVoiceCommand } from '../system/ActionTracker';
 
 export default function SmartVoiceBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,20 +22,12 @@ export default function SmartVoiceBot() {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'ar-SA';
-      utterance.rate = 0.95; // سرعة أبطأ قليلاً للأطفال
-      utterance.pitch = 1.3; // صوت أعلى وأكثر حماس للأطفال
+      utterance.rate = 0.9;
+      utterance.pitch = 1.1;
       
       utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => {
-        setIsSpeaking(false);
-        // بعد ما يخلص الكلام، ابدأ الاستماع تاني تلقائياً
-        setTimeout(() => {
-          if (isOpen) {
-            startListening();
-          }
-        }, 500);
-      };
-
+      utterance.onend = () => setIsSpeaking(false);
+      
       window.speechSynthesis.speak(utterance);
     }
   };
@@ -62,17 +53,16 @@ export default function SmartVoiceBot() {
     recognitionRef.current.interimResults = false;
 
     recognitionRef.current.onstart = () => {
-    setIsListening(true);
-    toast.success('🎤 تفضل، أنا أستمع إليك');
+      setIsListening(true);
+      toast.success('🎤 أنا أستمع إليك... تكلم بحرية');
     };
 
     recognitionRef.current.onresult = async (event) => {
       const userText = event.results[0][0].transcript;
       setTranscript(userText);
       setIsListening(false);
-
+      
       addToHistory('user', userText);
-      trackVoiceCommand(`سؤال: ${userText}`);
       await processUserRequest(userText);
     };
 
@@ -103,38 +93,27 @@ export default function SmartVoiceBot() {
     try {
       // استخدام الذكاء الاصطناعي لفهم طلب المستخدم
       const aiResponse = await base44.integrations.Core.InvokeLLM({
-        prompt: `أنت "زوكا المرزوق" - معلم قرآن متخصص من الأزهر الشريف 🕌
+        prompt: `أنت مساعد قرآني ذكي ومحترف اسمك "ZOOKA المرزوق". مهمتك مساعدة المستخدم في تطبيق القرآن الكريم.
 
-      📚 تعليمك دقيق ومضبوط:
-      - شيخ أزهري حاصل على إجازة في القرآن الكريم
-      - تشرح بوضوح تام - كل كلمة مفهومة
-      - معلوماتك صحيحة 100% من المصادر الموثوقة
-      - تعلم القرآن والتفسير والفقه بطريقة علمية صحيحة
-      - ترد بإجابات واضحة مباشرة بدون تعقيد
+المستخدم قال: "${userText}"
 
-      ✅ طريقة الرد الواضحة:
-      - كلام واضح ومباشر للموضوع
-      - شرح علمي دقيق بدون أخطاء
-      - أمثلة من القرآن والسنة الصحيحة
-      - معلومات موثقة فقط
-      - تشجيع بسيط: "أحسنت" "جيد جداً"
+حلل طلب المستخدم وحدد:
+1. نوع الطلب (navigation, search, play_audio, information, general)
+2. المعلومات المطلوبة (اسم السورة، رقم الآية، اسم القارئ، إلخ)
+3. رد مناسب وودي بالعربية
 
-      المستخدم سأل: "${userText}"
+أمثلة:
+- "روح صفحة التلاوة" → navigation: Tilawa
+- "شغل سورة الفاتحة" → play_audio: surah=1
+- "ابحث عن آية الكرسي" → search: آية الكرسي
+- "مين أحسن قارئ؟" → information: reciters
 
-      رد بوضوح وبعلم صحيح:
-
-      حلل الطلب ورد بطريقة طفولية ممتعة:
-      - إذا سأل عن سورة: اشرح لماذا السورة مهمة، واحكي قصة بسيطة عنها
-      - إذا طلب تفسير: اشرح بكلام بسيط جداً مع مثال من حياة الطفل
-      - إذا يريد يحفظ: حفزه وشجعه واقترح طريقة سهلة للحفظ
-      - إذا سأل سؤال ديني: اشرح له ببساطة مع دليل من القرآن
-
-      رد بصيغة JSON:
-      {
-      "action": "navigation/search/play_audio/teach/quiz/story/general",
-      "data": {"page": "Tilawa", "surah": 1, "reciter": "husary", "query": "...", "lesson": "..."},
-      "response": "رد بلغة الأطفال - ممتع ومحفز ومليء بالحماس والتشجيع!"
-      }`,
+رد بصيغة JSON:
+{
+  "action": "navigation/search/play_audio/information/general",
+  "data": {"page": "Tilawa", "surah": 1, "reciter": "husary", "query": "..."},
+  "response": "نص الرد باللغة العربية بأسلوب ودي ومحترم"
+}`,
         response_json_schema: {
           type: "object",
           properties: {
@@ -156,10 +135,9 @@ export default function SmartVoiceBot() {
       speak(botResponse);
       
     } catch (error) {
-      const errorMsg = 'عذراً، لم أفهم السؤال. هل يمكنك إعادته من فضلك؟';
+      const errorMsg = 'عذراً، حدث خطأ في معالجة طلبك';
       setResponse(errorMsg);
       speak(errorMsg);
-      toast.error('لم أفهم السؤال، أعد المحاولة');
     }
   };
 
@@ -197,8 +175,8 @@ export default function SmartVoiceBot() {
         <Button
           onClick={() => {
             setIsOpen(true);
-            speak('السلام عليكم ورحمة الله وبركاته. أنا زوكا المرزوق، معلم القرآن من الأزهر الشريف. أنا هنا لأعلمك القرآن والعلم الشرعي الصحيح. كيف أساعدك اليوم؟');
-            }}
+            speak('مرحباً! أنا ZOOKA المرزوق، مساعدك الذكي. كيف يمكنني مساعدتك اليوم؟');
+          }}
           className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 shadow-2xl hover:scale-110 transition-all duration-200 z-50 animate-pulse"
         >
           <Sparkles className="w-8 h-8 text-white" />
@@ -217,8 +195,8 @@ export default function SmartVoiceBot() {
                     <Sparkles className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-white font-bold text-lg">زوكا المرزوق</h3>
-                    <p className="text-amber-300 text-xs font-bold">معلم القرآن من الأزهر الشريف 🕌</p>
+                    <h3 className="text-white font-bold text-lg">ZOOKA المرزوق</h3>
+                    <p className="text-purple-300 text-xs">مساعدك الذكي 🤖</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -288,47 +266,35 @@ export default function SmartVoiceBot() {
                 </Button>
               </div>
 
-              {/* Quick Actions للأطفال */}
+              {/* Quick Actions */}
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <Button
                   onClick={() => {
-                    const msg = 'أريد أن أحفظ سورة جديدة';
+                    const msg = 'روح صفحة التلاوة';
                     setTranscript(msg);
                     addToHistory('user', msg);
                     processUserRequest(msg);
                   }}
                   variant="outline"
-                  className="text-amber-300 border-amber-400/30 hover:bg-amber-500/20"
+                  className="text-purple-300 border-purple-400/30 hover:bg-purple-500/20"
                 >
-                  📚 أريد الحفظ
+                  صفحة التلاوة
                 </Button>
                 <Button
                   onClick={() => {
-                    const msg = 'اشرح لي معنى سورة';
+                    const msg = 'شغل سورة الفاتحة';
                     setTranscript(msg);
                     addToHistory('user', msg);
                     processUserRequest(msg);
                   }}
                   variant="outline"
-                  className="text-pink-300 border-pink-400/30 hover:bg-pink-500/20"
+                  className="text-blue-300 border-blue-400/30 hover:bg-blue-500/20"
                 >
-                  📖 شرح وتفسير
+                  شغل الفاتحة
                 </Button>
                 <Button
                   onClick={() => {
-                    const msg = 'شغل تلاوة قرآنية';
-                    setTranscript(msg);
-                    addToHistory('user', msg);
-                    processUserRequest(msg);
-                  }}
-                  variant="outline"
-                  className="text-green-300 border-green-400/30 hover:bg-green-500/20"
-                >
-                  🎵 تلاوة قرآنية
-                </Button>
-                <Button
-                  onClick={() => {
-                    const msg = 'علمني حكم شرعي';
+                    const msg = 'روح صفحة المقرئين';
                     setTranscript(msg);
                     addToHistory('user', msg);
                     processUserRequest(msg);
@@ -336,15 +302,24 @@ export default function SmartVoiceBot() {
                   variant="outline"
                   className="text-cyan-300 border-cyan-400/30 hover:bg-cyan-500/20"
                 >
-                  ⚖️ أحكام شرعية
+                  المقرئين
+                </Button>
+                <Button
+                  onClick={() => {
+                    const msg = 'ما هي فضائل سورة البقرة؟';
+                    setTranscript(msg);
+                    addToHistory('user', msg);
+                    processUserRequest(msg);
+                  }}
+                  variant="outline"
+                  className="text-pink-300 border-pink-400/30 hover:bg-pink-500/20"
+                >
+                  معلومات
                 </Button>
               </div>
 
-              <p className="text-center text-amber-300 text-xs mt-3 font-bold">
-                🎤 اضغط على الميكروفون لتسأل سؤالك
-              </p>
-              <p className="text-center text-purple-300/70 text-xs mt-1">
-                سأجيبك بعلم صحيح من القرآن والسنة
+              <p className="text-center text-purple-300/70 text-xs mt-3">
+                💡 اضغط على الميكروفون وتكلم بحرية
               </p>
             </div>
           </Card>

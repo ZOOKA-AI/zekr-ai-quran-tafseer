@@ -4,7 +4,6 @@ import { Card } from '@/components/ui/card';
 import { Camera, X, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
-import { trackCameraScan } from '../system/ActionTracker';
 
 export default function CameraScanner() {
   const [isOpen, setIsOpen] = useState(false);
@@ -80,9 +79,6 @@ export default function CameraScanner() {
       });
       
       setResult(analysisResult);
-      
-      // تسجيل المسح بالكاميرا
-      trackCameraScan('مسح نص قرآني بالكاميرا وتحليله');
       
       // قراءة النتيجة بالصوت
       if ('speechSynthesis' in window) {

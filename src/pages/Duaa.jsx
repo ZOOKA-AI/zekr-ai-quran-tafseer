@@ -127,45 +127,29 @@ const DUAS = [
 export default function DuaaPage() {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleCopy = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success('✅ تم النسخ!');
-    } catch (err) {
-      toast.error('❌ تعذر النسخ');
-    }
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    toast.success('تم النسخ! 📋');
   };
 
-  const handleShare = async (dua) => {
+  const handleShare = (dua) => {
     const shareText = `${dua.title}\n\n${dua.arabic}\n\n${dua.translation}\n\n${dua.reference}`;
-    try {
-      if (navigator.share) {
-        await navigator.share({ text: shareText });
-      } else {
-        await navigator.clipboard.writeText(shareText);
-        toast.success('✅ تم نسخ الدعاء للمشاركة!');
-      }
-    } catch (err) {
-      toast.info('تم إلغاء المشاركة');
+    if (navigator.share) {
+      navigator.share({ text: shareText });
+    } else {
+      navigator.clipboard.writeText(shareText);
+      toast.success('تم نسخ الدعاء! شاركه مع من تحب 🤲');
     }
   };
 
   const handleSpeak = (text) => {
-    try {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ar-SA';
-        utterance.rate = 0.8;
-        utterance.pitch = 1;
-        utterance.volume = 1;
-        window.speechSynthesis.speak(utterance);
-        toast.success('🔊 يتم قراءة الدعاء...');
-      } else {
-        toast.error('المتصفح لا يدعم القراءة الصوتية');
-      }
-    } catch (err) {
-      toast.error('❌ خطأ في القراءة');
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ar-SA';
+      utterance.rate = 0.8;
+      window.speechSynthesis.speak(utterance);
+      toast.success('يتم قراءة الدعاء 🎤');
     }
   };
 
