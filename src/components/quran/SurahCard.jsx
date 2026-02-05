@@ -8,7 +8,7 @@ import { createPageUrl } from '@/utils';
 const SurahCard = ({ surah }) => {
   return (
     <Link to={createPageUrl(`SurahView?surah=${surah.number}`)}>
-      <Card className="group hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-emerald-500/30 bg-gradient-to-br from-white to-emerald-50/30 overflow-hidden">
+      <Card className="group hover:shadow-xl transition-all duration-200 border-2 border-transparent hover:border-emerald-500/30 bg-gradient-to-br from-white to-emerald-50/30 overflow-hidden">
         <div className="p-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-4">
@@ -16,7 +16,7 @@ const SurahCard = ({ surah }) => {
                 <span className="text-white font-bold text-lg">{surah.number}</span>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-emerald-600 transition-colors">
+                <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-emerald-600 transition-colors duration-200">
                   {surah.name}
                 </h3>
                 <p className="text-sm text-gray-600">{surah.transliteration}</p>

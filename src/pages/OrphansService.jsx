@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Heart, Users, DollarSign, MessageSquare, Send, CheckCircle } from 'lucide-react';
+import { Heart, Users, DollarSign, MessageSquare, Send, CheckCircle, Phone, MapPin } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import OrphanBot from '../components/orphans/OrphanBot';
 
 export default function OrphansServicePage() {
@@ -13,39 +15,47 @@ export default function OrphansServicePage() {
   const [orphanForm, setOrphanForm] = useState({});
   const [donationForm, setDonationForm] = useState({});
   const [requestForm, setRequestForm] = useState({});
-  const [orphans, setOrphans] = useState([]);
-  const [donations, setDonations] = useState([]);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const savedOrphans = localStorage.getItem('orphans');
-    if (savedOrphans) setOrphans(JSON.parse(savedOrphans));
-    
-    const savedDonations = localStorage.getItem('donations');
-    if (savedDonations) setDonations(JSON.parse(savedDonations));
-  }, []);
+  // إحصائيات
+  const { data: orphans = [] } = useQuery({
+    queryKey: ['orphans'],
+    queryFn: () => base44.entities.Orphan.list()
+  });
 
-  const registerOrphan = () => {
-    const orphan = { ...orphanForm, id: Date.now().toString(), status: 'pending', created_date: new Date().toISOString() };
-    const updated = [...orphans, orphan];
-    setOrphans(updated);
-    localStorage.setItem('orphans', JSON.stringify(updated));
-    toast.success('🤲 تم تسجيل اليتيم بنجاح - جزاك الله خيراً');
-    setOrphanForm({});
-  };
+  const { data: donations = [] } = useQuery({
+    queryKey: ['donations'],
+    queryFn: () => base44.entities.Donation.list()
+  });
 
-  const registerDonation = () => {
-    const donation = { ...donationForm, id: Date.now().toString(), status: 'pending', created_date: new Date().toISOString() };
-    const updated = [...donations, donation];
-    setDonations(updated);
-    localStorage.setItem('donations', JSON.stringify(updated));
-    toast.success('💚 تم تسجيل التبرع - بارك الله فيك');
-    setDonationForm({});
-  };
+  // تسجيل يتيم
+  const registerOrphanMutation = useMutation({
+    mutationFn: (data) => base44.entities.Orphan.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['orphans']);
+      toast.success('🤲 تم تسجيل اليتيم بنجاح - جزاك الله خيراً');
+      setOrphanForm({});
+    }
+  });
 
-  const registerRequest = () => {
-    toast.success('📋 تم إرسال الطلب بنجاح');
-    setRequestForm({});
-  };
+  // تسجيل تبرع
+  const registerDonationMutation = useMutation({
+    mutationFn: (data) => base44.entities.Donation.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['donations']);
+      toast.success('💚 تم تسجيل التبرع - بارك الله فيك');
+      setDonationForm({});
+    }
+  });
+
+  // تسجيل طلب
+  const registerRequestMutation = useMutation({
+    mutationFn: (data) => base44.entities.OrphanRequest.create(data),
+    onSuccess: () => {
+      toast.success('📋 تم إرسال الطلب بنجاح');
+      setRequestForm({});
+    }
+  });
 
   const stats = {
     totalOrphans: orphans.length,
@@ -208,11 +218,12 @@ export default function OrphansServicePage() {
                     className="h-24 text-lg"
                   />
                   <Button
-                    onClick={registerOrphan}
+                    onClick={() => registerOrphanMutation.mutate(orphanForm)}
                     className="w-full h-14 text-xl bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600"
+                    disabled={registerOrphanMutation.isPending}
                   >
                     <Send className="w-6 h-6 ml-2" />
-                    تسجيل اليتيم
+                    {registerOrphanMutation.isPending ? 'جاري التسجيل...' : 'تسجيل اليتيم'}
                   </Button>
                 </div>
               </Card>
@@ -285,11 +296,12 @@ export default function OrphansServicePage() {
                     </p>
                   </div>
                   <Button
-                    onClick={registerDonation}
+                    onClick={() => registerDonationMutation.mutate(donationForm)}
                     className="w-full h-14 text-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
+                    disabled={registerDonationMutation.isPending}
                   >
                     <Heart className="w-6 h-6 ml-2" />
-                    تأكيد التبرع
+                    {registerDonationMutation.isPending ? 'جاري التسجيل...' : 'تأكيد التبرع'}
                   </Button>
                 </div>
               </Card>
@@ -341,11 +353,12 @@ export default function OrphansServicePage() {
                     </SelectContent>
                   </Select>
                   <Button
-                    onClick={registerRequest}
+                    onClick={() => registerRequestMutation.mutate(requestForm)}
                     className="w-full h-14 text-xl bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
+                    disabled={registerRequestMutation.isPending}
                   >
                     <Send className="w-6 h-6 ml-2" />
-                    إرسال الطلب
+                    {registerRequestMutation.isPending ? 'جاري الإرسال...' : 'إرسال الطلب'}
                   </Button>
                 </div>
               </Card>

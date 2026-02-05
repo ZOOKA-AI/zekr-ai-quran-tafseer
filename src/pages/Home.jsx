@@ -13,9 +13,11 @@ export default function HomePage() {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    setStats(offlineStorage.loadStats());
+    const localStats = offlineStorage.loadStats();
+    setStats(localStats);
+    
     fetchPrayerTimes();
-    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 

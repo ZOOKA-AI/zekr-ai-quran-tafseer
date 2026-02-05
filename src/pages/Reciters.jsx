@@ -3,7 +3,10 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, Mic, BookOpen, Star, Users, Sparkles } from 'lucide-react';
+import { Search, Mic, BookOpen, Star, Users, Sparkles, Play } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
+import { toast } from 'sonner';
 
 const RECITERS = [
   {
@@ -128,6 +131,7 @@ const RECITERS = [
 export default function RecitersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
+  const navigate = useNavigate();
 
   const filteredReciters = RECITERS.filter(reciter => {
     const matchesSearch = reciter.name.includes(searchQuery) || 
@@ -219,7 +223,7 @@ export default function RecitersPage() {
             return (
               <Card 
                 key={reciter.id}
-                className="bg-white/5 border-white/10 hover:bg-white/10 transition-all hover:-translate-y-2 hover:shadow-2xl hover:border-amber-400/30"
+                className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-200 hover:-translate-y-2 hover:shadow-2xl hover:border-amber-400/30"
               >
                 <div className="h-48 bg-gradient-to-br from-emerald-700 to-emerald-900 flex items-center justify-center">
                   <Icon className="w-16 h-16 text-amber-400" />
@@ -239,6 +243,16 @@ export default function RecitersPage() {
                       </Badge>
                     )}
                   </div>
+                  <Button
+                    onClick={() => {
+                      toast.success(`🎧 جاري الانتقال لصفحة التلاوة`);
+                      navigate(createPageUrl('Tilawa'));
+                    }}
+                    className="w-full mt-4 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold"
+                  >
+                    <Play className="w-5 h-5 ml-2" />
+                    استمع الآن
+                  </Button>
                 </div>
               </Card>
             );
