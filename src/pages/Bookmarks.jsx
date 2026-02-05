@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,21 +10,21 @@ import { createPageUrl } from '@/utils';
 import { toast } from 'sonner';
 
 export default function BookmarksPage() {
-  const [bookmarks, setBookmarks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const saved = localStorage.getItem('bookmarks');
-    if (saved) setBookmarks(JSON.parse(saved));
-    setIsLoading(false);
-  }, []);
+  const { data: bookmarks = [], isLoading } = useQuery({
+    queryKey: ['bookmarks'],
+    queryFn: () => base44.entities.Bookmark.list('-created_date'),
+    initialData: [],
+  });
 
-  const deleteBookmark = (id) => {
-    const updated = bookmarks.filter(b => b.id !== id);
-    setBookmarks(updated);
-    localStorage.setItem('bookmarks', JSON.stringify(updated));
-    toast.success('تم حذف العلامة');
-  };
+  const deleteBookmarkMutation = useMutation({
+    mutationFn: (id) => base44.entities.Bookmark.delete(id),
+    onSuccess: () => {
+      toast.success('تم حذف العلامة');
+      queryClient.invalidateQueries({ queryKey: ['bookmarks'] });
+    },
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-amber-50" dir="rtl">
@@ -82,7 +84,7 @@ export default function BookmarksPage() {
                         variant="ghost"
                         size="icon"
                         className="hover:bg-red-50 hover:text-red-600"
-                        onClick={() => deleteBookmark(bookmark.id)}
+                        onClick={() => deleteBookmarkMutation.mutate(bookmark.id)}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
