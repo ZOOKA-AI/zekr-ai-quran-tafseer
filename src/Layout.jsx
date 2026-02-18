@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users } from 'lucide-react';
+import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users, Book, Scroll, Star } from 'lucide-react';
 import DailyReminders from '@/components/notifications/DailyReminders';
 import SmartChatBot from '@/components/assistant/SmartChatBot';
 import OfflineIndicator from '@/components/offline/OfflineIndicator';
@@ -30,6 +30,10 @@ export default function Layout({ children, currentPageName }) {
   const navItems = [
     { name: 'الرئيسية', path: 'Home', icon: Home },
     { name: 'القرآن', path: 'Quran', icon: BookOpen },
+    { name: 'التفسير', path: 'Tafsir', icon: BookOpen },
+    { name: 'قصص الأنبياء', path: 'Prophets', icon: Book },
+    { name: 'السيرة', path: 'Seerah', icon: Scroll },
+    { name: 'فضائل القرآن', path: 'QuranVirtues', icon: Star },
     { name: 'الأطفال', path: 'Kids', icon: Users },
     { name: '✅ قائمة التنفيذ', path: 'ImplementationChecklist', icon: BookMarked },
     { name: '📊 مخطط المشروع', path: 'ProjectChart', icon: Clock },
