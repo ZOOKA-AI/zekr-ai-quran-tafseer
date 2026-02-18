@@ -69,7 +69,7 @@ export default function Tafsir() {
         <Card className="bg-white/90 border-2 border-emerald-200 shadow-lg mb-6">
           <CardHeader>
             <CardTitle className="text-2xl text-emerald-700">
-              {currentSurah ? `﴿ ${currentSurah.name_ar} ﴾ • آية ${ayah}` : 'الآية'}
+              {currentSurah ? `﴿ ${currentSurah.arabic_name} ﴾ • آية ${ayah}` : 'الآية'}
             </CardTitle>
           </CardHeader>
           <CardContent>
