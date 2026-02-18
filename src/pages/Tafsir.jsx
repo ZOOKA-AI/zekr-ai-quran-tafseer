@@ -43,7 +43,7 @@ export default function Tafsir() {
                 <SelectContent className="bg-white max-h-80">
                   {ALL_SURAHS.map((s) => (
                     <SelectItem key={s.number} value={String(s.number)}>
-                      {s.number}. {s.name_ar} — {s.verses} آية
+                      {s.number}. {s.name} — {s.verses_count} آية
                     </SelectItem>
                   ))}
                 </SelectContent>
