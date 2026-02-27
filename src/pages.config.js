@@ -69,17 +69,17 @@ import OrphansService from './pages/OrphansService';
 import PrayerTimes from './pages/PrayerTimes';
 import Profile from './pages/Profile';
 import ProjectChart from './pages/ProjectChart';
+import Prophets from './pages/Prophets';
 import Quran from './pages/Quran';
+import QuranVirtues from './pages/QuranVirtues';
 import Radio from './pages/Radio';
 import RecitationPlayer from './pages/RecitationPlayer';
 import Reciters from './pages/Reciters';
+import Seerah from './pages/Seerah';
 import Stats from './pages/Stats';
 import SurahView from './pages/SurahView';
-import Tilawa from './pages/Tilawa';
 import Tafsir from './pages/Tafsir';
-import Prophets from './pages/Prophets';
-import Seerah from './pages/Seerah';
-import QuranVirtues from './pages/QuranVirtues';
+import Tilawa from './pages/Tilawa';
 import __Layout from './Layout.jsx';
 
 
@@ -106,17 +106,17 @@ export const PAGES = {
     "PrayerTimes": PrayerTimes,
     "Profile": Profile,
     "ProjectChart": ProjectChart,
+    "Prophets": Prophets,
     "Quran": Quran,
+    "QuranVirtues": QuranVirtues,
     "Radio": Radio,
     "RecitationPlayer": RecitationPlayer,
     "Reciters": Reciters,
+    "Seerah": Seerah,
     "Stats": Stats,
     "SurahView": SurahView,
-    "Tilawa": Tilawa,
     "Tafsir": Tafsir,
-    "Prophets": Prophets,
-    "Seerah": Seerah,
-    "QuranVirtues": QuranVirtues,
+    "Tilawa": Tilawa,
 }
 
 export const pagesConfig = {

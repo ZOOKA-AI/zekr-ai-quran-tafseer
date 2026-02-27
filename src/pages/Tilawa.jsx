@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import VoiceController from '../components/tilawa/VoiceController';
 import CameraScanner from '../components/tilawa/CameraScanner';
 import { trackListen } from '../components/system/ActionTracker';
+import { sendAudioEvent, onAudioEvent } from '@/components/system/AudioBus';
 
 const RECITERS = {
   husary: { name: "محمود خليل الحصري", baseUrl: "https://cdn.islamic.network/quran/audio-surah/128/ar.husary/", description: "أول من سجل القرآن مرتلاً" },
@@ -56,11 +57,35 @@ export default function TilawaPage() {
     audioRef.current.volume = volume[0] / 100;
   }, [volume]);
 
+  // تنسيق الأصوات مع باقي أجزاء التطبيق (الأذان/الإشعارات)
+  useEffect(() => {
+    const unsubscribe = onAudioEvent(({ action, except, source }) => {
+      if ((action === 'requestStopOthers' && except !== 'tilawa') || (action === 'notifyStart' && source === 'adhan')) {
+        if (audioRef.current) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+        }
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  // إيقاف الصوت عند مغادرة الصفحة
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      sendAudioEvent('notifyStop', { source: 'tilawa' });
+    };
+  }, []);
+
   const handlePlayPause = async () => {
     try {
       if (isPlaying && audioRef.current) {
         audioRef.current.pause();
         setIsPlaying(false);
+        sendAudioEvent('notifyStop', { source: 'tilawa' });
         toast.info('⏸️ تم إيقاف التلاوة مؤقتاً');
         return;
       }
@@ -88,14 +113,16 @@ export default function TilawaPage() {
         trackListen(`استماع لسورة ${surah?.name} - القارئ ${reciter.name}`);
       };
 
-      audio.onended = () => {
-        setIsPlaying(false);
-        toast.success('✅ انتهت التلاوة');
-      };
+audio.onended = () => {
+  setIsPlaying(false);
+  sendAudioEvent('notifyStop', { source: 'tilawa' });
+  toast.success('✅ انتهت التلاوة');
+};
 
       audio.onerror = () => {
         toast.dismiss('loading');
         setIsPlaying(false);
+        sendAudioEvent('notifyStop', { source: 'tilawa' });
         toast.error('❌ تعذر تشغيل التلاوة - جرب قارئ آخر');
       };
 
@@ -105,6 +132,8 @@ export default function TilawaPage() {
 
       await audio.play();
       setIsPlaying(true);
+      sendAudioEvent('notifyStart', { source: 'tilawa' });
+      sendAudioEvent('requestStopOthers', { except: 'tilawa' });
 
     } catch (err) {
       console.error('Play error:', err);
@@ -153,7 +182,7 @@ export default function TilawaPage() {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: 'url(https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920cdfd512838f4a35374d8/ad390f8ea_21da07e84f2006654e384d2924c664b1.jpg)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=80)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'brightness(1.6) contrast(1.3) saturate(1.2)'
