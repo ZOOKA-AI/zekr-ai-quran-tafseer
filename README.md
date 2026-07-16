@@ -91,7 +91,7 @@ zekr-ai-quran-tafseer/
 ## 📚 Technology Stack
 
 | Technology | Version | Purpose |
-|-----------|---------|---------|
+|-----------|---------|----------|
 | React | ^18.2.0 | UI Framework |
 | TypeScript | ^5.8.2 | Type Safety |
 | Vite | ^6.1.0 | Build Tool |
