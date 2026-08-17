@@ -1,0 +1,74 @@
+{
+  "name": "OrphanRequest",
+  "type": "object",
+  "properties": {
+    "request_type": {
+      "type": "string",
+      "enum": [
+        "urgent_need",
+        "medical",
+        "education",
+        "housing",
+        "food",
+        "clothing",
+        "other"
+      ],
+      "description": "\u0646\u0648\u0639 \u0627\u0644\u0637\u0644\u0628"
+    },
+    "orphan_id": {
+      "type": "string",
+      "description": "\u0645\u0639\u0631\u0641 \u0627\u0644\u064a\u062a\u064a\u0645"
+    },
+    "description": {
+      "type": "string",
+      "description": "\u0648\u0635\u0641 \u0627\u0644\u0637\u0644\u0628"
+    },
+    "amount_needed": {
+      "type": "number",
+      "description": "\u0627\u0644\u0645\u0628\u0644\u063a \u0627\u0644\u0645\u0637\u0644\u0648\u0628"
+    },
+    "urgency": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium",
+      "description": "\u062f\u0631\u062c\u0629 \u0627\u0644\u0623\u0647\u0645\u064a\u0629"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "in_progress",
+        "fulfilled",
+        "rejected"
+      ],
+      "default": "pending",
+      "description": "\u062d\u0627\u0644\u0629 \u0627\u0644\u0637\u0644\u0628"
+    },
+    "admin_response": {
+      "type": "string",
+      "description": "\u0631\u062f \u0627\u0644\u0623\u062f\u0645\u0646"
+    },
+    "fulfilled_date": {
+      "type": "string",
+      "description": "\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u062a\u0646\u0641\u064a\u0630"
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u0627\u0644\u0645\u0631\u0641\u0642\u0627\u062a (\u0635\u0648\u0631\u060c \u0645\u0633\u062a\u0646\u062f\u0627\u062a)"
+    }
+  },
+  "required": [
+    "request_type",
+    "description",
+    "amount_needed"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "name": "MemorizationPlan",
+  "type": "object",
+  "properties": {
+    "target_type": {
+      "type": "string",
+      "enum": [
+        "juz",
+        "surah",
+        "pages",
+        "verses"
+      ],
+      "description": "\u0646\u0648\u0639 \u0627\u0644\u0647\u062f\u0641"
+    },
+    "target_value": {
+      "type": "string",
+      "description": "\u0642\u064a\u0645\u0629 \u0627\u0644\u0647\u062f\u0641 (\u0627\u0633\u0645 \u0627\u0644\u0633\u0648\u0631\u0629 \u0623\u0648 \u0631\u0642\u0645 \u0627\u0644\u062c\u0632\u0621)"
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "default": "beginner",
+      "description": "\u0645\u0633\u062a\u0648\u0649 \u0627\u0644\u062d\u0641\u0638"
+    },
+    "daily_load": {
+      "type": "number",
+      "default": 5,
+      "description": "\u0639\u062f\u062f \u0627\u0644\u0622\u064a\u0627\u062a \u0627\u0644\u064a\u0648\u0645\u064a\u0629"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0628\u062f\u0627\u064a\u0629"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0627\u0646\u062a\u0647\u0627\u0621 \u0627\u0644\u0645\u062a\u0648\u0642\u0639"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "completed"
+      ],
+      "default": "active",
+      "description": "\u062d\u0627\u0644\u0629 \u0627\u0644\u062e\u0637\u0629"
+    },
+    "total_verses": {
+      "type": "number",
+      "default": 0,
+      "description": "\u0625\u062c\u0645\u0627\u0644\u064a \u0627\u0644\u0622\u064a\u0627\u062a \u0627\u0644\u0645\u0637\u0644\u0648\u0628 \u062d\u0641\u0638\u0647\u0627"
+    },
+    "completed_verses": {
+      "type": "number",
+      "default": 0,
+      "description": "\u0627\u0644\u0622\u064a\u0627\u062a \u0627\u0644\u0645\u0643\u062a\u0645\u0644\u0629"
+    }
+  },
+  "required": [
+    "target_type",
+    "level",
+    "daily_load"
+  ]
+}

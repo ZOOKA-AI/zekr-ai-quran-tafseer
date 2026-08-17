@@ -1,0 +1,63 @@
+{
+  "name": "AdminBankAccount",
+  "type": "object",
+  "properties": {
+    "account_name": {
+      "type": "string",
+      "description": "\u0627\u0633\u0645 \u0627\u0644\u062d\u0633\u0627\u0628"
+    },
+    "bank_name": {
+      "type": "string",
+      "description": "\u0627\u0633\u0645 \u0627\u0644\u0628\u0646\u0643"
+    },
+    "account_number": {
+      "type": "string",
+      "description": "\u0631\u0642\u0645 \u0627\u0644\u062d\u0633\u0627\u0628"
+    },
+    "iban": {
+      "type": "string",
+      "description": "\u0631\u0642\u0645 IBAN"
+    },
+    "swift_code": {
+      "type": "string",
+      "description": "\u0643\u0648\u062f SWIFT"
+    },
+    "vodafone_cash": {
+      "type": "string",
+      "description": "\u0631\u0642\u0645 \u0641\u0648\u062f\u0627\u0641\u0648\u0646 \u0643\u0627\u0634"
+    },
+    "country": {
+      "type": "string",
+      "description": "\u0627\u0644\u062f\u0648\u0644\u0629"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD",
+      "description": "\u0627\u0644\u0639\u0645\u0644\u0629"
+    },
+    "total_donations_received": {
+      "type": "number",
+      "default": 0,
+      "description": "\u0625\u062c\u0645\u0627\u0644\u064a \u0627\u0644\u062a\u0628\u0631\u0639\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0644\u0645\u0629"
+    },
+    "total_transferred": {
+      "type": "number",
+      "default": 0,
+      "description": "\u0625\u062c\u0645\u0627\u0644\u064a \u0627\u0644\u0645\u062d\u0648\u0644 \u0644\u0644\u0623\u064a\u062a\u0627\u0645"
+    },
+    "balance": {
+      "type": "number",
+      "default": 0,
+      "description": "\u0627\u0644\u0631\u0635\u064a\u062f \u0627\u0644\u062d\u0627\u0644\u064a"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "\u0627\u0644\u062d\u0633\u0627\u0628 \u0646\u0634\u0637"
+    }
+  },
+  "required": [
+    "account_name",
+    "bank_name"
+  ]
+}
