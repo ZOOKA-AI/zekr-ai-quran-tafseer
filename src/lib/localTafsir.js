@@ -23,6 +23,16 @@ export const TAFSIR_SOURCES = [
   { slug: 'ar-tafsir-al-tabari', name: 'تفسير الطبري', author: 'ابن جرير الطبري (ت 310هـ)' },
 ];
 
+// النصوص تحمل حواشي المحقق بين [[ ]] (فروق النسخ ونحوها). نحذفها من العرض ومن
+// المقطع المُمرَّر للنموذج لأنها ليست من كلام المفسّر وتقطع الجمل.
+export function stripFootnotes(text) {
+  return text
+    .replace(/\[\[[^\]]*\]\]/g, '')
+    .replace(/[ \t]{2,}/g, ' ')
+    .replace(/ ([،.؛:])/g, '$1')
+    .trim();
+}
+
 function parseAyah(data, surah, ayah) {
   if (
     !data ||
@@ -32,7 +42,7 @@ function parseAyah(data, surah, ayah) {
   ) {
     throw new Error('tafsir-unexpected-shape');
   }
-  return data.text.trim();
+  return stripFootnotes(data.text);
 }
 
 /** يعيد نص الآية، أو null إن لم يكن لها ملف (404). */

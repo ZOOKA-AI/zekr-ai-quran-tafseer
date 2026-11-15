@@ -20,9 +20,11 @@ npm run dev
 باقي التطبيق يتصل بـ Base44. إن لم تفتح الصفحة أصلاً، أنشئ ملف `.env.local` في جذر المشروع:
 
 ```bash
-VITE_BASE44_APP_ID=معرّف_تطبيقك
-VITE_BASE44_BACKEND_URL=رابط_الخادم
+VITE_BASE44_APP_ID=692235dc089d5988e8a95db7
+VITE_BASE44_BACKEND_URL=https://base44.app
 ```
+
+المعرّف مأخوذ من `base44/.app.jsonc`. رابط الخادم منقول عن تجربة لم أتحقق منها بنفسي؛ إن حُوّلت إلى `/login` فراجع القيمتين.
 
 ## ما يجب أن تراه
 
