@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Bell, X, Sun, Moon, BookOpen, Sunrise, Sunset, Clock } from 'lucide-react';
+import { Bell, X, Sun, Moon, Sunrise, Sunset, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 import { sendAudioEvent, onAudioEvent } from '@/components/system/AudioBus';
 

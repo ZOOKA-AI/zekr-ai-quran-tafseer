@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ALL_SURAHS } from '@/components/quran/QuranData';
+import AskAboutVerse from '@/components/tafsir/AskAboutVerse';
 
 export default function Tafsir() {
   const [surah, setSurah] = useState(1);
@@ -83,7 +84,10 @@ export default function Tafsir() {
           </CardContent>
         </Card>
 
-        {/* Tafsir Tabs */}
+        <AskAboutVerse surah={surah} ayah={ayah} verseText={verse?.arabic_text} />
+
+        {/* Tafsir Tabs: تظهر فقط إن كان في قاعدة البيانات تفسير لهذه الآية */}
+        {(verse?.tafsir_kathir || verse?.tafsir_tabari || verse?.tafsir_saadi) && (
         <Tabs value={active} onValueChange={setActive} className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-4 h-12">
             <TabsTrigger value="kathir" className="text-base">ابن كثير</TabsTrigger>
@@ -127,6 +131,7 @@ export default function Tafsir() {
             </Card>
           </TabsContent>
         </Tabs>
+        )}
       </div>
     </div>
   );

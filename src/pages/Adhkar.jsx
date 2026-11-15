@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, Share2, Volume2, Sun, Moon, CheckCircle } from 'lucide-react';
+import { Copy, Volume2, Sun, Moon, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 const MORNING_ADHKAR = [

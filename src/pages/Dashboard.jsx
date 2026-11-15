@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
+import { useState, useEffect } from 'react';
 import { Compass, Clock, MapPin, Navigation } from 'lucide-react';
 
 export default function Dashboard() {

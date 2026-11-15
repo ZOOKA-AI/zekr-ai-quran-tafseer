@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
-  Send, Mic, MicOff, X, Sparkles, Volume2, VolumeX, 
-  BookOpen, Radio, Award, Calendar, Heart, Settings,
+  Send, Mic, MicOff, X, Volume2, VolumeX,
   Minimize2, Maximize2, Bot
 } from 'lucide-react';
 import { toast } from 'sonner';
