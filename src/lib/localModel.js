@@ -72,23 +72,40 @@ export function loadModel(onProgress) {
   return loading;
 }
 
-const SYSTEM_PROMPT = `أنت مساعد يبسّط نصاً من كتاب تفسير للقارئ العربي.
+// مهمة واحدة ضيقة: إعادة صياغة مقطع واحد من التفسير بلغة أبسط.
+// لا سؤال حر ولا استدعاء معرفة خارجية؛ النموذج يعيد كتابة ما أُعطيه فقط.
+const SYSTEM_PROMPT = `أنت تعيد صياغة نص عربي من كتاب تفسير بلغة أبسط.
 القواعد:
-- اعتمد على "نص التفسير" المعطى فقط، ولا تضف أي معلومة من خارجه.
-- إن لم يكن في النص جواب عن السؤال فقل: "لا أجد جواب هذا السؤال في نص التفسير المعروض."
-- لا تُصدر فتاوى ولا أحكاماً شرعية.
-- أجب بعربية فصحى سهلة في ثلاث إلى خمس جمل.`;
+- أعد صياغة النص المعطى فقط، بثلاث إلى خمس جمل، بعربية فصحى سهلة.
+- لا تضف أي معلومة ليست في النص: لا أرقام جديدة، ولا أسماء جديدة، ولا سبب نزول، ولا حديث، ولا آية أخرى.
+- لا تجب عن أي سؤال ولا تفتِ؛ مهمتك إعادة الصياغة.
+- إن كان النص غير واضح، أعد صياغته كما تفهمه دون زيادة.
+- ابدأ مباشرة بالنص المُعاد صياغته بلا مقدمة ولا خاتمة.`;
+
+// فحص بعدي بسيط: يكشف أرقاماً أو إحالات لم ترد في المقطع الأصلي.
+// ليس حكماً على المعنى، بل إشارة للمستخدم أن النص قد يكون خرج عن المصدر.
+export function findOutsideAdditions(answer, passage) {
+  const norm = (t) => t.replace(/[\u064B-\u0652\u0670]/g, '');
+  const a = norm(answer || '');
+  const p = norm(passage || '');
+  const nums = (t) => new Set((t.match(/[\u0660-\u0669]+|[0-9]+/g) || []).map((x) => x.replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660))));
+  const passageNums = nums(p);
+  const outside = [...nums(a)].filter((n) => !passageNums.has(n));
+  const refs = [...new Set((a.match(/سورة [\u0600-\u06FF]+/g) || []))].filter((r) => !p.includes(r));
+  return [...outside.map((n) => `رقم ${n}`), ...refs];
+}
 
 /**
- * يبسّط المقطع المسترجَع ويجيب عن السؤال منه فقط، مع بثّ الجواب تدريجياً.
+ * يعيد صياغة المقطع المسترجَع بلغة أبسط، دون أي معلومة من خارجه.
  * @param {(partial: string) => void} onToken
+ * @returns {Promise<{text: string, outside: string[]}>}
  */
-export async function explainFromPassage({ verseText, sourceName, passage, question }, onToken) {
+export async function explainFromPassage({ verseText, sourceName, passage }, onToken) {
   if (!loaded) throw new Error('model-not-loaded');
   const user = [
     verseText ? `الآية: ${verseText}` : null,
     `نص التفسير (${sourceName}):\n${passage}`,
-    `السؤال: ${question || 'اشرح معنى الآية بإيجاز.'}`,
+    'المطلوب: أعد صياغة هذا النص بلغة أبسط دون أي معلومة من خارجه.',
   ]
     .filter(Boolean)
     .join('\n\n');
@@ -99,7 +116,7 @@ export async function explainFromPassage({ verseText, sourceName, passage, quest
       { role: 'user', content: user },
     ],
     temperature: 0.2,
-    max_tokens: 350,
+    max_tokens: 260,
     stream: true,
   });
 
@@ -108,5 +125,5 @@ export async function explainFromPassage({ verseText, sourceName, passage, quest
     out += chunk.choices?.[0]?.delta?.content || '';
     onToken?.(out);
   }
-  return out;
+  return { text: out.trim(), outside: findOutsideAdditions(out, passage) };
 }

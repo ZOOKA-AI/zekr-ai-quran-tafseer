@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { BookOpen, Cpu, Loader2, ShieldCheck, WifiOff } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { TAFSIR_SOURCES, getTafsir, selectPassages } from '@/lib/localTafsir';
@@ -21,12 +20,12 @@ const SIMPLIFY_ENABLED = import.meta.env.VITE_ENABLE_LOCAL_SIMPLIFY === 'true';
  */
 export default function AskAboutVerse({ surah, ayah, verseText }) {
   const [slug, setSlug] = useState(TAFSIR_SOURCES[0].slug);
-  const [question, setQuestion] = useState('');
   const [expanded, setExpanded] = useState(false);
   const [support, setSupport] = useState(null); // null = جارٍ الفحص
   const [modelId, setModelId] = useState(getLoadedModelId());
   const [load, setLoad] = useState(null); // { progress, text }
   const [answer, setAnswer] = useState('');
+  const [outside, setOutside] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
@@ -50,6 +49,8 @@ export default function AskAboutVerse({ surah, ayah, verseText }) {
 
   useEffect(() => {
     setAnswer('');
+    setOutside([]);
+    setOutside([]);
     setError('');
     setExpanded(false);
   }, [slug, surah, ayah]);
@@ -69,15 +70,11 @@ export default function AskAboutVerse({ surah, ayah, verseText }) {
         setModelId(id);
         setLoad(null);
       }
-      await explainFromPassage(
-        {
-          verseText,
-          sourceName: source.name,
-          passage: selectPassages(text, question),
-          question: question.trim(),
-        },
+      const result = await explainFromPassage(
+        { verseText, sourceName: source.name, passage: selectPassages(text, '') },
         setAnswer
       );
+      setOutside(result?.outside || []);
     } catch (err) {
       console.error('local model error:', err);
       setLoad(null);
@@ -147,18 +144,13 @@ export default function AskAboutVerse({ surah, ayah, verseText }) {
 
         {SIMPLIFY_ENABLED && text && support?.ok && (
           <div className="space-y-3">
-            <label className="block text-sm font-bold text-amber-700">سؤالك عن الآية (اختياري)</label>
-            <Input
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="مثال: ما المقصود بالصراط المستقيم؟"
-              className="h-11 border-amber-300"
-              maxLength={200}
-            />
             <Button onClick={handleExplain} disabled={busy} className="w-full bg-amber-600 hover:bg-amber-700 h-11">
               {busy ? <Loader2 className="w-4 h-4 animate-spin ml-2" /> : <Cpu className="w-4 h-4 ml-2" />}
-              {modelId ? 'بسّط وأجب من نص التفسير' : 'نزّل النموذج الصغير وبسّط النص'}
+              {modelId ? 'بسّط هذا المقطع' : 'نزّل النموذج الصغير وبسّط المقطع'}
             </Button>
+            <p className="text-xs text-gray-600">
+              التبسيط يعيد صياغة المقطع المعروض أعلاه بلغة أسهل، دون إضافة أي معلومة من خارج نص التفسير.
+            </p>
             {!modelId && !load && (
               <p className="text-xs text-gray-600">
                 أول استخدام ينزّل نموذج Qwen2.5-1.5B المفتوح إلى متصفحك مرة واحدة (نحو 1 غيغابايت). يُفضّل
@@ -187,6 +179,11 @@ export default function AskAboutVerse({ surah, ayah, verseText }) {
         {answer && (
           <div className="rounded-xl border-2 border-emerald-200 bg-emerald-50 p-4">
             <p className="font-arabic text-lg leading-loose text-gray-900 whitespace-pre-line">{answer}</p>
+            {outside.length > 0 && (
+              <p className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-2 mt-2">
+                تنبيه: في الصياغة ما ليس في نص التفسير ({outside.slice(0, 4).join('، ')}). اعتمد النص الأصلي أعلاه.
+              </p>
+            )}
             <p className="text-xs text-gray-600 mt-3 border-t border-emerald-200 pt-2">
               تبسيط آلي لنص {source.name} بنموذج صغير يعمل على جهازك{modelId ? ` (${modelId})` : ''}. قد يخطئ؛
               المرجع هو نص التفسير أعلاه، وفي الأحكام يُرجع إلى أهل العلم.
