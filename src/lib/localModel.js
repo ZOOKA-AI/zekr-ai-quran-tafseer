@@ -5,15 +5,12 @@
 
 const WEBLLM_URL = 'https://esm.run/@mlc-ai/web-llm@0.2.85';
 
-// كلها 3 مليارات معامل أو أقل. نختار أول نموذج موجود في قائمة المكتبة ويدعمه الجهاز.
+// النموذج: Qwen2.5-1.5B-Instruct (1.5 مليار معامل، أوزان مفتوحة برخصة Apache-2.0)، تكميم 4-بت.
+// نسخة f16 أصغر وأسرع لكنها تحتاج ميزة shader-f16 في كرت الشاشة؛ وإلا نستخدم نسخة f32.
+// الذاكرة المطلوبة بحسب WebLLM: نحو 1.6 غيغابايت (f16) أو 1.9 غيغابايت (f32).
 const PREFERRED_MODELS = [
   'Qwen2.5-1.5B-Instruct-q4f16_1-MLC',
   'Qwen2.5-1.5B-Instruct-q4f32_1-MLC',
-  'gemma-2-2b-it-q4f16_1-MLC',
-  'gemma-2-2b-it-q4f32_1-MLC',
-  'Qwen2-1.5B-Instruct-q4f16_1-MLC',
-  'Qwen2-1.5B-Instruct-q4f32_1-MLC',
-  'Llama-3.2-1B-Instruct-q4f32_1-MLC',
 ];
 
 let loaded = null; // { engine, modelId }

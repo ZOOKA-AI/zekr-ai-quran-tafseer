@@ -1,11 +1,21 @@
 // استرجاع نص التفسير من مصدر مفتوح وتخزينه على الجهاز.
 // لا يُستخدم هنا أي نموذج ذكاء اصطناعي: النص يُعرض كما هو مع اسم مصدره.
 //
-// البيانات: مشروع spa5k/tafsir_api (ملفات JSON ثابتة لكل آية، مصدرها quran.com).
-// كل آية تُفتح تُحفظ في Cache Storage فتبقى متاحة دون اتصال بعد أول مرة.
+// البيانات: مشروع spa5k/tafsir_api (رخصة MIT، مصدر النصوص qul.tarteel.ai).
+// ملف لكل آية بهذا الشكل بالضبط، والنص عادي بلا HTML:
+//   { "text": "…", "ayah": 2, "surah": 1 }
+// الآيات التي يشرحها التفسير ضمن آية سابقة لا ملف لها (404).
+//
+// ترتيب الجلب:
+//   1) سورة الفاتحة: نسخة محلية مرفقة مع التطبيق (public/tafsir-seed) تعمل دون إنترنت.
+//   2) غيرها: CDN مثبّت على إيداع محدد، ثم تُحفظ في Cache Storage لتبقى متاحة دون اتصال.
 
-const CDN_BASE = 'https://cdn.jsdelivr.net/gh/spa5k/tafsir_api@main/tafsir';
+const DATA_COMMIT = 'b6d01854b1b2e019e66cdaef6132e25521ee86f2';
+const CDN_BASE = `https://cdn.jsdelivr.net/gh/spa5k/tafsir_api@${DATA_COMMIT}/tafsir`;
+const SEED_BASE = `${import.meta.env?.BASE_URL ?? '/'}tafsir-seed`;
+const SEED_SURAH = 1;
 const CACHE_NAME = 'zekr-tafsir-v1';
+const MAX_LOOKBACK = 15;
 
 export const TAFSIR_SOURCES = [
   { slug: 'ar-tafsir-ibn-kathir', name: 'تفسير ابن كثير', author: 'ابن كثير (ت 774هـ)' },
@@ -13,7 +23,27 @@ export const TAFSIR_SOURCES = [
   { slug: 'ar-tafsir-al-tabari', name: 'تفسير الطبري', author: 'ابن جرير الطبري (ت 310هـ)' },
 ];
 
-async function fetchJson(url) {
+function parseAyah(data, surah, ayah) {
+  if (
+    !data ||
+    typeof data.text !== 'string' ||
+    Number(data.surah) !== Number(surah) ||
+    Number(data.ayah) !== Number(ayah)
+  ) {
+    throw new Error('tafsir-unexpected-shape');
+  }
+  return data.text.trim();
+}
+
+/** يعيد نص الآية، أو null إن لم يكن لها ملف (404). */
+async function fetchAyah(slug, surah, ayah) {
+  if (Number(surah) === SEED_SURAH) {
+    const res = await fetch(`${SEED_BASE}/${slug}/${surah}/${ayah}.json`);
+    if (!res.ok) throw new Error(`tafsir-seed-http-${res.status}`);
+    return parseAyah(await res.json(), surah, ayah);
+  }
+
+  const url = `${CDN_BASE}/${slug}/${surah}/${ayah}.json`;
   let cache = null;
   try {
     if (typeof caches !== 'undefined') cache = await caches.open(CACHE_NAME);
@@ -22,59 +52,31 @@ async function fetchJson(url) {
   }
   if (cache) {
     const hit = await cache.match(url);
-    if (hit) return hit.json();
+    if (hit) return parseAyah(await hit.json(), surah, ayah);
   }
+
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`tafsir-http-${res.status}`);
+  const text = parseAyah(await res.clone().json(), surah, ayah);
   if (cache) {
     try {
-      await cache.put(url, res.clone());
+      await cache.put(url, res);
     } catch {
       // التخزين ممتلئ أو غير متاح: نكمل دون حفظ
     }
   }
-  return res.json();
-}
-
-// بعض النسخ تضع النص تحت مفتاح مختلف؛ نأخذ أطول نص في الكائن.
-function extractText(obj) {
-  if (!obj) return '';
-  if (typeof obj === 'string') return obj;
-  if (typeof obj.text === 'string') return obj.text;
-  let best = '';
-  const walk = (v) => {
-    if (typeof v === 'string') {
-      if (v.length > best.length) best = v;
-    } else if (v && typeof v === 'object') {
-      Object.values(v).forEach(walk);
-    }
-  };
-  walk(obj);
-  return best;
-}
-
-export function stripHtml(html) {
-  if (!html) return '';
-  const doc = new DOMParser().parseFromString(
-    html.replace(/<\/(p|div|h\d|li)>/gi, '$&\n').replace(/<br\s*\/?>/gi, '\n'),
-    'text/html'
-  );
-  return (doc.body.textContent || '')
-    .replace(/[ \t]+/g, ' ')
-    .replace(/\n\s*\n+/g, '\n')
-    .trim();
+  return text;
 }
 
 /**
- * يجلب تفسير آية. بعض التفاسير تشرح عدة آيات معاً تحت أول آية في المجموعة،
- * فإن كانت الآية المطلوبة فارغة نرجع إلى أقرب آية سابقة فيها نص.
- * @returns {{ text: string, fromAyah: number }}
+ * يجلب تفسير آية. إن لم يكن للآية ملف فهي مشروحة ضمن آية سابقة، فنرجع إليها.
+ * @returns {Promise<{ text: string, fromAyah: number }>}
  */
 export async function getTafsir(slug, surah, ayah) {
-  const first = Math.max(1, ayah - 15);
+  const first = Math.max(1, ayah - MAX_LOOKBACK);
   for (let a = ayah; a >= first; a--) {
-    const data = await fetchJson(`${CDN_BASE}/${slug}/${surah}/${a}.json`);
-    const text = stripHtml(extractText(data));
+    const text = await fetchAyah(slug, surah, a);
     if (text) return { text, fromAyah: a };
   }
   return { text: '', fromAyah: ayah };

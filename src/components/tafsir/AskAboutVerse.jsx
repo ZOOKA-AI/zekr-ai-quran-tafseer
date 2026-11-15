@@ -155,8 +155,8 @@ export default function AskAboutVerse({ surah, ayah, verseText }) {
             </Button>
             {!modelId && !load && (
               <p className="text-xs text-gray-600">
-                أول استخدام ينزّل نموذجاً مفتوح المصدر إلى متصفحك مرة واحدة (نحو 1 غيغابايت). يُفضّل الاتصال
-                بشبكة Wi-Fi.
+                أول استخدام ينزّل نموذج Qwen2.5-1.5B المفتوح إلى متصفحك مرة واحدة (نحو 1 غيغابايت). يُفضّل
+                الاتصال بشبكة Wi-Fi.
               </p>
             )}
             {load && (
