@@ -3,8 +3,21 @@
 const SHELL = 'zekr-shell-v2';
 const SEED = 'zekr-seed-v1';
 
+// تخزين هيكل التطبيق: الصفحة وملفات JS/CSS المبنية
+async function cacheShell() {
+  const cache = await caches.open(SHELL);
+  const html = await fetch('./index.html', { cache: 'reload' }).then((r) => (r.ok ? r.text() : ''));
+  const urls = ['./', './index.html', './manifest.json', './favicon.svg'];
+  for (const m of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
+    const u = m[1];
+    if (u.startsWith('data:') || u.startsWith('http')) continue;
+    urls.push(u.startsWith('./') || u.startsWith('/') ? u : `./${u}`);
+  }
+  await Promise.all(urls.map(async (u) => { try { await cache.add(u); } catch { /* تجاهل */ } }));
+}
+
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(SHELL).then((c) => c.addAll(['./', './index.html', './manifest.json'])).catch(() => {}));
+  event.waitUntil(cacheShell().catch(() => {}));
   self.skipWaiting();
 });
 
@@ -52,6 +65,18 @@ self.addEventListener('fetch', (event) => {
         const r = await fetch(req);
         if (r.ok) c.put(req, r.clone());
         return r;
+      })
+    );
+    return;
+  }
+
+  // ملفات البناء (JS/CSS/خطوط): من الذاكرة أولاً مع تحديث في الخلفية
+  if (url.pathname.includes('/assets/')) {
+    event.respondWith(
+      caches.open(SHELL).then(async (c) => {
+        const hit = await c.match(req);
+        const net = fetch(req).then((r) => { if (r.ok) c.put(req, r.clone()); return r; }).catch(() => null);
+        return hit || (await net) || Response.error();
       })
     );
     return;
