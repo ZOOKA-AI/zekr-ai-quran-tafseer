@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { BookOpen, Cpu, Loader2, ShieldCheck, WifiOff } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,10 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { TAFSIR_SOURCES, getTafsir, selectPassages } from '@/lib/localTafsir';
 import { checkSupport, explainFromPassage, getLoadedModelId, loadModel } from '@/lib/localModel';
+
+// مفتاح الميزة: التبسيط الآلي مخفي افتراضياً. أظهره فقط بتعيين
+// VITE_ENABLE_LOCAL_SIMPLIFY=true (راجع docs/LOCAL_TAFSIR.md).
+const SIMPLIFY_ENABLED = import.meta.env.VITE_ENABLE_LOCAL_SIMPLIFY === 'true';
 
 /**
  * «اسأل عن آية»
@@ -139,7 +143,7 @@ export default function AskAboutVerse({ surah, ayah, verseText }) {
           )}
         </div>
 
-        {text && support?.ok && (
+        {SIMPLIFY_ENABLED && text && support?.ok && (
           <div className="space-y-3">
             <label className="block text-sm font-bold text-amber-700">سؤالك عن الآية (اختياري)</label>
             <Input
@@ -170,7 +174,7 @@ export default function AskAboutVerse({ surah, ayah, verseText }) {
           </div>
         )}
 
-        {text && support && !support.ok && (
+        {SIMPLIFY_ENABLED && text && support && !support.ok && (
           <p className="text-sm text-gray-600">
             التبسيط الآلي يحتاج متصفحاً يدعم WebGPU. نص التفسير أعلاه متاح كاملاً على جهازك.
           </p>
