@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ALL_SURAHS } from '@/components/quran/QuranData';
+import AskAboutVerse from '@/components/tafsir/AskAboutVerse';
 
 export default function Tafsir() {
   const [surah, setSurah] = useState(1);
@@ -82,6 +83,8 @@ export default function Tafsir() {
             )}
           </CardContent>
         </Card>
+
+        <AskAboutVerse surah={surah} ayah={ayah} verseText={verse?.arabic_text} />
 
         {/* Tafsir Tabs */}
         <Tabs value={active} onValueChange={setActive} className="w-full">

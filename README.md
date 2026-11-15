@@ -31,7 +31,9 @@ Reading data, bookmarks, memorisation progress and reading history are cached in
 - **What is sent:** the user's message, the last few turns of the conversation, and the current app context (for example, which surah is open).
 - **What is not in this repo:** no API keys or model credentials. Configuration is supplied through environment variables.
 
-This is the part of the project we most want to change. See the roadmap.
+- **First on-device feature (experimental, branch `feature/local-tafsir-small-model`):** "Ask about a verse" on the Tafsir page. It retrieves the passage from a named tafseer (Ibn Kathir, al-Sa'di or al-Tabari), shows it with its source, and caches it for offline use. On browsers with WebGPU, an open-weights model of 3B parameters or fewer runs in the browser through [WebLLM](https://github.com/mlc-ai/web-llm) to simplify that passage and answer from it only. The question never leaves the device, and no hosted model is called.
+
+The hosted model is the part of the project we most want to remove. See the roadmap.
 
 ## Design principles
 
@@ -88,6 +90,7 @@ base44/agents/     assistant definition and its data permissions
 
 ## Data sources and credits
 
+- Tafseer text: [spa5k/tafsir_api](https://github.com/spa5k/tafsir_api) (static JSON, sourced from quran.com)
 - Recitation audio: [EveryAyah](https://everyayah.com), [Islamic Network CDN](https://islamic.network), mp3quran.net
 - Prayer times: [Aladhan API](https://aladhan.com/prayer-times-api)
 - Reverse geocoding: [OpenStreetMap Nominatim](https://nominatim.org)
