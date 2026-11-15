@@ -98,7 +98,7 @@ export default function AskAboutVerse({ surah, ayah, verseText }) {
           <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
           {SIMPLIFY_ENABLED
             ? 'النص من كتاب تفسير مسمّى، والتبسيط يعمل على جهازك. سؤالك لا يُرسل إلى أي خادم.'
-            : 'النص منقول كما هو من كتاب تفسير مسمّى، دون أي نموذج ذكاء اصطناعي.'}
+            : 'النص منقول كما هو من كتاب تفسير مسمّى، دون أي معالجة آلية ودون إرسال شيء إلى أي خادم.'}
         </p>
       </CardHeader>
 
