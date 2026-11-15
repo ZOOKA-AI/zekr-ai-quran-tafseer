@@ -92,11 +92,13 @@ export default function AskAboutVerse({ surah, ayah, verseText }) {
       <CardHeader>
         <CardTitle className="text-2xl text-amber-700 flex items-center gap-2">
           <BookOpen className="w-6 h-6" />
-          اسأل عن الآية
+          {SIMPLIFY_ENABLED ? 'اسأل عن الآية' : 'تفسير الآية من مصدره'}
         </CardTitle>
         <p className="text-sm text-gray-600 flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-          النص من كتاب تفسير مسمّى، والتبسيط يعمل على جهازك. سؤالك لا يُرسل إلى أي خادم.
+          {SIMPLIFY_ENABLED
+            ? 'النص من كتاب تفسير مسمّى، والتبسيط يعمل على جهازك. سؤالك لا يُرسل إلى أي خادم.'
+            : 'النص منقول كما هو من كتاب تفسير مسمّى، دون أي نموذج ذكاء اصطناعي.'}
         </p>
       </CardHeader>
 

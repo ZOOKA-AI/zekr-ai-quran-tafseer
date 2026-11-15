@@ -86,7 +86,8 @@ export default function Tafsir() {
 
         <AskAboutVerse surah={surah} ayah={ayah} verseText={verse?.arabic_text} />
 
-        {/* Tafsir Tabs */}
+        {/* Tafsir Tabs: تظهر فقط إن كان في قاعدة البيانات تفسير لهذه الآية */}
+        {(verse?.tafsir_kathir || verse?.tafsir_tabari || verse?.tafsir_saadi) && (
         <Tabs value={active} onValueChange={setActive} className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-4 h-12">
             <TabsTrigger value="kathir" className="text-base">ابن كثير</TabsTrigger>
@@ -130,6 +131,7 @@ export default function Tafsir() {
             </Card>
           </TabsContent>
         </Tabs>
+        )}
       </div>
     </div>
   );

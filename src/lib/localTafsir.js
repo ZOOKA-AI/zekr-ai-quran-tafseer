@@ -29,6 +29,7 @@ export function stripFootnotes(text) {
   return text
     .replace(/\[\[[^\]]*\]\]/g, '')
     .replace(/[ \t]{2,}/g, ' ')
+    .replace(/\s*\n\s*/g, '\n')
     .replace(/ ([،.؛:])/g, '$1')
     .trim();
 }
