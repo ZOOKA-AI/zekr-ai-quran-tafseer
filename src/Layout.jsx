@@ -11,6 +11,10 @@ import AutoUpdate from '@/components/system/AutoUpdate';
 import { Toaster } from 'sonner';
 import { base44 } from '@/api/base44Client';
 
+// Hosted-model UI is off unless explicitly enabled: the public pilot build must not
+// send any request to a hosted LLM, so the reading path stays model-free and honest.
+const HOSTED_AI_ENABLED = import.meta.env.VITE_ENABLE_HOSTED_AI === 'true';
+
 export default function Layout({ children, currentPageName }) {
   const [isAdmin, setIsAdmin] = React.useState(false);
 
@@ -66,12 +70,12 @@ export default function Layout({ children, currentPageName }) {
         </div>
         <Toaster position="top-center" richColors />
         <div className="relative z-10">
-        <AutoUpdate />
+        {HOSTED_AI_ENABLED && <AutoUpdate />}
       <OfflineIndicator />
       <ThemeToggle />
       <SystemStatus />
       <DailyReminders />
-      <SmartChatBot />
+      {HOSTED_AI_ENABLED && <SmartChatBot />}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap');
         
