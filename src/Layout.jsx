@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Bell, Volume2, Users, Book, Scroll, Star } from 'lucide-react';
+import { BookOpen, BookMarked, Home, User, Clock, MessageSquare, Mic, Sparkles, Volume2, Users, Book, Scroll, Star } from 'lucide-react';
 import DailyReminders from '@/components/notifications/DailyReminders';
 import SmartChatBot from '@/components/assistant/SmartChatBot';
 import OfflineIndicator from '@/components/offline/OfflineIndicator';

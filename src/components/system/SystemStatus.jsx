@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Wifi, WifiOff, Database, HardDrive, CheckCircle } from 'lucide-react';
-import { toast } from 'sonner';
+import { Wifi, WifiOff, HardDrive, CheckCircle } from 'lucide-react';
 import { offlineStorage } from '../utils/offlineStorage';
 
 export default function SystemStatus() {

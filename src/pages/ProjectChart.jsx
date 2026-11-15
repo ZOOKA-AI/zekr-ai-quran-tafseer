@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { 
-  CheckCircle2, Circle, Clock, BookOpen, Mic, Volume2, Users, 
+  CheckCircle2, Clock, BookOpen, Mic, Volume2, Users, 
   MessageSquare, Bell, Award, Radio, Sparkles, Camera, Search,
   BookMarked, Home, Settings, Shield, Heart, Globe, Smartphone
 } from 'lucide-react';

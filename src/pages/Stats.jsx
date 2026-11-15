@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
-import { BookOpen, Award, TrendingUp, Calendar, Clock, CheckCircle, RefreshCw } from 'lucide-react';
+import { BookOpen, Award, TrendingUp, Clock, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { offlineStorage } from '../components/utils/offlineStorage';
 

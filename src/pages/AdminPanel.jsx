@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { base44 } from '@/api/base44Client';
-import { Users, Code, Shield, Image as ImageIcon, Search, Zap, Upload, MessageSquare } from 'lucide-react';
+import { Code, Shield, Image as ImageIcon, Search, Zap, MessageSquare } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function AdminPanel() {
