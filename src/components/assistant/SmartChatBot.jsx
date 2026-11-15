@@ -43,11 +43,11 @@ async function callAI({ userId, language, conversationHistory, appContext, userM
       return await response.json();
     } catch (error) {
       console.error('External API error:', error);
-      // fallback للذكاء المحلي
+      // fallback للنموذج المستضاف
     }
   }
 
-  // استخدام LLM المحلي من Base44
+  // استخدام نموذج لغوي مستضاف عبر تكامل Base44 (ليس محلياً)
   const historyContext = conversationHistory
     .slice(-6)
     .map(m => `${m.role === 'user' ? 'المستخدم' : 'المساعد'}: ${m.content}`)

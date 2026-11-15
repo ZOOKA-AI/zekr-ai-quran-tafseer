@@ -1,4 +1,4 @@
-// نظام التخزين المحلي الكامل - يعمل بدون إنترنت 100%
+// تخزين محلي في المتصفح (localStorage) للبيانات المقروءة والعلامات والتقدم - لا يشمل المساعد الذكي
 const STORAGE_KEYS = {
   VERSES: 'quran_verses',
   BOOKMARKS: 'quran_bookmarks',

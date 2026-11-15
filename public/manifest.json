@@ -1,0 +1,14 @@
+{
+  "name": "Zekr AI — القرآن الكريم والتفسير",
+  "short_name": "Zekr AI",
+  "description": "رفيق قرآني مجاني ومفتوح المصدر: قراءة، تفسير، تلاوات، أذكار ومواقيت صلاة.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#022c22",
+  "theme_color": "#065f46",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

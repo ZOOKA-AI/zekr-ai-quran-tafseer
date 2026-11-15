@@ -165,10 +165,10 @@ export default function Layout({ children, currentPageName }) {
               <span className="text-amber-300 text-sm font-bold">🔐 المشرف العام</span>
               <a href="mailto:Zookaalmrzwq@gmail.com" className="text-amber-100 text-sm hover:text-white transition-colors underline">Zookaalmrzwq@gmail.com</a>
               <a href="https://zaka.ai/" target="_blank" rel="noopener noreferrer" className="text-amber-300 text-sm hover:text-amber-200 transition-colors underline font-bold">🌐 zaka.ai</a>
-              <span className="text-white text-sm font-bold">⚠️ جميع الحقوق محفوظة</span>
+              <a href="https://github.com/ZOOKA-AI/zekr-ai-quran-tafseer/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="text-white text-sm font-bold underline hover:text-amber-200 transition-colors">مفتوح المصدر برخصة MIT</a>
             </div>
             <div className="flex justify-center gap-8 text-sm text-amber-300">
-              <span>© 2024 القرآن الكريم</span>
+              <span>© 2026 ZOOKA-AI · Zekr AI</span>
               <span>•</span>
               <span>منصة إسلامية متكاملة</span>
             </div>
